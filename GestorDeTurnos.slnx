@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="GestorDeTurnos.Application/GestorDeTurnos.Application.csproj" />
+  <Project Path="GestorDeTurnos.Domain/GestorDeTurnos.Domain.csproj" />
+  <Project Path="GestorDeTurnos.Infrastructure/GestorDeTurnos.Infrastructure.csproj" />
+  <Project Path="GestorDeTurnos/GestorDeTurnos.csproj" />
+</Solution>

@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
     "net10.0": {
       "Microsoft.AspNetCore.OpenApi/10.0.7": {
@@ -35,6 +35,42 @@
           "lib/net8.0/Microsoft.OpenApi.dll": {
             "related": ".pdb;.xml"
           }
+        }
+      },
+      "GestorDeTurnos.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "GestorDeTurnos.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/GestorDeTurnos.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GestorDeTurnos.Application.dll": {}
+        }
+      },
+      "GestorDeTurnos.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/GestorDeTurnos.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GestorDeTurnos.Domain.dll": {}
+        }
+      },
+      "GestorDeTurnos.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "GestorDeTurnos.Application": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/GestorDeTurnos.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GestorDeTurnos.Infrastructure.dll": {}
         }
       }
     }
@@ -75,31 +111,48 @@
         "microsoft.openapi.2.0.0.nupkg.sha512",
         "microsoft.openapi.nuspec"
       ]
+    },
+    "GestorDeTurnos.Application/1.0.0": {
+      "type": "project",
+      "path": "../GestorDeTurnos.Application/GestorDeTurnos.Application.csproj",
+      "msbuildProject": "../GestorDeTurnos.Application/GestorDeTurnos.Application.csproj"
+    },
+    "GestorDeTurnos.Domain/1.0.0": {
+      "type": "project",
+      "path": "../GestorDeTurnos.Domain/GestorDeTurnos.Domain.csproj",
+      "msbuildProject": "../GestorDeTurnos.Domain/GestorDeTurnos.Domain.csproj"
+    },
+    "GestorDeTurnos.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../GestorDeTurnos.Infrastructure/GestorDeTurnos.Infrastructure.csproj",
+      "msbuildProject": "../GestorDeTurnos.Infrastructure/GestorDeTurnos.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "GestorDeTurnos.Application >= 1.0.0",
+      "GestorDeTurnos.Infrastructure >= 1.0.0",
       "Microsoft.AspNetCore.OpenApi >= 10.0.7"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tobka\\.nuget\\packages\\": {},
+    "C:\\Users\\Martin\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tobka\\OneDrive\\Documentos\\FACULTAD 2026\\PROG 4\\GestorDeTurnos\\GestorDeTurnos\\GestorDeTurnos.csproj",
+      "projectUniqueName": "C:\\Users\\Martin\\source\\repos\\Tpi_Prog4\\GestorDeTurnos\\GestorDeTurnos.csproj",
       "projectName": "GestorDeTurnos",
-      "projectPath": "C:\\Users\\tobka\\OneDrive\\Documentos\\FACULTAD 2026\\PROG 4\\GestorDeTurnos\\GestorDeTurnos\\GestorDeTurnos.csproj",
-      "packagesPath": "C:\\Users\\tobka\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tobka\\OneDrive\\Documentos\\FACULTAD 2026\\PROG 4\\GestorDeTurnos\\GestorDeTurnos\\obj\\",
+      "projectPath": "C:\\Users\\Martin\\source\\repos\\Tpi_Prog4\\GestorDeTurnos\\GestorDeTurnos.csproj",
+      "packagesPath": "C:\\Users\\Martin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Martin\\source\\repos\\Tpi_Prog4\\GestorDeTurnos\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\tobka\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Martin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -114,7 +167,14 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Martin\\source\\repos\\Tpi_Prog4\\GestorDeTurnos.Application\\GestorDeTurnos.Application.csproj": {
+              "projectPath": "C:\\Users\\Martin\\source\\repos\\Tpi_Prog4\\GestorDeTurnos.Application\\GestorDeTurnos.Application.csproj"
+            },
+            "C:\\Users\\Martin\\source\\repos\\Tpi_Prog4\\GestorDeTurnos.Infrastructure\\GestorDeTurnos.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\Martin\\source\\repos\\Tpi_Prog4\\GestorDeTurnos.Infrastructure\\GestorDeTurnos.Infrastructure.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -127,7 +187,7 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.200"
+      "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
       "net10.0": {
@@ -158,7 +218,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

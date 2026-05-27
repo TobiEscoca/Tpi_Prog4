@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GestorDeTurnos.Domain\GestorDeTurnos.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,12 @@
+C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Domain\bin\Debug\net10.0\GestorDeTurnos.Domain.deps.json
+C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Domain\bin\Debug\net10.0\GestorDeTurnos.Domain.dll
+C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Domain\bin\Debug\net10.0\GestorDeTurnos.Domain.pdb
+C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.Domain.AssemblyInfoInputs.cache
+C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.Domain.AssemblyInfo.cs
+C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.Domain.sourcelink.json
+C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.Domain.dll
+C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\refint\GestorDeTurnos.Domain.dll
+C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.Domain.pdb
+C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\ref\GestorDeTurnos.Domain.dll

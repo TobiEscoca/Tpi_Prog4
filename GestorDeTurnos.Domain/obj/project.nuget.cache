@@ -1,8 +1,12 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "4yq0JgKl4v0=",
+=======
+  "dgSpecHash": "CTlnC/OhJoI=",
+>>>>>>> 48c0f819d5162dd1f5c6dfc6e03564acd78ab2a8
   "success": true,
-  "projectFilePath": "C:\\Users\\Martin\\source\\repos\\Tpi_Prog4\\GestorDeTurnos.Domain\\GestorDeTurnos.Domain.csproj",
+  "projectFilePath": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Domain/GestorDeTurnos.Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

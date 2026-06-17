@@ -154,3 +154,6 @@ C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos\bin\Debug\net10.0\ru\Micro
 C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll

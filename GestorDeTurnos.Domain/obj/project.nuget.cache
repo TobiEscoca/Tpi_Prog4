@@ -1,12 +1,18 @@
 {
   "version": 2,
-<<<<<<< HEAD
   "dgSpecHash": "4yq0JgKl4v0=",
-=======
-  "dgSpecHash": "CTlnC/OhJoI=",
->>>>>>> 48c0f819d5162dd1f5c6dfc6e03564acd78ab2a8
   "success": true,
-  "projectFilePath": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Domain/GestorDeTurnos.Domain.csproj",
+  "projectFilePath": "C:\\Users\\Martin\\source\\repos\\Tpi_Prog4\\GestorDeTurnos.Domain\\GestorDeTurnos.Domain.csproj",
   "expectedPackageFiles": [],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "message": "Problem reading the cache file C:\\Users\\Martin\\source\\repos\\Tpi_Prog4\\GestorDeTurnos.Domain\\obj\\project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0.",
+      "projectPath": "C:\\Users\\Martin\\source\\repos\\Tpi_Prog4\\GestorDeTurnos.Domain\\GestorDeTurnos.Domain.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\Martin\\source\\repos\\Tpi_Prog4\\GestorDeTurnos.Domain\\GestorDeTurnos.Domain.csproj",
+      "targetGraphs": []
+    }
+  ]
 }

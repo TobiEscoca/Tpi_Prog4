@@ -1,16 +1,32 @@
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\bin\Debug\net10.0\GestorDeTurnos.Application.deps.json
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\bin\Debug\net10.0\GestorDeTurnos.Application.dll
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\bin\Debug\net10.0\GestorDeTurnos.Application.pdb
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\bin\Debug\net10.0\GestorDeTurnos.Domain.dll
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\bin\Debug\net10.0\GestorDeTurnos.Domain.pdb
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.csproj.AssemblyReference.cache
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.AssemblyInfoInputs.cache
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.AssemblyInfo.cs
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.csproj.CoreCompileInputs.cache
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.sourcelink.json
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDe.7D763674.Up2Date
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.dll
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\refint\GestorDeTurnos.Application.dll
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.pdb
-C:\Users\Martin\source\repos\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\ref\GestorDeTurnos.Application.dll
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/bin/Debug/net10.0/GestorDeTurnos.Application.deps.json
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/bin/Debug/net10.0/GestorDeTurnos.Application.dll
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/bin/Debug/net10.0/GestorDeTurnos.Application.pdb
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/bin/Debug/net10.0/GestorDeTurnos.Domain.dll
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/bin/Debug/net10.0/GestorDeTurnos.Domain.pdb
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.csproj.AssemblyReference.cache
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.AssemblyInfoInputs.cache
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.AssemblyInfo.cs
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.csproj.CoreCompileInputs.cache
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.sourcelink.json
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDe.7D763674.Up2Date
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.dll
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/refint/GestorDeTurnos.Application.dll
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.pdb
+C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/ref/GestorDeTurnos.Application.dll
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/bin/Debug/net10.0/GestorDeTurnos.Application.deps.json
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/bin/Debug/net10.0/GestorDeTurnos.Application.dll
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/bin/Debug/net10.0/GestorDeTurnos.Application.pdb
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/bin/Debug/net10.0/GestorDeTurnos.Domain.dll
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/bin/Debug/net10.0/GestorDeTurnos.Domain.pdb
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.csproj.AssemblyReference.cache
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.GeneratedMSBuildEditorConfig.editorconfig
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.AssemblyInfoInputs.cache
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.AssemblyInfo.cs
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.csproj.CoreCompileInputs.cache
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.sourcelink.json
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDe.7D763674.Up2Date
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.dll
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/refint/GestorDeTurnos.Application.dll
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.pdb
+/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/ref/GestorDeTurnos.Application.dll

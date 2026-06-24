@@ -1,11 +1,13 @@
 ﻿using GestorDeTurnos.Application.Services;
 using GestorDeTurnos.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestorDeTurnos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "AdministradorGeneral")]
     public class UsuarioController : ControllerBase
     {
         private readonly UsuarioService _usuarioService;

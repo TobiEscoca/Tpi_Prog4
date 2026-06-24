@@ -1,11 +1,13 @@
 ﻿using GestorDeTurnos.Application.Services;
 using GestorDeTurnos.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestorDeTurnos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class CanchaController : ControllerBase
     {
         private readonly CanchaService _canchaService;
@@ -45,6 +47,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "DuenoComplejo")]
         public async Task<IActionResult> Add(Cancha cancha)
         {
             await _canchaService.AddAsync(cancha);
@@ -52,6 +55,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "DuenoComplejo")]
         public async Task<IActionResult> Update(int id, Cancha cancha)
         {
             if (id != cancha.IdCancha) return BadRequest();
@@ -60,6 +64,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "DuenoComplejo")]
         public async Task<IActionResult> Delete(int id)
         {
             await _canchaService.DeleteAsync(id);

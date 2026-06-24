@@ -1,11 +1,13 @@
 ﻿using GestorDeTurnos.Application.Services;
 using GestorDeTurnos.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestorDeTurnos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class TurnoController : ControllerBase
     {
         private readonly TurnoService _turnoService;
@@ -16,6 +18,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var turnos = await _turnoService.GetAllAsync();
@@ -23,6 +26,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
             var turno = await _turnoService.GetByIdAsync(id);
@@ -45,6 +49,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "AdministradorGeneral, DuenoComplejo")]
         public async Task<IActionResult> Add(Turno turno)
         {
             try
@@ -59,6 +64,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpPut("{id}/confirmar")]
+        [Authorize (Roles = "Cliente")]
         public async Task<IActionResult> Confirmar(int id)
         {
             try
@@ -77,6 +83,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpPut("{id}/cancelar")]
+        [Authorize(Roles = "Cliente, DuenoComplejo")]
         public async Task<IActionResult> Cancelar(int id)
         {
             try
@@ -95,6 +102,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "AdministradorGeneral, DuenoComplejo")]
         public async Task<IActionResult> Delete(int id)
         {
             await _turnoService.DeleteAsync(id);

@@ -1,5 +1,6 @@
 ﻿using GestorDeTurnos.Application.Services;
 using GestorDeTurnos.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestorDeTurnos.Controllers
@@ -23,6 +24,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
             var notificacion = await _notificacionService.GetByIdAsync(id);

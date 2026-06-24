@@ -1,6 +1,7 @@
 ﻿using GestorDeTurnos.Application.Interfaces;
 using GestorDeTurnos.Domain.Entities;
 using GestorDeTurnos.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -23,6 +24,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
             var existe = await _usuarioRepository.GetByEmailAsync(request.Email);
@@ -44,6 +46,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginRequest request)
         {
             var usuario = await _usuarioRepository.GetByEmailAsync(request.Email);

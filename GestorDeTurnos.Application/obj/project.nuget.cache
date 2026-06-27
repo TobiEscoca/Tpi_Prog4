@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "3kRvZlDMNY4=",
+  "dgSpecHash": "FaelmElvQ0o=",
   "success": true,
   "projectFilePath": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/GestorDeTurnos.Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/toby/.nuget/packages/microsoft.extensions.configuration.abstractions/10.0.9/microsoft.extensions.configuration.abstractions.10.0.9.nupkg.sha512",
+    "/home/toby/.nuget/packages/microsoft.extensions.primitives/10.0.9/microsoft.extensions.primitives.10.0.9.nupkg.sha512"
+  ],
   "logs": []
 }

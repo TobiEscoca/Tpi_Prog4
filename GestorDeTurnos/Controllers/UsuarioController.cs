@@ -1,5 +1,6 @@
 ﻿using GestorDeTurnos.Application.Services;
 using GestorDeTurnos.Domain.Entities;
+using GestorDeTurnos.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,14 +18,14 @@ namespace GestorDeTurnos.Controllers
             _usuarioService = usuarioService;
         }
 
-        [HttpGet]
+        [HttpGet("ObtenerUsuarios")]
         public async Task<IActionResult> GetAll()
         {
             var usuarios = await _usuarioService.GetAllAsync();
             return Ok(usuarios);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("BuscarUsuarioPorId/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var usuario = await _usuarioService.GetByIdAsync(id);
@@ -32,14 +33,29 @@ namespace GestorDeTurnos.Controllers
             return Ok(usuario);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Add(Usuario usuario)
+        [HttpPost("Crear-usuario-admin")]
+        [Authorize(Roles = "AdministradorGeneral")]
+        public async Task<IActionResult> Register(CrearUsuarioAdminRequest request)
         {
+            var existe = await _usuarioService.GetByEmailAsync(request.Email);
+            if (existe != null)
+                return BadRequest("Ya existe un usuario con ese email.");
+
+            var usuario = new Usuario
+            {
+                Nombre = request.Nombre,
+                Email = request.Email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
+                Rol = request.RolUsuario,
+                Activo = true,
+                FechaRegistro = DateTime.UtcNow
+            };
+
             await _usuarioService.AddAsync(usuario);
-            return CreatedAtAction(nameof(GetById), new { id = usuario.IdUsuario }, usuario);
+            return Ok("Usuario registrado correctamente.");
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("ActualizarUsuario/{id}")]
         public async Task<IActionResult> Update(int id, Usuario usuario)
         {
             if (id != usuario.IdUsuario) return BadRequest();
@@ -47,11 +63,19 @@ namespace GestorDeTurnos.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("EliminarUsuario/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _usuarioService.DeleteAsync(id);
             return NoContent();
         }
+    }
+
+    public class CrearUsuarioAdminRequest
+    {
+        public string Nombre { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public RolUsuario RolUsuario { get; set; }
     }
 }

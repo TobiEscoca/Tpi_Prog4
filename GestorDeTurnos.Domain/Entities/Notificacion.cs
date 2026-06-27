@@ -8,7 +8,7 @@ namespace GestorDeTurnos.Domain.Entities
     {
         public int IdNotificacion { get; set; }
         public int IdTurno { get; set; }
-        public string Tipo { get; set; } = string.Empty;
+        public string Mensaje { get; set; } = string.Empty;
         public string Destinatario { get; set; } = string.Empty;
         public DateTime? FechaEnvio { get; set; }
         public bool Enviado { get; set; } = false;

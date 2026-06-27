@@ -135,7 +135,7 @@ namespace GestorDeTurnos.Infrastructure.Migrations
                     b.Property<int>("IdCancha")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("IdCliente")
+                    b.Property<int?>("IdCliente")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("IdTurno");

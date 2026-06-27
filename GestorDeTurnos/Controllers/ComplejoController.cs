@@ -1,8 +1,9 @@
-﻿using GestorDeTurnos.Application.Services;
+﻿using GestorDeTurnos.Application.DTOs;
+using GestorDeTurnos.Application.Services;
 using GestorDeTurnos.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Numerics;
+using System.Security.Claims;
 
 namespace GestorDeTurnos.Controllers
 {
@@ -12,10 +13,12 @@ namespace GestorDeTurnos.Controllers
     public class ComplejoController : ControllerBase
     {
         private readonly ComplejoService _complejoService;
+        private readonly UsuarioService _usuarioService;
 
-        public ComplejoController(ComplejoService complejoService)
+        public ComplejoController(ComplejoService complejoService, UsuarioService usuarioService)
         {
             _complejoService = complejoService;
+            _usuarioService = usuarioService;
         }
 
         [HttpGet]
@@ -35,7 +38,7 @@ namespace GestorDeTurnos.Controllers
             return Ok(complejo);
         }
 
-        [HttpGet("dueno/{idDueno}")]
+        [HttpGet("BuscarPorDueno/{idDueno}")]
         [Authorize(Roles = "AdministradorGeneral")]
         public async Task<IActionResult> GetByDueno(int idDueno)
         {
@@ -51,15 +54,38 @@ namespace GestorDeTurnos.Controllers
             return Ok(complejos);
         }
 
-        [HttpPost]
-        [Authorize(Roles = "AdministradorGeneral")]
-        public async Task<IActionResult> Add(Complejo complejo)
+        [HttpPost("CrearComplejo")]
+        [Authorize(Roles = "AdministradorGeneral, DuenoComplejo")]
+        public async Task<IActionResult> Add([FromBody] CrearComplejoRequest request)
         {
+            if (string.IsNullOrWhiteSpace(request.Nombre))
+                return BadRequest("El nombre del complejo es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(request.Direccion))
+                return BadRequest("La dirección del complejo es obligatoria.");
+
+            var idUsuario = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var usuario = await _usuarioService.GetByIdAsync(idUsuario);
+
+            if (usuario == null)
+                return NotFound("No existe el usuario autenticado.");
+
+            var complejo = new Complejo
+            {
+                IdDueno = idUsuario,
+                Nombre = request.Nombre.Trim(),
+                Direccion = request.Direccion.Trim(),
+                Telefono = string.IsNullOrWhiteSpace(request.Telefono) ? null : request.Telefono.Trim(),
+                Email = usuario.Email,
+                Dueno = usuario,
+                Activo = true,
+            };
+
             await _complejoService.AddAsync(complejo);
             return CreatedAtAction(nameof(GetById), new { id = complejo.IdComplejo }, complejo);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("ActualizarComplejo/{id}")]
         [Authorize(Roles = "AdministradorGeneral")]
         public async Task<IActionResult> Update(int id, Complejo complejo)
         {
@@ -68,7 +94,7 @@ namespace GestorDeTurnos.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("EliminarComplejo/{id}")]
         [Authorize(Roles = "AdministradorGeneral")]
         public async Task<IActionResult> Delete(int id)
         {

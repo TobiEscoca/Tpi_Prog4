@@ -766,7 +766,8 @@
       },
       "GestorDeTurnos.Application/1.0.0": {
         "dependencies": {
-          "GestorDeTurnos.Domain": "1.0.0"
+          "GestorDeTurnos.Domain": "1.0.0",
+          "Microsoft.Extensions.Configuration.Abstractions": "10.0.9"
         },
         "runtime": {
           "GestorDeTurnos.Application.dll": {

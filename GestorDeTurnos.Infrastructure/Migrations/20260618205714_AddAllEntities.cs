@@ -81,7 +81,7 @@ namespace GestorDeTurnos.Infrastructure.Migrations
                 {
                     IdTurno = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    IdCliente = table.Column<int>(type: "INTEGER", nullable: false),
+                    IdCliente = table.Column<int>(type: "INTEGER", nullable: true),
                     IdCancha = table.Column<int>(type: "INTEGER", nullable: false),
                     FechaHoraInicio = table.Column<DateTime>(type: "TEXT", nullable: false),
                     FechaHoraFin = table.Column<DateTime>(type: "TEXT", nullable: false),

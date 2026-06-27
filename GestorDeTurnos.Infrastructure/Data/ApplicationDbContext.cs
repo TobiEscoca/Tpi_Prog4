@@ -67,6 +67,7 @@ namespace GestorDeTurnos.Infrastructure.Data
                 entity.HasOne(t => t.Cliente)
                       .WithMany(u => u.Turnos)
                       .HasForeignKey(t => t.IdCliente)
+                      .IsRequired(false)
                       .OnDelete(DeleteBehavior.Restrict);
                 entity.HasOne(t => t.Cancha)
                       .WithMany(c => c.Turnos)
@@ -78,7 +79,7 @@ namespace GestorDeTurnos.Infrastructure.Data
             modelBuilder.Entity<Notificacion>(entity =>
             {
                 entity.HasKey(n => n.IdNotificacion);
-                entity.Property(n => n.Tipo).IsRequired().HasMaxLength(50);
+                entity.Property(n => n.Mensaje).IsRequired().HasMaxLength(50);
                 entity.Property(n => n.Destinatario).IsRequired().HasMaxLength(150);
                 entity.HasOne(n => n.Turno)
                       .WithMany(t => t.Notificaciones)

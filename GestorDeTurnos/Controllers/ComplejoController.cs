@@ -1,6 +1,7 @@
 ﻿using GestorDeTurnos.Application.DTOs;
 using GestorDeTurnos.Application.Services;
 using GestorDeTurnos.Domain.Entities;
+using GestorDeTurnos.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -87,11 +88,70 @@ namespace GestorDeTurnos.Controllers
 
         [HttpPut("ActualizarComplejo/{id}")]
         [Authorize(Roles = "AdministradorGeneral")]
-        public async Task<IActionResult> Update(int id, Complejo complejo)
+        public async Task<IActionResult> Update(int id, [FromBody] ActualizarComplejoRequest request)
         {
-            if (id != complejo.IdComplejo) return BadRequest();
+            if (request == null)
+                return BadRequest("Se requiere un cuerpo con los datos a actualizar.");
+
+            var complejo = await _complejoService.GetByIdAsync(id);
+            if (complejo == null)
+                return NotFound("No existe el complejo indicado.");
+
+            var idUsuario = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var usuario = await _usuarioService.GetByIdAsync(idUsuario);
+
+            if (usuario == null)
+                return NotFound("No existe el usuario autenticado.");
+
+            if (usuario.Rol != RolUsuario.AdministradorGeneral && complejo.IdDueno != idUsuario)
+                return Forbid("Solo puedes editar tus propios complejos.");
+
+            var hayCambios = false;
+
+            if (request.Nombre != null)
+            {
+                if (string.IsNullOrWhiteSpace(request.Nombre))
+                    return BadRequest("El nombre no puede estar vacío.");
+
+                complejo.Nombre = request.Nombre.Trim();
+                hayCambios = true;
+            }
+
+            if (request.Direccion != null)
+            {
+                if (string.IsNullOrWhiteSpace(request.Direccion))
+                    return BadRequest("La dirección no puede estar vacía.");
+
+                complejo.Direccion = request.Direccion.Trim();
+                hayCambios = true;
+            }
+
+            if (request.Telefono != null)
+            {
+                complejo.Telefono = string.IsNullOrWhiteSpace(request.Telefono) ? null : request.Telefono.Trim();
+                hayCambios = true;
+            }
+
+            if (request.Email != null)
+            {
+                if (string.IsNullOrWhiteSpace(request.Email))
+                    return BadRequest("El email no puede estar vacío.");
+
+                complejo.Email = request.Email.Trim();
+                hayCambios = true;
+            }
+
+            if (request.Activo.HasValue)
+            {
+                complejo.Activo = request.Activo.Value;
+                hayCambios = true;
+            }
+
+            if (!hayCambios)
+                return BadRequest("Debes enviar al menos uno de estos campos: nombre, direccion, telefono, email o activo.");
+
             await _complejoService.UpdateAsync(complejo);
-            return NoContent();
+            return Ok(complejo);
         }
 
         [HttpDelete("EliminarComplejo/{id}")]

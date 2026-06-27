@@ -1,4 +1,5 @@
-﻿using GestorDeTurnos.Application.Services;
+﻿using GestorDeTurnos.Application.DTOs;
+using GestorDeTurnos.Application.Services;
 using GestorDeTurnos.Domain.Entities;
 using GestorDeTurnos.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -56,11 +57,56 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpPut("ActualizarUsuario/{id}")]
-        public async Task<IActionResult> Update(int id, Usuario usuario)
+        public async Task<IActionResult> Update(int id, [FromBody] ActualizarUsuarioRequest request)
         {
-            if (id != usuario.IdUsuario) return BadRequest();
+            if (request == null)
+                return BadRequest("Se requiere un cuerpo con los datos a actualizar.");
+
+            var usuario = await _usuarioService.GetByIdAsync(id);
+            if (usuario == null)
+                return NotFound("No existe el usuario indicado.");
+
+            var hayCambios = false;
+
+            if (request.Nombre != null)
+            {
+                if (string.IsNullOrWhiteSpace(request.Nombre))
+                    return BadRequest("El nombre no puede estar vacío.");
+
+                usuario.Nombre = request.Nombre.Trim();
+                hayCambios = true;
+            }
+
+            if (request.Email != null)
+            {
+                if (string.IsNullOrWhiteSpace(request.Email))
+                    return BadRequest("El email no puede estar vacío.");
+
+                var existente = await _usuarioService.GetByEmailAsync(request.Email);
+                if (existente != null && existente.IdUsuario != id)
+                    return BadRequest("El email ya está en uso por otro usuario.");
+
+                usuario.Email = request.Email.Trim();
+                hayCambios = true;
+            }
+
+            if (request.Activo.HasValue)
+            {
+                usuario.Activo = request.Activo.Value;
+                hayCambios = true;
+            }
+
+            if (request.RolUsuario.HasValue)
+            {
+                usuario.Rol = request.RolUsuario.Value;
+                hayCambios = true;
+            }
+
+            if (!hayCambios)
+                return BadRequest("Debes enviar al menos uno de estos campos: nombre, email o activo.");
+
             await _usuarioService.UpdateAsync(usuario);
-            return NoContent();
+            return Ok(usuario);
         }
 
         [HttpDelete("EliminarUsuario/{id}")]

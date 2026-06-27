@@ -86,11 +86,55 @@ namespace GestorDeTurnos.Controllers
 
         [HttpPut("ActualizarCancha/{id}")]
         [Authorize(Roles = "DuenoComplejo")]
-        public async Task<IActionResult> Update(int id, Cancha cancha)
+        public async Task<IActionResult> Update(int id, [FromBody] ActualizarCanchaRequest request)
         {
-            if (id != cancha.IdCancha) return BadRequest();
+            if (request == null)
+                return BadRequest("Se requiere un cuerpo con los datos a actualizar.");
+
+            var cancha = await _canchaService.GetByIdAsync(id);
+            if (cancha == null)
+                return NotFound("No existe la cancha indicada.");
+
+            var idUsuario = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var complejo = await _complejoService.GetByIdAsync(cancha.IdComplejo);
+
+            if (complejo == null)
+                return NotFound("No existe el complejo asociado a la cancha.");
+
+            if (complejo.IdDueno != idUsuario)
+                return Forbid("Solo puedes editar canchas de tus complejos.");
+
+            var hayCambios = false;
+
+            if (request.Nombre != null)
+            {
+                if (string.IsNullOrWhiteSpace(request.Nombre))
+                    return BadRequest("El nombre no puede estar vacío.");
+
+                cancha.Nombre = request.Nombre.Trim();
+                hayCambios = true;
+            }
+
+            if (request.PrecioHora.HasValue)
+            {
+                if (request.PrecioHora <= 0)
+                    return BadRequest("El precio por hora debe ser mayor a cero.");
+
+                cancha.PrecioHora = request.PrecioHora.Value;
+                hayCambios = true;
+            }
+
+            if (request.Activo.HasValue)
+            {
+                cancha.Activo = request.Activo.Value;
+                hayCambios = true;
+            }
+
+            if (!hayCambios)
+                return BadRequest("Debes enviar al menos uno de estos campos: nombre, precioHora o activo.");
+
             await _canchaService.UpdateAsync(cancha);
-            return NoContent();
+            return Ok(cancha);
         }
 
         [HttpDelete("EliminarCancha/{id}")]

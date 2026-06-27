@@ -101,11 +101,30 @@ namespace GestorDeTurnos.Application.Services
             var turno = await _turnoRepository.GetByIdAsync(id);
             if (turno == null)
                 throw new KeyNotFoundException("Turno no encontrado.");
-            if (turno.Estado == EstadoTurno.Cancelado)
-                throw new InvalidOperationException("El turno ya está cancelado.");
+            
+            turno.Estado = EstadoTurno.Pendiente;
 
-            turno.Estado = EstadoTurno.Cancelado;
             await _turnoRepository.UpdateAsync(turno);
+
+        var cliente = await _usuarioRepository.GetByIdAsync(turno.IdCliente ?? 0);
+        var cancha = await _canchaRepository.GetByIdAsync(turno.IdCancha);
+
+            if (cliente != null && cancha != null)
+            {
+                var notificacion = new Notificacion
+                {
+                    Mensaje = $"Su turno en cancha {cancha.Nombre} en el horario " +
+                              $"{turno.FechaHoraInicio:dd/MM/yyyy HH:mm} - {turno.FechaHoraFin:HH:mm} " +
+                              $"ha sido cancelado.",
+                    Destinatario = cliente.Email,
+                    FechaEnvio = DateTime.Now,
+                    Enviado = true,
+                    IdTurno = turno.IdTurno
+                };
+
+                await _notificacionRepository.AddAsync(notificacion);
+            }
+
         }
 
         public async Task DeleteAsync(int id) =>

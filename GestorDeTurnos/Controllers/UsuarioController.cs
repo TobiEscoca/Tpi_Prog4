@@ -23,7 +23,29 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> GetAll()
         {
             var usuarios = await _usuarioService.GetAllAsync();
-            return Ok(usuarios);
+            return Ok(usuarios.Select(u => new UsuarioResponseDTO
+            {
+                IdUsuario = u.IdUsuario,
+                Nombre = u.Nombre,
+                Email = u.Email,
+                Rol = u.Rol.ToString(),
+                Activo = u.Activo,
+                FechaRegistro = u.FechaRegistro,
+                Complejos = u.Complejos.Select(c => new ComplejoResponseDTO
+                {
+                    IdComplejo = c.IdComplejo,
+                    Nombre = c.Nombre,
+                    Direccion = c.Direccion,
+                    Telefono = c.Telefono,
+                    Activo = c.Activo,
+                    Canchas = c.Canchas.Select(ca => new CanchaResumenDTO
+                    {
+                        IdCancha = ca.IdCancha,
+                        Nombre = ca.Nombre,
+                    }).ToList()
+                }).ToList()
+                
+            }));
         }
 
         [HttpGet("BuscarUsuarioPorId/{id}")]
@@ -31,7 +53,28 @@ namespace GestorDeTurnos.Controllers
         {
             var usuario = await _usuarioService.GetByIdAsync(id);
             if (usuario == null) return NotFound();
-            return Ok(usuario);
+            return Ok( new UsuarioResponseDTO
+            {
+                IdUsuario = usuario.IdUsuario,
+                Nombre = usuario.Nombre,
+                Email = usuario.Email,
+                Rol = usuario.Rol.ToString(),
+                Activo = usuario.Activo,
+                FechaRegistro = usuario.FechaRegistro,
+                Complejos = usuario.Complejos.Select(c => new ComplejoResponseDTO
+                {
+                    IdComplejo = c.IdComplejo,
+                    Nombre = c.Nombre,
+                    Direccion = c.Direccion,
+                    Telefono = c.Telefono,
+                    Activo = c.Activo,
+                    Canchas = c.Canchas.Select(ca => new CanchaResumenDTO
+                    {
+                        IdCancha = ca.IdCancha,
+                        Nombre = ca.Nombre,
+                    }).ToList()
+                }).ToList()
+            });
         }
 
         [HttpPost("Crear-usuario-admin")]
@@ -106,7 +149,15 @@ namespace GestorDeTurnos.Controllers
                 return BadRequest("Debes enviar al menos uno de estos campos: nombre, email o activo.");
 
             await _usuarioService.UpdateAsync(usuario);
-            return Ok(usuario);
+            return Ok(new UsuarioResponseDTO
+            {
+                IdUsuario = usuario.IdUsuario,
+                Nombre = usuario.Nombre,
+                Email = usuario.Email,
+                Rol = usuario.Rol.ToString(),
+                Activo = usuario.Activo,
+                FechaRegistro = usuario.FechaRegistro
+            });
         }
 
         [HttpDelete("EliminarUsuario/{id}")]

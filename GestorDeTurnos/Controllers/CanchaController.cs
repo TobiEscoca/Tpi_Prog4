@@ -25,7 +25,14 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> GetAll()
         {
             var canchas = await _canchaService.GetAllAsync();
-            return Ok(canchas);
+            return Ok(canchas.Select(c => new CanchaResumenDTO
+            {
+                IdCancha = c.IdCancha,
+                Nombre = c.Nombre,
+                PrecioHora = c.PrecioHora,
+                Activo = c.Activo,
+                IdComplejo = c.IdComplejo
+            }));
         }
 
         [HttpGet("BuscarCanchaPorId/{id}")]
@@ -33,21 +40,52 @@ namespace GestorDeTurnos.Controllers
         {
             var cancha = await _canchaService.GetByIdAsync(id);
             if (cancha == null) return NotFound();
-            return Ok(cancha);
+            return Ok(new CanchaResponseDTO
+            {
+                IdCancha = cancha.IdCancha,
+                IdComplejo = cancha.IdComplejo,
+                NombreComplejo = cancha.Complejo?.Nombre ?? string.Empty,
+                Nombre = cancha.Nombre,
+                PrecioHora = cancha.PrecioHora,
+                Activo = cancha.Activo,
+                Turnos = cancha.Turnos.Select(t => new TurnoResponseDTO
+                {
+                    IdTurno = t.IdTurno,
+                    IdCancha = t.IdCancha,
+                    IdCliente = t.IdCliente,
+                    FechaHoraInicio = t.FechaHoraInicio,
+                    FechaHoraFin = t.FechaHoraFin,
+                    Estado = t.Estado.ToString(),
+                }).ToList()
+            });
         }
 
         [HttpGet("BuscarPorComplejo/{idComplejo}")]
         public async Task<IActionResult> GetByComplejo(int idComplejo)
         {
             var canchas = await _canchaService.GetByComplejoAsync(idComplejo);
-            return Ok(canchas);
+            return Ok(canchas.Select(c => new CanchaResumenDTO
+            {
+                IdCancha = c.IdCancha,
+                IdComplejo = c.IdComplejo,
+                Nombre = c.Nombre,
+                PrecioHora = c.PrecioHora,
+                Activo = c.Activo,
+            }));
         }
 
         [HttpGet("BuscarActivasPorComplejo/{idComplejo}")]
         public async Task<IActionResult> GetActivasByComplejo(int idComplejo)
         {
             var canchas = await _canchaService.GetActivasByComplejoAsync(idComplejo);
-            return Ok(canchas);
+            return Ok(canchas.Select(c => new CanchaResumenDTO
+            {
+                IdCancha = c.IdCancha,
+                IdComplejo = c.IdComplejo,
+                Nombre = c.Nombre,
+                PrecioHora = c.PrecioHora,
+                Activo = c.Activo
+            }));
         }
 
         [HttpPost("CrearCancha")]
@@ -77,11 +115,21 @@ namespace GestorDeTurnos.Controllers
                 IdComplejo = request.IdComplejo,
                 Nombre = request.Nombre.Trim(),
                 PrecioHora = request.PrecioHora,
-                Activo = true
+                Activo = true,
+                Complejo = complejo
             };
 
+            complejo.Canchas.Add(cancha);
+
             await _canchaService.AddAsync(cancha);
-            return CreatedAtAction(nameof(GetById), new { id = cancha.IdCancha }, cancha);
+            return CreatedAtAction(nameof(GetById), new { id = cancha.IdCancha }, new CanchaResumenDTO
+            {
+                IdCancha = cancha.IdCancha,
+                IdComplejo = cancha.IdComplejo,
+                Nombre = cancha.Nombre,
+                PrecioHora = cancha.PrecioHora,
+                Activo = cancha.Activo
+            });
         }
 
         [HttpPut("ActualizarCancha/{id}")]
@@ -134,7 +182,7 @@ namespace GestorDeTurnos.Controllers
                 return BadRequest("Debes enviar al menos uno de estos campos: nombre, precioHora o activo.");
 
             await _canchaService.UpdateAsync(cancha);
-            return Ok(cancha);
+            return Ok("Cancha actualizada correctamente.");
         }
 
         [HttpDelete("EliminarCancha/{id}")]
@@ -142,7 +190,7 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _canchaService.DeleteAsync(id);
-            return NoContent();
+            return Ok("Cancha eliminada correctamente.");
         }
     }
 }

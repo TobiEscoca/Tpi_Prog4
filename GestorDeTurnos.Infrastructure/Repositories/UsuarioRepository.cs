@@ -13,5 +13,6 @@ namespace GestorDeTurnos.Infrastructure.Repositories
         {
             return await _dbSet.FirstOrDefaultAsync(u => u.Email == email);
         }
+        
     }
 }

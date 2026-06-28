@@ -21,30 +21,57 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var turnos = await _turnoService.GetAllAsync();
-            return Ok(turnos);
+            return Ok(turnos.Select(t => new TurnoResponseDTO
+            {
+                IdTurno = t.IdTurno,
+                IdCancha = t.IdCancha,
+                NombreCancha = t.Cancha?.Nombre ?? string.Empty,
+                IdCliente = t.IdCliente,
+                FechaHoraInicio = t.FechaHoraInicio,
+                FechaHoraFin = t.FechaHoraFin,
+                Estado = t.Estado.ToString(),
+                FechaCreacion = t.FechaCreacion
+            }));
         }
 
         [HttpGet("MisTurnos-Cliente")]
-        [Authorize(Roles = "Cliente")]
         public async Task<IActionResult> GetMisTurnos()
         {
             var idCliente = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             var turnos = await _turnoService.GetByClienteAsync(idCliente);
-            return Ok(turnos);
+            return Ok(turnos.Select(t => new TurnoResponseDTO
+            {
+                IdTurno = t.IdTurno,
+                IdCancha = t.IdCancha,
+                NombreCancha = t.Cancha?.Nombre ?? string.Empty,
+                IdCliente = t.IdCliente,
+                FechaHoraInicio = t.FechaHoraInicio,
+                FechaHoraFin = t.FechaHoraFin,
+                Estado = t.Estado.ToString(),
+                FechaCreacion = t.FechaCreacion
+            }));
         }
 
 
         [HttpGet("BuscarTurnoPorId/{id}")]
-        [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
             var turno = await _turnoService.GetByIdAsync(id);
             if (turno == null) return NotFound();
-            return Ok(turno);
+            return Ok(new TurnoResponseDTO
+            {
+                IdTurno = turno.IdTurno,
+                IdCancha = turno.IdCancha,
+                NombreCancha = turno.Cancha?.Nombre ?? string.Empty,
+                IdCliente = turno.IdCliente,
+                FechaHoraInicio = turno.FechaHoraInicio,
+                FechaHoraFin = turno.FechaHoraFin,
+                Estado = turno.Estado.ToString(),
+                FechaCreacion = turno.FechaCreacion
+            });
         }
 
         [HttpGet("BuscarTurnosPorCliente/{idCliente}")]
@@ -52,14 +79,34 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> GetByCliente(int idCliente)
         {
             var turnos = await _turnoService.GetByClienteAsync(idCliente);
-            return Ok(turnos);
+            return Ok(turnos.Select(t => new TurnoResponseDTO
+            {
+                IdTurno = t.IdTurno,
+                IdCancha = t.IdCancha,
+                NombreCancha = t.Cancha?.Nombre ?? string.Empty,
+                IdCliente = t.IdCliente,
+                FechaHoraInicio = t.FechaHoraInicio,
+                FechaHoraFin = t.FechaHoraFin,
+                Estado = t.Estado.ToString(),
+                FechaCreacion = t.FechaCreacion
+            }));
         }
 
         [HttpGet("BuscarTurnosPorCancha/{idCancha}")]
         public async Task<IActionResult> GetByCancha(int idCancha)
         {
             var turnos = await _turnoService.GetByCanchaAsync(idCancha);
-            return Ok(turnos);
+            return Ok(turnos.Select(t => new TurnoResponseDTO
+            {
+                IdTurno = t.IdTurno,
+                IdCancha = t.IdCancha,
+                NombreCancha = t.Cancha?.Nombre ?? string.Empty,
+                IdCliente = t.IdCliente,
+                FechaHoraInicio = t.FechaHoraInicio,
+                FechaHoraFin = t.FechaHoraFin,
+                Estado = t.Estado.ToString(),
+                FechaCreacion = t.FechaCreacion
+            }));
         }
 
         [HttpPost("CrearTurno")]
@@ -93,7 +140,7 @@ namespace GestorDeTurnos.Controllers
             try
             {
                 await _turnoService.AddAsync(turno);
-                return CreatedAtAction(nameof(GetById), new { id = turno.IdTurno }, turno);
+                return CreatedAtAction(nameof(GetById), new { id = turno.IdTurno }, "Turno creado correctamente.");
             }
             catch (KeyNotFoundException ex)
             {
@@ -110,7 +157,7 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _turnoService.DeleteAsync(id);
-            return NoContent();
+            return Ok("Turno eliminado correctamente.");
         }
 
         [HttpPut("ConfirmarTurno/{id}")]
@@ -122,7 +169,7 @@ namespace GestorDeTurnos.Controllers
             try
             {
                 await _turnoService.ConfirmarAsync(id, idCliente);
-                return NoContent();
+                return Ok("Turno confirmado correctamente.");
             }
             catch (KeyNotFoundException ex)
             {
@@ -141,7 +188,7 @@ namespace GestorDeTurnos.Controllers
             try
             {
                 await _turnoService.CancelarAsync(id);
-                return NoContent();
+                return Ok("Turno cancelado correctamente.");
             }
             catch (KeyNotFoundException ex)
             {

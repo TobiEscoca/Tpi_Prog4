@@ -12,12 +12,12 @@ namespace GestorDeTurnos.Infrastructure.Repositories
 
         public async Task<IEnumerable<Turno>> GetByClienteAsync(int idCliente)
         {
-            return await _dbSet.Where(t => t.IdCliente == idCliente).ToListAsync();
+            return await _dbSet.Where(t => t.IdCliente == idCliente).Include(t => t.Cancha).ToListAsync();
         }
 
         public async Task<IEnumerable<Turno>> GetByCanchaAsync(int idCancha)
         {
-            return await _dbSet.Where(t => t.IdCancha == idCancha).ToListAsync();
+            return await _dbSet.Where(t => t.IdCancha == idCancha).Include(t => t.Cancha).ToListAsync();
         }
 
         public async Task<bool> ExisteSolapamientoAsync(int idCancha, DateTime inicio, DateTime fin)

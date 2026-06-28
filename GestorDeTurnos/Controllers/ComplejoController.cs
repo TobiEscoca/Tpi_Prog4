@@ -27,16 +27,43 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> GetAll()
         {
             var complejos = await _complejoService.GetAllAsync();
-            return Ok(complejos);
+            return Ok(complejos.Select(c => new ComplejoResumenDTO
+            {
+                IdComplejo = c.IdComplejo,
+                IdDueno = c.IdDueno,
+                Nombre = c.Nombre,
+                Direccion = c.Direccion,
+                Telefono = c.Telefono,
+                Email = c.Email,
+                Activo = c.Activo
+            }));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("BuscarComplejoPorId/{id}")]
         [Authorize(Roles = "AdministradorGeneral")]
         public async Task<IActionResult> GetById(int id)
         {
             var complejo = await _complejoService.GetByIdAsync(id);
             if (complejo == null) return NotFound();
-            return Ok(complejo);
+            return Ok(new ComplejoResponseDTO
+            {
+                IdComplejo = complejo.IdComplejo,
+                IdDueno = complejo.IdDueno,
+                NombreDueno = complejo.Dueno.Nombre,
+                Nombre = complejo.Nombre,
+                Direccion = complejo.Direccion,
+                Telefono = complejo.Telefono,
+                Email = complejo.Email,
+                Activo = complejo.Activo,
+                Canchas = complejo.Canchas.Select(c => new CanchaResumenDTO
+                {
+                    IdCancha = c.IdCancha,
+                    IdComplejo = c.IdComplejo,
+                    Nombre = c.Nombre,
+                    PrecioHora = c.PrecioHora,
+                    Activo = c.Activo
+                }).ToList()
+            });
         }
 
         [HttpGet("BuscarPorDueno/{idDueno}")]
@@ -44,7 +71,16 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> GetByDueno(int idDueno)
         {
             var complejos = await _complejoService.GetByDuenoAsync(idDueno);
-            return Ok(complejos);
+            return Ok(complejos.Select(c => new ComplejoResumenDTO
+            {
+                IdComplejo = c.IdComplejo,
+                IdDueno = c.IdDueno,
+                Nombre = c.Nombre,
+                Direccion = c.Direccion,
+                Telefono = c.Telefono,
+                Email = c.Email,
+                Activo = c.Activo
+            }));
         }
 
         [HttpGet("activos")]
@@ -52,7 +88,16 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> GetActivos()
         {
             var complejos = await _complejoService.GetActivosAsync();
-            return Ok(complejos);
+            return Ok(complejos.Select(c => new ComplejoResumenDTO
+            {
+                IdComplejo = c.IdComplejo,
+                IdDueno = c.IdDueno,
+                Nombre = c.Nombre,
+                Direccion = c.Direccion,
+                Telefono = c.Telefono,
+                Email = c.Email,
+                Activo = c.Activo
+            }));
         }
 
         [HttpPost("CrearComplejo")]
@@ -83,11 +128,20 @@ namespace GestorDeTurnos.Controllers
             };
 
             await _complejoService.AddAsync(complejo);
-            return CreatedAtAction(nameof(GetById), new { id = complejo.IdComplejo }, complejo);
+            return CreatedAtAction(nameof(GetById), new { id = complejo.IdComplejo }, new ComplejoResumenDTO
+            {
+                IdComplejo = complejo.IdComplejo,
+                IdDueno = complejo.IdDueno,
+                Nombre = complejo.Nombre,
+                Direccion = complejo.Direccion,
+                Telefono = complejo.Telefono,
+                Email = complejo.Email,
+                Activo = complejo.Activo
+            });
         }
 
         [HttpPut("ActualizarComplejo/{id}")]
-        [Authorize(Roles = "AdministradorGeneral")]
+        [Authorize(Roles = "AdministradorGeneral, DuenoComplejo")]
         public async Task<IActionResult> Update(int id, [FromBody] ActualizarComplejoRequest request)
         {
             if (request == null)
@@ -151,15 +205,15 @@ namespace GestorDeTurnos.Controllers
                 return BadRequest("Debes enviar al menos uno de estos campos: nombre, direccion, telefono, email o activo.");
 
             await _complejoService.UpdateAsync(complejo);
-            return Ok(complejo);
+            return Ok("Complejo actualizado correctamente.");
         }
 
         [HttpDelete("EliminarComplejo/{id}")]
-        [Authorize(Roles = "AdministradorGeneral")]
+        [Authorize(Roles = "AdministradorGeneral, DuenoComplejo")]
         public async Task<IActionResult> Delete(int id)
         {
             await _complejoService.DeleteAsync(id);
-            return NoContent();
+            return Ok("Complejo eliminado correctamente.");
         }
     }
 }

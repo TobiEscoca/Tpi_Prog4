@@ -55,6 +55,8 @@ namespace GestorDeTurnos.Application.Services
 
             turno.Estado = EstadoTurno.Pendiente;
             turno.IdCliente = null;
+            turno.Cancha = cancha;
+            cancha.Turnos.Add(turno);
 
             await _turnoRepository.AddAsync(turno);
         }
@@ -101,7 +103,9 @@ namespace GestorDeTurnos.Application.Services
             var turno = await _turnoRepository.GetByIdAsync(id);
             if (turno == null)
                 throw new KeyNotFoundException("Turno no encontrado.");
-            
+            else if (turno.Estado == EstadoTurno.Pendiente)
+                throw new InvalidOperationException("El turno ya está pendiente y no puede ser cancelado.");
+            turno.IdCliente = null;
             turno.Estado = EstadoTurno.Pendiente;
 
             await _turnoRepository.UpdateAsync(turno);

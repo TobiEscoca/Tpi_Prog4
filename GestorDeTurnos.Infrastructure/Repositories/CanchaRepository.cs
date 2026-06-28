@@ -11,12 +11,16 @@ namespace GestorDeTurnos.Infrastructure.Repositories
 
         public async Task<IEnumerable<Cancha>> GetByComplejoAsync(int idComplejo)
         {
-            return await _dbSet.Where(c => c.IdComplejo == idComplejo).ToListAsync();
+            return await _dbSet.Where(c => c.IdComplejo == idComplejo)
+                .Include(c => c.Turnos)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Cancha>> GetActivasByComplejoAsync(int idComplejo)
         {
-            return await _dbSet.Where(c => c.IdComplejo == idComplejo && c.Activo).ToListAsync();
+            return await _dbSet.Where(c => c.IdComplejo == idComplejo && c.Activo)
+                .Include(c => c.Turnos)
+                .ToListAsync();
         }
     }
 }

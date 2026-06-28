@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using GestorDeTurnos.Application.Interfaces;
+using GestorDeTurnos.Domain.Entities;
 using GestorDeTurnos.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,12 +21,57 @@ namespace GestorDeTurnos.Infrastructure.Repositories
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
+            IQueryable<T> query = _dbSet;
+
+            if (typeof(T) == typeof(Complejo))
+            {
+                query = (IQueryable<T>)_context.Complejos.Include(c => c.Dueno).Include(c => c.Canchas);
+            }
+            else if (typeof(T) == typeof(Cancha))
+            {
+                query = (IQueryable<T>)_context.Canchas.Include(c => c.Turnos);
+            }
+            else if (typeof(T) == typeof(Turno))
+            {
+                query = (IQueryable<T>)_context.Turnos
+                    .Include(t => t.Cancha)
+                    .Include(t => t.Notificaciones);
+            }
+            else if (typeof(T) == typeof(Usuario))
+            {
+                query = (IQueryable<T>)_context.Usuarios
+                .Include(u => u.Complejos)
+                .ThenInclude(c => c.Canchas);
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<T?> GetByIdAsync(int id)
         {
-            return await _dbSet.FindAsync(id);
+            var entity = await _dbSet.FindAsync(id);
+
+            if (entity is Complejo complejo)
+            {
+                await _context.Entry(complejo).Collection(c => c.Canchas).LoadAsync();
+                await _context.Entry(complejo).Reference(c => c.Dueno).LoadAsync();
+            }
+            else if (entity is Cancha cancha)
+            {
+                await _context.Entry(cancha).Collection(c => c.Turnos).LoadAsync();
+                await _context.Entry(cancha).Reference(c => c.Complejo).LoadAsync();
+            }
+            else if (entity is Turno turno)
+            {
+                await _context.Entry(turno).Reference(t => t.Cancha).LoadAsync();
+                await _context.Entry(turno).Collection(t => t.Notificaciones).LoadAsync();
+            }
+            else if (entity is Usuario usuario)
+            {
+                await _context.Entry(usuario).Collection(u => u.Complejos).LoadAsync();
+            }
+
+            return entity;
         }
 
         public async Task AddAsync(T entity)

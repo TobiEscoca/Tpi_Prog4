@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GestorDeTurnos.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d076668e86978e44c9cb4a79f72b60359186392e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+438cd2474271fb4310f72dd1c868af3b4e764c29")]
 [assembly: System.Reflection.AssemblyProductAttribute("GestorDeTurnos.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GestorDeTurnos.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

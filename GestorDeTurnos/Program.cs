@@ -96,10 +96,15 @@ builder.Services.AddHttpClient<IWeatherService, WeatherService>();
 
 var app = builder.Build();
 
-// Aplicar migraciones automáticamente
+// Reinicia y aplica migraciones automáticamente de forma limpia
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    // 1. Borra la base de datos vieja que quedó mal armada en Azure
+    db.Database.EnsureDeleted();
+
+    // 2. Aplica las migraciones desde cero, registrando todo correctamente
     db.Database.Migrate();
 }
 

@@ -94,12 +94,15 @@ builder.Services.AddHttpClient<IWeatherService, WeatherService>();
 
 var app = builder.Build();
 
-// Configuración del pipeline HTTP
-if (app.Environment.IsDevelopment())
+// Habilitamos Swagger para TODOS los entornos (tanto Local como Azure)
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    // Esto hace que Swagger sea la página principal. 
+    // Al entrar al link de Azure directamente, te va a abrir Swagger en vez del error 404.
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "GestorDeTurnos v1");
+    c.RoutePrefix = string.Empty;
+});
 
 app.UseAuthentication();
 app.UseAuthorization();

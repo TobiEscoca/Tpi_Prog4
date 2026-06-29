@@ -38,3 +38,23 @@ C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Infrastructure/obj/Debug/n
 /home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Infrastructure/obj/Debug/net10.0/GestorDeTurnos.Infrastructure.pdb
 /home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Infrastructure/obj/Debug/net10.0/GestorDeTurnos.Infrastructure.genruntimeconfig.cache
 /home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Infrastructure/obj/Debug/net10.0/ref/GestorDeTurnos.Infrastructure.dll
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\bin\Debug\net10.0\GestorDeTurnos.Infrastructure.deps.json
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\bin\Debug\net10.0\GestorDeTurnos.Infrastructure.runtimeconfig.json
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\bin\Debug\net10.0\GestorDeTurnos.Infrastructure.dll
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\bin\Debug\net10.0\GestorDeTurnos.Infrastructure.pdb
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\bin\Debug\net10.0\GestorDeTurnos.Application.dll
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\bin\Debug\net10.0\GestorDeTurnos.Domain.dll
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\bin\Debug\net10.0\GestorDeTurnos.Application.pdb
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\bin\Debug\net10.0\GestorDeTurnos.Domain.pdb
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\obj\Debug\net10.0\GestorDeTurnos.Infrastructure.csproj.AssemblyReference.cache
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\obj\Debug\net10.0\GestorDeTurnos.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\obj\Debug\net10.0\GestorDeTurnos.Infrastructure.AssemblyInfoInputs.cache
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\obj\Debug\net10.0\GestorDeTurnos.Infrastructure.AssemblyInfo.cs
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\obj\Debug\net10.0\GestorDeTurnos.Infrastructure.csproj.CoreCompileInputs.cache
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\obj\Debug\net10.0\GestorDeTurnos.Infrastructure.sourcelink.json
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\obj\Debug\net10.0\GestorDe.95D55627.Up2Date
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\obj\Debug\net10.0\GestorDeTurnos.Infrastructure.dll
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\obj\Debug\net10.0\refint\GestorDeTurnos.Infrastructure.dll
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\obj\Debug\net10.0\GestorDeTurnos.Infrastructure.pdb
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\obj\Debug\net10.0\GestorDeTurnos.Infrastructure.genruntimeconfig.cache
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Infrastructure\obj\Debug\net10.0\ref\GestorDeTurnos.Infrastructure.dll

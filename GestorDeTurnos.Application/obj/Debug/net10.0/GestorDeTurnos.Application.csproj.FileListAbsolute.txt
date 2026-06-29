@@ -30,3 +30,19 @@ C:/Users/Martin/source/repos/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net1
 /home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/refint/GestorDeTurnos.Application.dll
 /home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/GestorDeTurnos.Application.pdb
 /home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4/GestorDeTurnos.Application/obj/Debug/net10.0/ref/GestorDeTurnos.Application.dll
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\bin\Debug\net10.0\GestorDeTurnos.Application.deps.json
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\bin\Debug\net10.0\GestorDeTurnos.Application.dll
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\bin\Debug\net10.0\GestorDeTurnos.Application.pdb
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\bin\Debug\net10.0\GestorDeTurnos.Domain.dll
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\bin\Debug\net10.0\GestorDeTurnos.Domain.pdb
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.csproj.AssemblyReference.cache
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.AssemblyInfoInputs.cache
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.AssemblyInfo.cs
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.csproj.CoreCompileInputs.cache
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.sourcelink.json
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDe.7D763674.Up2Date
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.dll
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\refint\GestorDeTurnos.Application.dll
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\GestorDeTurnos.Application.pdb
+C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Application\obj\Debug\net10.0\ref\GestorDeTurnos.Application.dll

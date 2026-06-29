@@ -8,7 +8,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -40,7 +39,6 @@ builder.Services.AddScoped<NotificacionService>();
 var jwtKey = builder.Configuration["Jwt:Key"];
 var jwtIssuer = builder.Configuration["Jwt:Issuer"];
 var jwtAudience = builder.Configuration["Jwt:Audience"];
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -96,18 +94,7 @@ builder.Services.AddHttpClient<IWeatherService, WeatherService>();
 
 var app = builder.Build();
 
-// Reinicia y aplica migraciones automáticamente de forma limpia
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-    // 1. Borra la base de datos vieja que quedó mal armada en Azure
-    db.Database.EnsureDeleted();
-
-    // 2. Aplica las migraciones desde cero, registrando todo correctamente
-    db.Database.Migrate();
-}
-
+// Configuración del pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -116,7 +103,26 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
+
+// ==========================================
+// CONTROL DE BASE DE DATOS SEGÚN EL ENTORNO
+// ==========================================
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    if (app.Environment.IsDevelopment())
+    {
+        // En tu PC Local: Solo aplica cambios pendientes. NO te borra los datos.
+        db.Database.Migrate();
+    }
+    else
+    {
+        // En Azure: Fuerza el borrado del archivo fantasma que causa el choque de tablas
+        db.Database.EnsureDeleted();
+        db.Database.Migrate();
+    }
+}
 
 app.Run();

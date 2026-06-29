@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GestorDeTurnos.Application.Interfaces;
+﻿using GestorDeTurnos.Application.Interfaces;
 using GestorDeTurnos.Domain.Entities;
 using GestorDeTurnos.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;

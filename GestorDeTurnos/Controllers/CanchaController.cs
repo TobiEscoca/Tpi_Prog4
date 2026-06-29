@@ -1,4 +1,5 @@
 ﻿using GestorDeTurnos.Application.DTOs;
+using GestorDeTurnos.Application.Mappings;
 using GestorDeTurnos.Application.Services;
 using GestorDeTurnos.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -25,14 +26,7 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> GetAll()
         {
             var canchas = await _canchaService.GetAllAsync();
-            return Ok(canchas.Select(c => new CanchaResumenDTO
-            {
-                IdCancha = c.IdCancha,
-                Nombre = c.Nombre,
-                PrecioHora = c.PrecioHora,
-                Activo = c.Activo,
-                IdComplejo = c.IdComplejo
-            }));
+            return Ok(canchas.Select(c => c.ToResumen()));
         }
 
         [HttpGet("BuscarCanchaPorId/{id}")]
@@ -40,52 +34,21 @@ namespace GestorDeTurnos.Controllers
         {
             var cancha = await _canchaService.GetByIdAsync(id);
             if (cancha == null) return NotFound();
-            return Ok(new CanchaResponseDTO
-            {
-                IdCancha = cancha.IdCancha,
-                IdComplejo = cancha.IdComplejo,
-                NombreComplejo = cancha.Complejo?.Nombre ?? string.Empty,
-                Nombre = cancha.Nombre,
-                PrecioHora = cancha.PrecioHora,
-                Activo = cancha.Activo,
-                Turnos = cancha.Turnos.Select(t => new TurnoResponseDTO
-                {
-                    IdTurno = t.IdTurno,
-                    IdCancha = t.IdCancha,
-                    IdCliente = t.IdCliente,
-                    FechaHoraInicio = t.FechaHoraInicio,
-                    FechaHoraFin = t.FechaHoraFin,
-                    Estado = t.Estado.ToString(),
-                }).ToList()
-            });
+            return Ok(cancha.ToDto());
         }
 
         [HttpGet("BuscarPorComplejo/{idComplejo}")]
         public async Task<IActionResult> GetByComplejo(int idComplejo)
         {
             var canchas = await _canchaService.GetByComplejoAsync(idComplejo);
-            return Ok(canchas.Select(c => new CanchaResumenDTO
-            {
-                IdCancha = c.IdCancha,
-                IdComplejo = c.IdComplejo,
-                Nombre = c.Nombre,
-                PrecioHora = c.PrecioHora,
-                Activo = c.Activo,
-            }));
+            return Ok(canchas.Select(c => c.ToResumen()));
         }
 
         [HttpGet("BuscarActivasPorComplejo/{idComplejo}")]
         public async Task<IActionResult> GetActivasByComplejo(int idComplejo)
         {
             var canchas = await _canchaService.GetActivasByComplejoAsync(idComplejo);
-            return Ok(canchas.Select(c => new CanchaResumenDTO
-            {
-                IdCancha = c.IdCancha,
-                IdComplejo = c.IdComplejo,
-                Nombre = c.Nombre,
-                PrecioHora = c.PrecioHora,
-                Activo = c.Activo
-            }));
+            return Ok(canchas.Select(c => c.ToResumen()));
         }
 
         [HttpPost("CrearCancha")]
@@ -122,14 +85,7 @@ namespace GestorDeTurnos.Controllers
             complejo.Canchas.Add(cancha);
 
             await _canchaService.AddAsync(cancha);
-            return CreatedAtAction(nameof(GetById), new { id = cancha.IdCancha }, new CanchaResumenDTO
-            {
-                IdCancha = cancha.IdCancha,
-                IdComplejo = cancha.IdComplejo,
-                Nombre = cancha.Nombre,
-                PrecioHora = cancha.PrecioHora,
-                Activo = cancha.Activo
-            });
+            return CreatedAtAction(nameof(GetById), new { id = cancha.IdCancha }, cancha.ToResumen());
         }
 
         [HttpPut("ActualizarCancha/{id}")]
@@ -152,34 +108,12 @@ namespace GestorDeTurnos.Controllers
             if (complejo.IdDueno != idUsuario)
                 return Forbid("Solo puedes editar canchas de tus complejos.");
 
-            var hayCambios = false;
-
-            if (request.Nombre != null)
-            {
-                if (string.IsNullOrWhiteSpace(request.Nombre))
-                    return BadRequest("El nombre no puede estar vacío.");
-
-                cancha.Nombre = request.Nombre.Trim();
-                hayCambios = true;
-            }
-
-            if (request.PrecioHora.HasValue)
-            {
-                if (request.PrecioHora <= 0)
-                    return BadRequest("El precio por hora debe ser mayor a cero.");
-
-                cancha.PrecioHora = request.PrecioHora.Value;
-                hayCambios = true;
-            }
-
-            if (request.Activo.HasValue)
-            {
-                cancha.Activo = request.Activo.Value;
-                hayCambios = true;
-            }
-
-            if (!hayCambios)
+            if (!request.HasChanges)
                 return BadRequest("Debes enviar al menos uno de estos campos: nombre, precioHora o activo.");
+
+            var errors = request.ApplyTo(cancha);
+            if (errors.Any())
+                return BadRequest(string.Join("; ", errors));
 
             await _canchaService.UpdateAsync(cancha);
             return Ok("Cancha actualizada correctamente.");

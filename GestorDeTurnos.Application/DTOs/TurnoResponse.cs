@@ -1,4 +1,6 @@
-public class TurnoResponseDTO
+namespace GestorDeTurnos.Application.DTOs
+{
+    public class TurnoResponseDTO
 {
     public int IdTurno { get; set; }
     public int IdCancha { get; set; }
@@ -8,4 +10,5 @@ public class TurnoResponseDTO
     public DateTime FechaHoraFin { get; set; }
     public string Estado { get; set; } = string.Empty;
     public DateTime FechaCreacion { get; set; }
+    }
 }

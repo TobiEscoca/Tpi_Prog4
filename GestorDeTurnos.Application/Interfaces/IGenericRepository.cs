@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-namespace GestorDeTurnos.Application.Interfaces
+﻿namespace GestorDeTurnos.Application.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestorDeTurnos.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260618205714_AddAllEntities")]
-    partial class AddAllEntities
+    [Migration("20260629022649_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,9 +104,9 @@ namespace GestorDeTurnos.Infrastructure.Migrations
                     b.Property<int>("IdTurno")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Tipo")
+                    b.Property<string>("Mensaje")
                         .IsRequired()
-                        .HasMaxLength(50)
+                        .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
                     b.HasKey("IdNotificacion");
@@ -138,7 +138,7 @@ namespace GestorDeTurnos.Infrastructure.Migrations
                     b.Property<int>("IdCancha")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("IdCliente")
+                    b.Property<int?>("IdCliente")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("IdTurno");
@@ -233,8 +233,7 @@ namespace GestorDeTurnos.Infrastructure.Migrations
                     b.HasOne("GestorDeTurnos.Domain.Entities.Usuario", "Cliente")
                         .WithMany("Turnos")
                         .HasForeignKey("IdCliente")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Cancha");
 

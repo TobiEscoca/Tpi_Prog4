@@ -1,4 +1,6 @@
-public class UsuarioResponseDTO
+namespace GestorDeTurnos.Application.DTOs
+{
+    public class UsuarioResponseDTO
 {
     public int IdUsuario { get; set; }
     public string Nombre { get; set; } = string.Empty;
@@ -10,4 +12,5 @@ public class UsuarioResponseDTO
     public DateTime? FechaRegistro { get; set; }
 
     public List<ComplejoResponseDTO> Complejos { get; set; } = new();
+    }
 }

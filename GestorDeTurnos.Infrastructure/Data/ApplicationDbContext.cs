@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using GestorDeTurnos.Domain.Entities;
+﻿using GestorDeTurnos.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestorDeTurnos.Infrastructure.Data
@@ -79,7 +75,7 @@ namespace GestorDeTurnos.Infrastructure.Data
             modelBuilder.Entity<Notificacion>(entity =>
             {
                 entity.HasKey(n => n.IdNotificacion);
-                entity.Property(n => n.Mensaje).IsRequired().HasMaxLength(50);
+                entity.Property(n => n.Mensaje).IsRequired().HasMaxLength(500);
                 entity.Property(n => n.Destinatario).IsRequired().HasMaxLength(150);
                 entity.HasOne(n => n.Turno)
                       .WithMany(t => t.Notificaciones)

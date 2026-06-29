@@ -105,13 +105,15 @@ namespace GestorDeTurnos.Application.Services
                 throw new KeyNotFoundException("Turno no encontrado.");
             else if (turno.Estado == EstadoTurno.Pendiente)
                 throw new InvalidOperationException("El turno ya está pendiente y no puede ser cancelado.");
-            turno.IdCliente = null;
+
+            var cliente = turno.IdCliente.HasValue
+                ? await _usuarioRepository.GetByIdAsync(turno.IdCliente.Value)
+                : null;
+            var cancha = await _canchaRepository.GetByIdAsync(turno.IdCancha);
+
             turno.Estado = EstadoTurno.Pendiente;
-
+            turno.IdCliente = null;
             await _turnoRepository.UpdateAsync(turno);
-
-        var cliente = await _usuarioRepository.GetByIdAsync(turno.IdCliente ?? 0);
-        var cancha = await _canchaRepository.GetByIdAsync(turno.IdCancha);
 
             if (cliente != null && cancha != null)
             {
@@ -128,7 +130,6 @@ namespace GestorDeTurnos.Application.Services
 
                 await _notificacionRepository.AddAsync(notificacion);
             }
-
         }
 
         public async Task DeleteAsync(int id) =>

@@ -3,7 +3,9 @@ using GestorDeTurnos.Application.DTOs;
 using GestorDeTurnos.Application.Interfaces;
 using Microsoft.Extensions.Configuration;
 
-public class WeatherService : IWeatherService
+namespace GestorDeTurnos.Application.Services
+{
+    public class WeatherService : IWeatherService
 {
     private readonly HttpClient _httpClient;
     private readonly string _geocodingUrl;
@@ -60,4 +62,5 @@ public class WeatherService : IWeatherService
             Humidity = weatherData.Current.Humidity
         };
     }
+}
 }

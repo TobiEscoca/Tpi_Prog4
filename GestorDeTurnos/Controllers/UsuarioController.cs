@@ -1,4 +1,5 @@
 ﻿using GestorDeTurnos.Application.DTOs;
+using GestorDeTurnos.Application.Mappings;
 using GestorDeTurnos.Application.Services;
 using GestorDeTurnos.Domain.Entities;
 using GestorDeTurnos.Domain.Enums;
@@ -23,29 +24,7 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> GetAll()
         {
             var usuarios = await _usuarioService.GetAllAsync();
-            return Ok(usuarios.Select(u => new UsuarioResponseDTO
-            {
-                IdUsuario = u.IdUsuario,
-                Nombre = u.Nombre,
-                Email = u.Email,
-                Rol = u.Rol.ToString(),
-                Activo = u.Activo,
-                FechaRegistro = u.FechaRegistro,
-                Complejos = u.Complejos.Select(c => new ComplejoResponseDTO
-                {
-                    IdComplejo = c.IdComplejo,
-                    Nombre = c.Nombre,
-                    Direccion = c.Direccion,
-                    Telefono = c.Telefono,
-                    Activo = c.Activo,
-                    Canchas = c.Canchas.Select(ca => new CanchaResumenDTO
-                    {
-                        IdCancha = ca.IdCancha,
-                        Nombre = ca.Nombre,
-                    }).ToList()
-                }).ToList()
-                
-            }));
+            return Ok(usuarios.Select(u => u.ToDto()));
         }
 
         [HttpGet("BuscarUsuarioPorId/{id}")]
@@ -53,33 +32,12 @@ namespace GestorDeTurnos.Controllers
         {
             var usuario = await _usuarioService.GetByIdAsync(id);
             if (usuario == null) return NotFound();
-            return Ok( new UsuarioResponseDTO
-            {
-                IdUsuario = usuario.IdUsuario,
-                Nombre = usuario.Nombre,
-                Email = usuario.Email,
-                Rol = usuario.Rol.ToString(),
-                Activo = usuario.Activo,
-                FechaRegistro = usuario.FechaRegistro,
-                Complejos = usuario.Complejos.Select(c => new ComplejoResponseDTO
-                {
-                    IdComplejo = c.IdComplejo,
-                    Nombre = c.Nombre,
-                    Direccion = c.Direccion,
-                    Telefono = c.Telefono,
-                    Activo = c.Activo,
-                    Canchas = c.Canchas.Select(ca => new CanchaResumenDTO
-                    {
-                        IdCancha = ca.IdCancha,
-                        Nombre = ca.Nombre,
-                    }).ToList()
-                }).ToList()
-            });
+            return Ok(usuario.ToDto());
         }
 
         [HttpPost("Crear-usuario-admin")]
         [Authorize(Roles = "AdministradorGeneral")]
-        public async Task<IActionResult> Register(CrearUsuarioAdminRequest request)
+        public async Task<IActionResult> Register([FromBody] CrearUsuarioAdminRequest request)
         {
             var existe = await _usuarioService.GetByEmailAsync(request.Email);
             if (existe != null)
@@ -109,55 +67,22 @@ namespace GestorDeTurnos.Controllers
             if (usuario == null)
                 return NotFound("No existe el usuario indicado.");
 
-            var hayCambios = false;
-
-            if (request.Nombre != null)
-            {
-                if (string.IsNullOrWhiteSpace(request.Nombre))
-                    return BadRequest("El nombre no puede estar vacío.");
-
-                usuario.Nombre = request.Nombre.Trim();
-                hayCambios = true;
-            }
+            if (!request.HasChanges)
+                return BadRequest("Debes enviar al menos uno de estos campos: nombre, email, activo o rol.");
 
             if (request.Email != null)
             {
-                if (string.IsNullOrWhiteSpace(request.Email))
-                    return BadRequest("El email no puede estar vacío.");
-
                 var existente = await _usuarioService.GetByEmailAsync(request.Email);
                 if (existente != null && existente.IdUsuario != id)
                     return BadRequest("El email ya está en uso por otro usuario.");
-
-                usuario.Email = request.Email.Trim();
-                hayCambios = true;
             }
 
-            if (request.Activo.HasValue)
-            {
-                usuario.Activo = request.Activo.Value;
-                hayCambios = true;
-            }
-
-            if (request.RolUsuario.HasValue)
-            {
-                usuario.Rol = request.RolUsuario.Value;
-                hayCambios = true;
-            }
-
-            if (!hayCambios)
-                return BadRequest("Debes enviar al menos uno de estos campos: nombre, email o activo.");
+            var errors = request.ApplyTo(usuario);
+            if (errors.Any())
+                return BadRequest(string.Join("; ", errors));
 
             await _usuarioService.UpdateAsync(usuario);
-            return Ok(new UsuarioResponseDTO
-            {
-                IdUsuario = usuario.IdUsuario,
-                Nombre = usuario.Nombre,
-                Email = usuario.Email,
-                Rol = usuario.Rol.ToString(),
-                Activo = usuario.Activo,
-                FechaRegistro = usuario.FechaRegistro
-            });
+            return Ok(usuario.ToDto());
         }
 
         [HttpDelete("EliminarUsuario/{id}")]
@@ -166,13 +91,5 @@ namespace GestorDeTurnos.Controllers
             await _usuarioService.DeleteAsync(id);
             return NoContent();
         }
-    }
-
-    public class CrearUsuarioAdminRequest
-    {
-        public string Nombre { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public RolUsuario RolUsuario { get; set; }
     }
 }

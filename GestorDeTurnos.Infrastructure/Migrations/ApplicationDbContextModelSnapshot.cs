@@ -101,9 +101,9 @@ namespace GestorDeTurnos.Infrastructure.Migrations
                     b.Property<int>("IdTurno")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Tipo")
+                    b.Property<string>("Mensaje")
                         .IsRequired()
-                        .HasMaxLength(50)
+                        .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
                     b.HasKey("IdNotificacion");
@@ -230,8 +230,7 @@ namespace GestorDeTurnos.Infrastructure.Migrations
                     b.HasOne("GestorDeTurnos.Domain.Entities.Usuario", "Cliente")
                         .WithMany("Turnos")
                         .HasForeignKey("IdCliente")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Cancha");
 

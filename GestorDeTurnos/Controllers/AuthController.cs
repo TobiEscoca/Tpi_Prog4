@@ -1,4 +1,5 @@
-﻿using GestorDeTurnos.Application.Interfaces;
+﻿using GestorDeTurnos.Application.DTOs;
+using GestorDeTurnos.Application.Interfaces;
 using GestorDeTurnos.Domain.Entities;
 using GestorDeTurnos.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +26,7 @@ namespace GestorDeTurnos.Controllers
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             var existe = await _usuarioRepository.GetByEmailAsync(request.Email);
             if (existe != null)
@@ -47,7 +48,7 @@ namespace GestorDeTurnos.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var usuario = await _usuarioRepository.GetByEmailAsync(request.Email);
             if (usuario == null || !BCrypt.Net.BCrypt.Verify(request.Password, usuario.PasswordHash))
@@ -83,18 +84,5 @@ namespace GestorDeTurnos.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-    }
-
-    public class RegisterRequest
-    {
-        public string Nombre { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-    }
-
-    public class LoginRequest
-    {
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
     }
 }

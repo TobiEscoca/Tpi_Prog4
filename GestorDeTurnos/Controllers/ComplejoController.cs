@@ -1,4 +1,5 @@
 ﻿using GestorDeTurnos.Application.DTOs;
+using GestorDeTurnos.Application.Mappings;
 using GestorDeTurnos.Application.Services;
 using GestorDeTurnos.Domain.Entities;
 using GestorDeTurnos.Domain.Enums;
@@ -27,16 +28,7 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> GetAll()
         {
             var complejos = await _complejoService.GetAllAsync();
-            return Ok(complejos.Select(c => new ComplejoResumenDTO
-            {
-                IdComplejo = c.IdComplejo,
-                IdDueno = c.IdDueno,
-                Nombre = c.Nombre,
-                Direccion = c.Direccion,
-                Telefono = c.Telefono,
-                Email = c.Email,
-                Activo = c.Activo
-            }));
+            return Ok(complejos.Select(c => c.ToResumen()));
         }
 
         [HttpGet("BuscarComplejoPorId/{id}")]
@@ -45,25 +37,7 @@ namespace GestorDeTurnos.Controllers
         {
             var complejo = await _complejoService.GetByIdAsync(id);
             if (complejo == null) return NotFound();
-            return Ok(new ComplejoResponseDTO
-            {
-                IdComplejo = complejo.IdComplejo,
-                IdDueno = complejo.IdDueno,
-                NombreDueno = complejo.Dueno.Nombre,
-                Nombre = complejo.Nombre,
-                Direccion = complejo.Direccion,
-                Telefono = complejo.Telefono,
-                Email = complejo.Email,
-                Activo = complejo.Activo,
-                Canchas = complejo.Canchas.Select(c => new CanchaResumenDTO
-                {
-                    IdCancha = c.IdCancha,
-                    IdComplejo = c.IdComplejo,
-                    Nombre = c.Nombre,
-                    PrecioHora = c.PrecioHora,
-                    Activo = c.Activo
-                }).ToList()
-            });
+            return Ok(complejo.ToDto());
         }
 
         [HttpGet("BuscarPorDueno/{idDueno}")]
@@ -71,16 +45,7 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> GetByDueno(int idDueno)
         {
             var complejos = await _complejoService.GetByDuenoAsync(idDueno);
-            return Ok(complejos.Select(c => new ComplejoResumenDTO
-            {
-                IdComplejo = c.IdComplejo,
-                IdDueno = c.IdDueno,
-                Nombre = c.Nombre,
-                Direccion = c.Direccion,
-                Telefono = c.Telefono,
-                Email = c.Email,
-                Activo = c.Activo
-            }));
+            return Ok(complejos.Select(c => c.ToResumen()));
         }
 
         [HttpGet("activos")]
@@ -88,16 +53,7 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> GetActivos()
         {
             var complejos = await _complejoService.GetActivosAsync();
-            return Ok(complejos.Select(c => new ComplejoResumenDTO
-            {
-                IdComplejo = c.IdComplejo,
-                IdDueno = c.IdDueno,
-                Nombre = c.Nombre,
-                Direccion = c.Direccion,
-                Telefono = c.Telefono,
-                Email = c.Email,
-                Activo = c.Activo
-            }));
+            return Ok(complejos.Select(c => c.ToResumen()));
         }
 
         [HttpPost("CrearComplejo")]
@@ -128,16 +84,7 @@ namespace GestorDeTurnos.Controllers
             };
 
             await _complejoService.AddAsync(complejo);
-            return CreatedAtAction(nameof(GetById), new { id = complejo.IdComplejo }, new ComplejoResumenDTO
-            {
-                IdComplejo = complejo.IdComplejo,
-                IdDueno = complejo.IdDueno,
-                Nombre = complejo.Nombre,
-                Direccion = complejo.Direccion,
-                Telefono = complejo.Telefono,
-                Email = complejo.Email,
-                Activo = complejo.Activo
-            });
+            return CreatedAtAction(nameof(GetById), new { id = complejo.IdComplejo }, complejo.ToResumen());
         }
 
         [HttpPut("ActualizarComplejo/{id}")]
@@ -160,49 +107,12 @@ namespace GestorDeTurnos.Controllers
             if (usuario.Rol != RolUsuario.AdministradorGeneral && complejo.IdDueno != idUsuario)
                 return Forbid("Solo puedes editar tus propios complejos.");
 
-            var hayCambios = false;
-
-            if (request.Nombre != null)
-            {
-                if (string.IsNullOrWhiteSpace(request.Nombre))
-                    return BadRequest("El nombre no puede estar vacío.");
-
-                complejo.Nombre = request.Nombre.Trim();
-                hayCambios = true;
-            }
-
-            if (request.Direccion != null)
-            {
-                if (string.IsNullOrWhiteSpace(request.Direccion))
-                    return BadRequest("La dirección no puede estar vacía.");
-
-                complejo.Direccion = request.Direccion.Trim();
-                hayCambios = true;
-            }
-
-            if (request.Telefono != null)
-            {
-                complejo.Telefono = string.IsNullOrWhiteSpace(request.Telefono) ? null : request.Telefono.Trim();
-                hayCambios = true;
-            }
-
-            if (request.Email != null)
-            {
-                if (string.IsNullOrWhiteSpace(request.Email))
-                    return BadRequest("El email no puede estar vacío.");
-
-                complejo.Email = request.Email.Trim();
-                hayCambios = true;
-            }
-
-            if (request.Activo.HasValue)
-            {
-                complejo.Activo = request.Activo.Value;
-                hayCambios = true;
-            }
-
-            if (!hayCambios)
+            if (!request.HasChanges)
                 return BadRequest("Debes enviar al menos uno de estos campos: nombre, direccion, telefono, email o activo.");
+
+            var errors = request.ApplyTo(complejo);
+            if (errors.Any())
+                return BadRequest(string.Join("; ", errors));
 
             await _complejoService.UpdateAsync(complejo);
             return Ok("Complejo actualizado correctamente.");

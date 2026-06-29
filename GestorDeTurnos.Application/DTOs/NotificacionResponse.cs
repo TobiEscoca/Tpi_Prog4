@@ -1,4 +1,6 @@
-public class NotificacionResponseDTO
+namespace GestorDeTurnos.Application.DTOs
+{
+    public class NotificacionResponseDTO
 {
     public int IdNotificacion { get; set; }
     public int IdTurno { get; set; }
@@ -7,4 +9,5 @@ public class NotificacionResponseDTO
     public string Destinatario { get; set; } = string.Empty;
     public bool Enviado { get; set; }
     public DateTime? FechaEnvio { get; set; }
+    }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using GestorDeTurnos.Domain.Enums;
+﻿using GestorDeTurnos.Domain.Enums;
 
 namespace GestorDeTurnos.Domain.Entities
 {

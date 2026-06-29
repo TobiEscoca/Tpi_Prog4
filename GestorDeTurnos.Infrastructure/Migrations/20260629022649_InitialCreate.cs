@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GestorDeTurnos.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAllEntities : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -112,7 +112,7 @@ namespace GestorDeTurnos.Infrastructure.Migrations
                     IdNotificacion = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     IdTurno = table.Column<int>(type: "INTEGER", nullable: false),
-                    Tipo = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Mensaje = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
                     Destinatario = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
                     FechaEnvio = table.Column<DateTime>(type: "TEXT", nullable: true),
                     Enviado = table.Column<bool>(type: "INTEGER", nullable: false)

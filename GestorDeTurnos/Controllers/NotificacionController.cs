@@ -1,4 +1,6 @@
 ﻿using System.Security.Claims;
+using GestorDeTurnos.Application.DTOs;
+using GestorDeTurnos.Application.Mappings;
 using GestorDeTurnos.Application.Services;
 using GestorDeTurnos.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -22,15 +24,7 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> GetAll()
         {
             var notificaciones = await _notificacionService.GetAllAsync();
-            return Ok(notificaciones.Select(n => new NotificacionResponseDTO
-            {
-                IdNotificacion = n.IdNotificacion,
-                IdTurno = n.IdTurno,
-                Mensaje = n.Mensaje,
-                Destinatario = n.Destinatario,
-                FechaEnvio = n.FechaEnvio,
-                Enviado = n.Enviado
-            }));
+            return Ok(notificaciones.Select(n => n.ToDto()));
         }
 
         [HttpGet("BuscarNotificacionPorId/{id}")]
@@ -38,34 +32,18 @@ namespace GestorDeTurnos.Controllers
         {
             var notificacion = await _notificacionService.GetByIdAsync(id);
             if (notificacion == null) return NotFound();
-            return Ok(new NotificacionResponseDTO
-            {
-                IdNotificacion = notificacion.IdNotificacion,
-                IdTurno = notificacion.IdTurno,
-                Mensaje = notificacion.Mensaje,
-                Destinatario = notificacion.Destinatario,
-                FechaEnvio = notificacion.FechaEnvio,
-                Enviado = notificacion.Enviado
-            });
+            return Ok(notificacion.ToDto());
         }
 
         [HttpGet("BuscarNotificacionesPorTurno/{idTurno}")]
         public async Task<IActionResult> GetByTurno(int idTurno)
         {
             var notificaciones = await _notificacionService.GetByTurnoAsync(idTurno);
-            return Ok(notificaciones.Select(n => new NotificacionResponseDTO
-            {
-                IdNotificacion = n.IdNotificacion,
-                IdTurno = n.IdTurno,
-                Mensaje = n.Mensaje,
-                Destinatario = n.Destinatario,
-                FechaEnvio = n.FechaEnvio,
-                Enviado = n.Enviado
-            }));
+            return Ok(notificaciones.Select(n => n.ToDto()));
         }
 
         [HttpPost("CrearNotificacion")]
-        public async Task<IActionResult> Add(Notificacion notificacion)
+        public async Task<IActionResult> Add([FromBody] Notificacion notificacion)
         {
             await _notificacionService.AddAsync(notificacion);
             return CreatedAtAction(nameof(GetById), new { id = notificacion.IdNotificacion }, notificacion);
@@ -85,15 +63,7 @@ namespace GestorDeTurnos.Controllers
         {
             var idCliente = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             var notificaciones = await _notificacionService.GetByClienteAsync(idCliente);
-            return Ok(notificaciones.Select(n => new NotificacionResponseDTO
-            {
-                IdNotificacion = n.IdNotificacion,
-                IdTurno = n.IdTurno,
-                Mensaje = n.Mensaje,
-                Destinatario = n.Destinatario,
-                FechaEnvio = n.FechaEnvio,
-                Enviado = n.Enviado
-            }));
+            return Ok(notificaciones.Select(n => n.ToDto()));
         }
     }
 }

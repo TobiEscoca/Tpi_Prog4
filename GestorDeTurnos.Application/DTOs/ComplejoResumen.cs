@@ -1,4 +1,6 @@
-public class ComplejoResumenDTO
+namespace GestorDeTurnos.Application.DTOs
+{
+    public class ComplejoResumenDTO
 {
     public int IdComplejo { get; set; }
     public int IdDueno { get; set; }
@@ -7,4 +9,5 @@ public class ComplejoResumenDTO
     public string? Telefono { get; set; }
     public string? Email { get; set; }
     public bool Activo { get; set; }
+    }
 }

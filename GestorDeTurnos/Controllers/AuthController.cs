@@ -4,10 +4,6 @@ using GestorDeTurnos.Domain.Entities;
 using GestorDeTurnos.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace GestorDeTurnos.Controllers
 {
@@ -16,12 +12,12 @@ namespace GestorDeTurnos.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUsuarioRepository _usuarioRepository;
-        private readonly IConfiguration _configuration;
+        private readonly IJwtService _jwtService;
 
-        public AuthController(IUsuarioRepository usuarioRepository, IConfiguration configuration)
+        public AuthController(IUsuarioRepository usuarioRepository, IJwtService jwtService)
         {
             _usuarioRepository = usuarioRepository;
-            _configuration = configuration;
+            _jwtService = jwtService;
         }
 
         [HttpPost("register")]
@@ -57,32 +53,8 @@ namespace GestorDeTurnos.Controllers
             if (!usuario.Activo)
                 return Unauthorized("El usuario está desactivado.");
 
-            var token = GenerarToken(usuario);
+            var token = _jwtService.GenerateToken(usuario);
             return Ok(new { token });
-        }
-
-        private string GenerarToken(Usuario usuario)
-        {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()),
-                new Claim(ClaimTypes.Email, usuario.Email),
-                new Claim(ClaimTypes.Name, usuario.Nombre),
-                new Claim(ClaimTypes.Role, usuario.Rol.ToString())
-            };
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.UtcNow.AddHours(Convert.ToDouble(_configuration["Jwt:ExpirationHours"])),
-                signingCredentials: creds
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

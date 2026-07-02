@@ -8,14 +8,11 @@
     ".NETCoreApp,Version=v10.0": {
       "GestorDeTurnos/1.0.0": {
         "dependencies": {
-          "BCrypt.Net-Next": "4.2.0",
           "GestorDeTurnos.Application": "1.0.0",
           "GestorDeTurnos.Infrastructure": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "10.0.9",
           "Microsoft.EntityFrameworkCore.Design": "10.0.9",
-          "Microsoft.IdentityModel.Tokens": "8.19.1",
-          "Swashbuckle.AspNetCore": "6.9.0",
-          "System.IdentityModel.Tokens.Jwt": "8.19.1"
+          "Swashbuckle.AspNetCore": "6.9.0"
         },
         "runtime": {
           "GestorDeTurnos.dll": {}
@@ -825,7 +822,9 @@
       },
       "GestorDeTurnos.Application/1.0.0": {
         "dependencies": {
-          "GestorDeTurnos.Domain": "1.0.0"
+          "GestorDeTurnos.Domain": "1.0.0",
+          "Microsoft.IdentityModel.Tokens": "8.19.1",
+          "System.IdentityModel.Tokens.Jwt": "8.19.1"
         },
         "runtime": {
           "GestorDeTurnos.Application.dll": {
@@ -844,10 +843,13 @@
       },
       "GestorDeTurnos.Infrastructure/1.0.0": {
         "dependencies": {
+          "BCrypt.Net-Next": "4.2.0",
           "GestorDeTurnos.Application": "1.0.0",
           "Microsoft.EntityFrameworkCore": "10.0.9",
           "Microsoft.EntityFrameworkCore.Sqlite": "10.0.9",
-          "SQLitePCLRaw.lib.e_sqlite3": "3.50.3"
+          "Microsoft.IdentityModel.Tokens": "8.19.1",
+          "SQLitePCLRaw.lib.e_sqlite3": "3.50.3",
+          "System.IdentityModel.Tokens.Jwt": "8.19.1"
         },
         "runtime": {
           "GestorDeTurnos.Infrastructure.dll": {

@@ -1,40 +1,33 @@
 {
   "format": 1,
   "restore": {
-    "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos\\GestorDeTurnos.csproj": {}
+    "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos/GestorDeTurnos.csproj": {}
   },
   "projects": {
-    "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Application\\GestorDeTurnos.Application.csproj": {
+    "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Application/GestorDeTurnos.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Application\\GestorDeTurnos.Application.csproj",
+        "projectUniqueName": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Application/GestorDeTurnos.Application.csproj",
         "projectName": "GestorDeTurnos.Application",
-        "projectPath": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Application\\GestorDeTurnos.Application.csproj",
-        "packagesPath": "C:\\Users\\Martin\\.nuget\\packages\\",
-        "outputPath": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Application\\obj\\",
+        "projectPath": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Application/GestorDeTurnos.Application.csproj",
+        "packagesPath": "/home/toby/.nuget/packages/",
+        "outputPath": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Application/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Martin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/toby/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
-            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Domain\\GestorDeTurnos.Domain.csproj": {
-                "projectPath": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Domain\\GestorDeTurnos.Domain.csproj"
+              "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Domain/GestorDeTurnos.Domain.csproj": {
+                "projectPath": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Domain/GestorDeTurnos.Domain.csproj"
               }
             }
           }
@@ -49,16 +42,23 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Microsoft.Extensions.Configuration.Abstractions": {
               "target": "Package",
               "version": "[10.0.9, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[8.19.1, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.19.1, )"
             }
           },
           "imports": [
@@ -77,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.109/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -355,33 +355,26 @@
         }
       }
     },
-    "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Domain\\GestorDeTurnos.Domain.csproj": {
+    "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Domain/GestorDeTurnos.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Domain\\GestorDeTurnos.Domain.csproj",
+        "projectUniqueName": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Domain/GestorDeTurnos.Domain.csproj",
         "projectName": "GestorDeTurnos.Domain",
-        "projectPath": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Domain\\GestorDeTurnos.Domain.csproj",
-        "packagesPath": "C:\\Users\\Martin\\.nuget\\packages\\",
-        "outputPath": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Domain\\obj\\",
+        "projectPath": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Domain/GestorDeTurnos.Domain.csproj",
+        "packagesPath": "/home/toby/.nuget/packages/",
+        "outputPath": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Domain/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Martin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/toby/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
-            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -396,11 +389,10 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "imports": [
             "net461",
@@ -418,7 +410,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.109/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -696,37 +688,30 @@
         }
       }
     },
-    "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Infrastructure\\GestorDeTurnos.Infrastructure.csproj": {
+    "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Infrastructure/GestorDeTurnos.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Infrastructure\\GestorDeTurnos.Infrastructure.csproj",
+        "projectUniqueName": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Infrastructure/GestorDeTurnos.Infrastructure.csproj",
         "projectName": "GestorDeTurnos.Infrastructure",
-        "projectPath": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Infrastructure\\GestorDeTurnos.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Martin\\.nuget\\packages\\",
-        "outputPath": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Infrastructure\\obj\\",
+        "projectPath": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Infrastructure/GestorDeTurnos.Infrastructure.csproj",
+        "packagesPath": "/home/toby/.nuget/packages/",
+        "outputPath": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Infrastructure/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Martin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/toby/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
-            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Application\\GestorDeTurnos.Application.csproj": {
-                "projectPath": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Application\\GestorDeTurnos.Application.csproj"
+              "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Application/GestorDeTurnos.Application.csproj": {
+                "projectPath": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Application/GestorDeTurnos.Application.csproj"
               }
             }
           }
@@ -741,13 +726,16 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.2.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[10.0.9, )"
@@ -762,9 +750,17 @@
               "target": "Package",
               "version": "[10.0.9, )"
             },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[8.19.1, )"
+            },
             "SQLitePCLRaw.lib.e_sqlite3": {
               "target": "Package",
               "version": "[3.50.3, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.19.1, )"
             }
           },
           "imports": [
@@ -783,7 +779,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.109/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -1061,40 +1057,33 @@
         }
       }
     },
-    "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos\\GestorDeTurnos.csproj": {
+    "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos/GestorDeTurnos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos\\GestorDeTurnos.csproj",
+        "projectUniqueName": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos/GestorDeTurnos.csproj",
         "projectName": "GestorDeTurnos",
-        "projectPath": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos\\GestorDeTurnos.csproj",
-        "packagesPath": "C:\\Users\\Martin\\.nuget\\packages\\",
-        "outputPath": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos\\obj\\",
+        "projectPath": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos/GestorDeTurnos.csproj",
+        "packagesPath": "/home/toby/.nuget/packages/",
+        "outputPath": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Martin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/toby/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
-            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Application\\GestorDeTurnos.Application.csproj": {
-                "projectPath": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Application\\GestorDeTurnos.Application.csproj"
+              "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Application/GestorDeTurnos.Application.csproj": {
+                "projectPath": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Application/GestorDeTurnos.Application.csproj"
               },
-              "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Infrastructure\\GestorDeTurnos.Infrastructure.csproj": {
-                "projectPath": "C:\\ProyectosP4\\Tpi_Prog4\\GestorDeTurnos.Infrastructure\\GestorDeTurnos.Infrastructure.csproj"
+              "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Infrastructure/GestorDeTurnos.Infrastructure.csproj": {
+                "projectPath": "/home/toby/Documentos/Facu/FACULTAD 2026/PROG 4/Tpi_Prog4_main/Tpi_Prog4/GestorDeTurnos.Infrastructure/GestorDeTurnos.Infrastructure.csproj"
               }
             }
           }
@@ -1109,17 +1098,12 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
-            "BCrypt.Net-Next": {
-              "target": "Package",
-              "version": "[4.2.0, )"
-            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[10.0.9, )"
@@ -1130,17 +1114,9 @@
               "target": "Package",
               "version": "[10.0.9, )"
             },
-            "Microsoft.IdentityModel.Tokens": {
-              "target": "Package",
-              "version": "[8.19.1, )"
-            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.9.0, )"
-            },
-            "System.IdentityModel.Tokens.Jwt": {
-              "target": "Package",
-              "version": "[8.19.1, )"
             }
           },
           "imports": [
@@ -1162,7 +1138,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.109/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

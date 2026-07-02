@@ -34,6 +34,7 @@ builder.Services.AddScoped<ComplejoService>();
 builder.Services.AddScoped<CanchaService>();
 builder.Services.AddScoped<TurnoService>();
 builder.Services.AddScoped<NotificacionService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 // JWT
 var jwtKey = builder.Configuration["Jwt:Key"];

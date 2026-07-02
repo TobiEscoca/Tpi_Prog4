@@ -47,7 +47,27 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var usuario = await _usuarioRepository.GetByEmailAsync(request.Email);
-            if (usuario == null || !BCrypt.Net.BCrypt.Verify(request.Password, usuario.PasswordHash))
+
+            // 1. Primero validamos si el email existe
+            if (usuario == null)
+                return Unauthorized("Email o contraseña incorrectos.");
+
+            // =======================================================================
+            // 2. BYPASS TEMPORAL PARA EL ADMIN EN AZURE 
+            // Si coincide el mail y la clave en texto plano, entra directo sin usar BCrypt
+            // =======================================================================
+            if (usuario.Email == "admin@futbol5.com" && request.Password == "Admin123")
+            {
+                if (!usuario.Activo)
+                    return Unauthorized("El usuario está desactivado.");
+
+                var tokenAdmin = _jwtService.GenerateToken(usuario);
+                return Ok(new { token = tokenAdmin });
+            }
+            // =======================================================================
+
+            // 3. Validación normal con BCrypt para el resto de los mortales
+            if (!BCrypt.Net.BCrypt.Verify(request.Password, usuario.PasswordHash))
                 return Unauthorized("Email o contraseña incorrectos.");
 
             if (!usuario.Activo)

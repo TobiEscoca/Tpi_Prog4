@@ -93,6 +93,16 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddHttpClient<IWeatherService, WeatherService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") // puerto de Vite
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Habilitamos Swagger para TODOS los entornos (tanto Local como Azure)
@@ -105,6 +115,7 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = string.Empty;
 });
 
+app.UseCors("AllowReactApp");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

@@ -58,3 +58,15 @@ C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.
 C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\refint\GestorDeTurnos.Domain.dll
 C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.Domain.pdb
 C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\ref\GestorDeTurnos.Domain.dll
+C:\Users\Tobias Escoca\Documents\proyectos\Tpi_Prog4\GestorDeTurnos.Domain\bin\Debug\net10.0\GestorDeTurnos.Domain.deps.json
+C:\Users\Tobias Escoca\Documents\proyectos\Tpi_Prog4\GestorDeTurnos.Domain\bin\Debug\net10.0\GestorDeTurnos.Domain.dll
+C:\Users\Tobias Escoca\Documents\proyectos\Tpi_Prog4\GestorDeTurnos.Domain\bin\Debug\net10.0\GestorDeTurnos.Domain.pdb
+C:\Users\Tobias Escoca\Documents\proyectos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Tobias Escoca\Documents\proyectos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.Domain.AssemblyInfoInputs.cache
+C:\Users\Tobias Escoca\Documents\proyectos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.Domain.AssemblyInfo.cs
+C:\Users\Tobias Escoca\Documents\proyectos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Tobias Escoca\Documents\proyectos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.Domain.sourcelink.json
+C:\Users\Tobias Escoca\Documents\proyectos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.Domain.dll
+C:\Users\Tobias Escoca\Documents\proyectos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\refint\GestorDeTurnos.Domain.dll
+C:\Users\Tobias Escoca\Documents\proyectos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\GestorDeTurnos.Domain.pdb
+C:\Users\Tobias Escoca\Documents\proyectos\Tpi_Prog4\GestorDeTurnos.Domain\obj\Debug\net10.0\ref\GestorDeTurnos.Domain.dll

@@ -507,7 +507,6 @@ C:/ProyectosP4/Tpi_Prog4/GestorDeTurnos/obj/Debug/net10.0/staticwebassets.build.
 C:/ProyectosP4/Tpi_Prog4/GestorDeTurnos/obj/Debug/net10.0/staticwebassets.development.json
 C:/ProyectosP4/Tpi_Prog4/GestorDeTurnos/obj/Debug/net10.0/staticwebassets.build.endpoints.json
 C:/ProyectosP4/Tpi_Prog4/GestorDeTurnos/obj/Debug/net10.0/swae.build.ex.cache
-C:/ProyectosP4/Tpi_Prog4/GestorDeTurnos/obj/Debug/net10.0/staticwebassets.upToDateCheck.txt
 C:/ProyectosP4/Tpi_Prog4/GestorDeTurnos/obj/Debug/net10.0/GestorDe.6B1741FB.Up2Date
 C:/ProyectosP4/Tpi_Prog4/GestorDeTurnos/obj/Debug/net10.0/GestorDeTurnos.dll
 C:/ProyectosP4/Tpi_Prog4/GestorDeTurnos/obj/Debug/net10.0/refint/GestorDeTurnos.dll
@@ -854,7 +853,6 @@ C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos\obj\Debug\net10.0\staticwebassets.build.
 C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos\obj\Debug\net10.0\staticwebassets.development.json
 C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos\obj\Debug\net10.0\staticwebassets.build.endpoints.json
 C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos\obj\Debug\net10.0\swae.build.ex.cache
-C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos\obj\Debug\net10.0\GestorDe.6B1741FB.Up2Date
 C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos\obj\Debug\net10.0\GestorDeTurnos.dll
 C:\ProyectosP4\Tpi_Prog4\GestorDeTurnos\obj\Debug\net10.0\refint\GestorDeTurnos.dll

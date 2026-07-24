@@ -1,2 +1,51 @@
 @import "tailwindcss";
 
+@layer base {
+    * {
+        @apply box-border m-0 p-0;
+    }
+
+    body {
+        @apply font-sans bg-gray-100 text-gray-800;
+    }
+
+    .navlink {
+        @apply text-sm text-gray-700 hover:text-black transition-all duration-300;
+    }
+
+    .button-authr {
+        @apply text-sm font-medium text-white bg-green-700 hover:bg-green-900 rounded-full px-4 py-2 transition-colors duration-200;
+    }
+
+    .button-authl {
+        @apply text-sm font-medium text-black bg-green-200 hover:bg-green-300 rounded-full px-4 py-2 transition-colors duration-200; 
+  }
+}
+
+@layer base {
+  /* --- Barra de búsqueda --- */
+  .search-bar {
+    @apply flex items-center gap-2 bg-white rounded-full pl-5 pr-2 py-2
+           shadow-md shadow-black/10 w-full max-w-xl mx-auto;
+    transition: box-shadow 200ms ease, transform 200ms ease;
+  }
+ 
+  .search-bar:focus-within {
+    @apply shadow-lg shadow-black/20;
+    transform: scale(1.01);
+  }
+ 
+  .search-icon {
+    @apply w-5 h-5 text-gray-400 shrink-0;
+  }
+ 
+  .search-input {
+    @apply flex-1 outline-none text-sm text-gray-800 placeholder:text-gray-400 bg-transparent;
+  }
+ 
+  .search-submit {
+    @apply text-sm font-medium text-white bg-green-700 hover:bg-green-900
+           rounded-full px-4 py-2 transition-colors duration-200 cursor-pointer;
+  }
+}
+ 

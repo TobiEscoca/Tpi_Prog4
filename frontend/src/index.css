@@ -1,51 +1,226 @@
 @import "tailwindcss";
 
-@layer base {
-    * {
-        @apply box-border m-0 p-0;
-    }
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
 
-    body {
-        @apply font-sans bg-gray-100 text-gray-800;
-    }
+/* ── Keyframes ────────────────────────────────────────────── */
 
-    .navlink {
-        @apply text-sm text-gray-700 hover:text-black transition-all duration-300;
-    }
-
-    .button-authr {
-        @apply text-sm font-medium text-white bg-green-700 hover:bg-green-900 rounded-full px-4 py-2 transition-colors duration-200;
-    }
-
-    .button-authl {
-        @apply text-sm font-medium text-black bg-green-200 hover:bg-green-300 rounded-full px-4 py-2 transition-colors duration-200; 
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+
 @layer base {
-  /* --- Barra de búsqueda --- */
+  * {
+    @apply box-border m-0 p-0;
+  }
+
+  body {
+    @apply font-sans bg-gray-100 text-gray-800 antialiased;
+  }
+
+  /* ── Navlinks con underline animado ── */
+  .navlink {
+    @apply relative text-sm text-gray-700 transition-colors duration-300;
+  }
+
+  .navlink::after {
+    content: '';
+    @apply absolute left-0 -bottom-1 h-0.5 w-0 bg-green-600 rounded-full;
+    transition: width 300ms ease;
+  }
+
+  .navlink:hover {
+    @apply text-green-700;
+  }
+
+  .navlink:hover::after {
+    width: 100%;
+  }
+
+  /* ── Botones auth mejorados ── */
+  .button-authr {
+    @apply text-sm font-medium text-white bg-green-700 rounded-full px-4 py-2
+           shadow-sm shadow-green-700/20 cursor-pointer;
+    transition: background-color 200ms ease, transform 150ms ease, box-shadow 200ms ease;
+  }
+
+  .button-authr:hover {
+    @apply bg-green-800 shadow-md shadow-green-700/30;
+    transform: scale(1.05);
+  }
+
+  .button-authr:active {
+    transform: scale(0.95);
+  }
+
+  .button-authl {
+    @apply text-sm font-medium text-green-800 bg-green-200 rounded-full px-4 py-2
+           cursor-pointer;
+    transition: background-color 200ms ease, transform 150ms ease;
+  }
+
+  .button-authl:hover {
+    @apply bg-green-300;
+    transform: scale(1.05);
+  }
+
+  .button-authl:active {
+    transform: scale(0.95);
+  }
+}
+
+/* ── Search bar ───────────────────────────────────────────── */
+
+@layer base {
   .search-bar {
     @apply flex items-center gap-2 bg-white rounded-full pl-5 pr-2 py-2
-           shadow-md shadow-black/10 w-full max-w-xl mx-auto;
-    transition: box-shadow 200ms ease, transform 200ms ease;
+           shadow-lg shadow-black/10 w-full max-w-xl mx-auto;
+    transition: box-shadow 250ms ease, transform 250ms ease;
   }
- 
+
   .search-bar:focus-within {
-    @apply shadow-lg shadow-black/20;
-    transform: scale(1.01);
+    @apply shadow-xl shadow-green-600/15;
+    transform: scale(1.02);
   }
- 
+
   .search-icon {
     @apply w-5 h-5 text-gray-400 shrink-0;
+    transition: transform 300ms ease, color 300ms ease;
   }
- 
+
+  .search-bar:focus-within .search-icon {
+    @apply text-green-600;
+    transform: rotate(-12deg) scale(1.1);
+  }
+
   .search-input {
     @apply flex-1 outline-none text-sm text-gray-800 placeholder:text-gray-400 bg-transparent;
   }
- 
+
   .search-submit {
-    @apply text-sm font-medium text-white bg-green-700 hover:bg-green-900
-           rounded-full px-4 py-2 transition-colors duration-200 cursor-pointer;
+    @apply text-sm font-medium text-white bg-green-700 rounded-full px-5 py-2
+           cursor-pointer shadow-sm shadow-green-700/20;
+    transition: background-color 200ms ease, transform 150ms ease, box-shadow 200ms ease;
+  }
+
+  .search-submit:hover {
+    @apply bg-green-800 shadow-md shadow-green-700/30;
+    transform: scale(1.05);
+  }
+
+  .search-submit:active {
+    transform: scale(0.95);
   }
 }
- 
+
+/* ── Animaciones de utilidad ──────────────────────────────── */
+
+@layer utilities {
+  .animate-fade-in-up {
+    animation: fade-in-up 500ms ease-out both;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 400ms ease-out both;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 400ms ease-out both;
+  }
+
+  /* Delay utilities */
+  .animation-delay-100 { animation-delay: 100ms; }
+  .animation-delay-200 { animation-delay: 200ms; }
+  .animation-delay-300 { animation-delay: 300ms; }
+  .animation-delay-400 { animation-delay: 400ms; }
+  .animation-delay-500 { animation-delay: 500ms; }
+}
+
+/* ── Input field reutilizable ─────────────────────────────── */
+
+.input-field {
+  @apply w-full border border-gray-300 rounded-lg px-3 py-2.5 text-gray-800
+         bg-white/80 backdrop-blur-sm;
+  transition: border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
+}
+
+.input-field:focus {
+  @apply border-green-500 ring-2 ring-green-500/20 outline-none;
+}
+
+.input-field:disabled {
+  @apply bg-gray-50 text-gray-400 cursor-not-allowed;
+}
+
+/* ── Botón primario de formulario ─────────────────────────── */
+
+.btn-primary {
+  @apply w-full text-white rounded-lg py-2.5 font-semibold
+         cursor-pointer shadow-md shadow-green-600/20
+         flex items-center justify-center gap-2;
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  transition: transform 150ms ease, box-shadow 200ms ease, opacity 200ms ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #15803d, #166534);
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-primary:disabled {
+  @apply opacity-60 cursor-not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── Card reutilizable ────────────────────────────────────── */
+
+.card {
+  @apply bg-white rounded-2xl p-6 border border-gray-100;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  @apply shadow-xl shadow-green-600/5;
+}

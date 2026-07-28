@@ -3,6 +3,7 @@ using System;
 using GestorDeTurnos.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestorDeTurnos.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260727191259_AddUrlImagenACancha")]
+    partial class AddUrlImagenACancha
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.9");
@@ -188,6 +191,18 @@ namespace GestorDeTurnos.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Usuarios");
+
+                    b.HasData(
+                        new
+                        {
+                            IdUsuario = 99,
+                            Activo = true,
+                            Email = "admin@futbol5.com",
+                            FechaRegistro = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Nombre = "Admin Inicial",
+                            PasswordHash = "$2a$11$e876b6R6zH6H6vK6zH6H6e9Z4O6vK6zH6H6vK6zH6H6vK6zH6H6vK",
+                            Rol = "AdministradorGeneral"
+                        });
                 });
 
             modelBuilder.Entity("GestorDeTurnos.Domain.Entities.Cancha", b =>

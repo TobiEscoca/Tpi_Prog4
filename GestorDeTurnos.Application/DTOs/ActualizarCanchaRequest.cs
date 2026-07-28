@@ -6,9 +6,10 @@ namespace GestorDeTurnos.Application.DTOs
     {
         public string? Nombre { get; set; }
         public decimal? PrecioHora { get; set; }
+        public string? UrlImagen { get; set; }
         public bool? Activo { get; set; }
 
-        public bool HasChanges => Nombre != null || PrecioHora.HasValue || Activo.HasValue;
+        public bool HasChanges => Nombre != null || PrecioHora.HasValue || UrlImagen != null || Activo.HasValue;
 
         public List<string> ApplyTo(Cancha cancha)
         {
@@ -29,6 +30,9 @@ namespace GestorDeTurnos.Application.DTOs
                 else
                     cancha.PrecioHora = PrecioHora.Value;
             }
+
+            if (UrlImagen != null)
+                cancha.UrlImagen = UrlImagen.Trim();
 
             if (Activo.HasValue)
                 cancha.Activo = Activo.Value;

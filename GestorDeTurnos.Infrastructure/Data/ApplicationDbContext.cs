@@ -50,6 +50,7 @@ namespace GestorDeTurnos.Infrastructure.Data
                 entity.HasKey(c => c.IdCancha);
                 entity.Property(c => c.Nombre).IsRequired().HasMaxLength(100);
                 entity.Property(c => c.PrecioHora).HasColumnType("decimal(10,2)");
+                entity.Property(c => c.UrlImagen).HasMaxLength(500);
                 entity.HasOne(c => c.Complejo)
                       .WithMany(co => co.Canchas)
                       .HasForeignKey(c => c.IdComplejo)
@@ -82,20 +83,6 @@ namespace GestorDeTurnos.Infrastructure.Data
                       .WithMany(t => t.Notificaciones)
                       .HasForeignKey(n => n.IdTurno)
                       .OnDelete(DeleteBehavior.Restrict);
-            });
-
-            // ==========================================
-            // SEEDING DATA: Usuario Administrador Inicial
-            // ==========================================
-            modelBuilder.Entity<Usuario>().HasData(new Usuario
-            {
-                IdUsuario = 99, // ID fijo obligatorio para el Seed
-                Nombre = "Admin Inicial",
-                Email = "admin@futbol5.com",
-                // Hasheamos la contraseña "Admin123" 
-                PasswordHash = "$2a$11$e876b6R6zH6H6vK6zH6H6e9Z4O6vK6zH6H6vK6zH6H6vK6zH6H6vK",                Rol = RolUsuario.AdministradorGeneral, // Asegurate de que se llame así en tu enum
-                Activo = true,
-                FechaRegistro = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             });
         }
     }

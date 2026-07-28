@@ -7,6 +7,7 @@ namespace GestorDeTurnos.Application.DTOs
     public string NombreComplejo { get; set; } = string.Empty;
     public string Nombre { get; set; } = string.Empty;
     public decimal PrecioHora { get; set; }
+    public string? UrlImagen { get; set; }
     public bool Activo { get; set; }
     public List<TurnoResponseDTO> Turnos { get; set; } = new();
     }

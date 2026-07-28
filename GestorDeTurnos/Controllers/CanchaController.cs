@@ -30,6 +30,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpGet("BuscarCanchaPorId/{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(int id)
         {
             var cancha = await _canchaService.GetByIdAsync(id);
@@ -78,6 +79,7 @@ namespace GestorDeTurnos.Controllers
                 IdComplejo = request.IdComplejo,
                 Nombre = request.Nombre.Trim(),
                 PrecioHora = request.PrecioHora,
+                UrlImagen = request.UrlImagen?.Trim(),
                 Activo = true,
                 Complejo = complejo
             };

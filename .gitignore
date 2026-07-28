@@ -24,3 +24,6 @@
 **/dist/
 .env
 .env.local
+
+# Configuración de desarrollo (contiene secrets)
+**/appsettings.Development.json

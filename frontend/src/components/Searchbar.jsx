@@ -1,13 +1,5 @@
 import React, { useState } from 'react'
 
-/**
- * Barra de búsqueda reutilizable.
- *
- * Props:
- * - placeholder: texto del input (default: "Buscar canchas o complejos...")
- * - onSearch: función que recibe el texto ingresado al buscar (Enter o click en la lupa)
- * - onChange: opcional, si querés reaccionar a cada tecla (ej: búsqueda en vivo)
- */
 function SearchBar({ placeholder = 'Buscar canchas o complejos...', onSearch, onChange }) {
   const [query, setQuery] = useState('')
 

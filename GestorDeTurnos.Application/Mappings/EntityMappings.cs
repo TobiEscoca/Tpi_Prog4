@@ -47,6 +47,7 @@ namespace GestorDeTurnos.Application.Mappings
             NombreComplejo = c.Complejo?.Nombre ?? string.Empty,
             Nombre = c.Nombre,
             PrecioHora = c.PrecioHora,
+            UrlImagen = c.UrlImagen,
             Activo = c.Activo,
             Turnos = c.Turnos?.Select(t => t.ToDto()).ToList() ?? []
         };
@@ -57,6 +58,7 @@ namespace GestorDeTurnos.Application.Mappings
             IdComplejo = c.IdComplejo,
             Nombre = c.Nombre,
             PrecioHora = c.PrecioHora,
+            UrlImagen = c.UrlImagen,
             Activo = c.Activo
         };
 

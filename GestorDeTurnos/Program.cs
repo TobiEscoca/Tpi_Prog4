@@ -142,5 +142,26 @@ using (var scope = app.Services.CreateScope())
         db.Database.Migrate();
     }
 }
+// ==========================================
+// SEED — Admin por única vez
+// ==========================================
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    if (!db.Usuarios.Any(u => u.Rol == GestorDeTurnos.Domain.Enums.RolUsuario.AdministradorGeneral))
+    {
+        db.Usuarios.Add(new GestorDeTurnos.Domain.Entities.Usuario
+        {
+            Nombre = "Admin",
+            Email = "admin@gmail.com",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin123"),
+            Rol = GestorDeTurnos.Domain.Enums.RolUsuario.AdministradorGeneral,
+            Activo = true,
+            FechaRegistro = DateTime.UtcNow
+        });
+        db.SaveChanges();
+    }
+}
 
 app.Run();

@@ -2,6 +2,7 @@ using GestorDeTurnos.Application.Interfaces;
 using GestorDeTurnos.Application.Services;
 using GestorDeTurnos.Infrastructure.Data;
 using GestorDeTurnos.Infrastructure.Repositories;
+using GestorDeTurnos.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -35,6 +36,9 @@ builder.Services.AddScoped<CanchaService>();
 builder.Services.AddScoped<TurnoService>();
 builder.Services.AddScoped<NotificacionService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
+
+// Background service para expiración y renovación de turnos
+builder.Services.AddHostedService<TurnoExpirationService>();
 
 // JWT
 var jwtKey = builder.Configuration["Jwt:Key"];

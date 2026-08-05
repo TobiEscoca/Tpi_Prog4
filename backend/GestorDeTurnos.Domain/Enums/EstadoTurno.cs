@@ -4,6 +4,7 @@
     {
         Pendiente,
         Confirmado,
-        Cancelado
+        Cancelado,
+        Expirado
     }
 }

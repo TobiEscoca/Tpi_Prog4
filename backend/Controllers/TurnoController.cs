@@ -95,6 +95,15 @@ namespace GestorDeTurnos.Controllers
             if (!TimeSpan.TryParseExact(request.HoraFin.Trim(), "hh\\:mm", CultureInfo.InvariantCulture, out var horaFin))
                 return BadRequest("El horario de fin debe tener el formato 00:00.");
 
+            if (horaInicio < TimeSpan.FromHours(9))
+                return BadRequest("El horario de inicio no puede ser anterior a las 09:00.");
+
+            if (horaFin > TimeSpan.FromHours(23))
+                return BadRequest("El horario de fin no puede ser posterior a las 23:00.");
+
+            if (horaFin - horaInicio > TimeSpan.FromHours(1))
+                return BadRequest("El turno no puede durar más de 1 hora.");
+
             var turno = new Turno
             {
                 IdCancha = request.IdCancha,

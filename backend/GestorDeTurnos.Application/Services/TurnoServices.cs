@@ -40,6 +40,15 @@ namespace GestorDeTurnos.Application.Services
             if (turno.FechaHoraFin <= turno.FechaHoraInicio)
                 throw new InvalidOperationException("La fecha de fin debe ser posterior a la fecha de inicio.");
 
+            if (turno.FechaHoraInicio.TimeOfDay < TimeSpan.FromHours(9))
+                throw new InvalidOperationException("El horario de inicio no puede ser anterior a las 09:00.");
+
+            if (turno.FechaHoraFin.TimeOfDay > TimeSpan.FromHours(23))
+                throw new InvalidOperationException("El horario de fin no puede ser posterior a las 23:00.");
+
+            if (turno.FechaHoraFin - turno.FechaHoraInicio > TimeSpan.FromHours(1))
+                throw new InvalidOperationException("El turno no puede durar más de 1 hora.");
+
             var cancha = await _canchaRepository.GetByIdAsync(turno.IdCancha);
             if (cancha == null)
                 throw new KeyNotFoundException("Cancha no encontrada.");
@@ -53,7 +62,7 @@ namespace GestorDeTurnos.Application.Services
             if (solapado)
                 throw new InvalidOperationException("Ya existe un turno en ese horario para esta cancha.");
 
-            turno.Estado = EstadoTurno.Pendiente;
+            turno.Estado = turno.FechaHoraInicio <= DateTime.Now ? EstadoTurno.Expirado : EstadoTurno.Pendiente;
             turno.IdCliente = null;
             turno.Cancha = cancha;
             cancha.Turnos.Add(turno);
@@ -70,6 +79,9 @@ namespace GestorDeTurnos.Application.Services
                 throw new InvalidOperationException("Solo se pueden confirmar turnos en estado Pendiente.");
             if (turno.IdCliente != null && turno.IdCliente != idCliente)
                 throw new InvalidOperationException("Este turno ya fue reservado por otro cliente.");
+
+            if (turno.FechaHoraInicio <= DateTime.Now)
+                throw new InvalidOperationException("El horario del turno ya pasó. Vas a poder reservar este turno nuevamente a partir de las 00:00 del día siguiente.");
 
             var cliente = await _usuarioRepository.GetByIdAsync(idCliente);
             if (cliente == null)

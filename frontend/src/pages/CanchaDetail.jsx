@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { api } from '../api/api'
 import Navbar from '../components/Navbar'
@@ -13,16 +13,13 @@ const SLOTS = Array.from({ length: 14 }, (_, i) => {
   }
 })
 
-function slotKey(hora) {
-  return hora
-}
-
 function CanchaDetail() {
   const { id } = useParams()
   const [cancha, setCancha] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [reservando, setReservando] = useState(null)
+  const [toast, setToast] = useState(null)
 
   useEffect(() => {
     api.get(`/api/Cancha/BuscarCanchaPorId/${id}`)
@@ -31,11 +28,16 @@ function CanchaDetail() {
       .finally(() => setLoading(false))
   }, [id])
 
+  const mostrarToast = useCallback((mensaje, tipo) => {
+    setToast({ mensaje, tipo })
+    setTimeout(() => setToast(null), 4000)
+  }, [])
+
   function getTurnoForSlot(slot) {
     if (!cancha?.turnos) return null
     return cancha.turnos.find((t) => {
       const inicio = new Date(t.fechaHoraInicio)
-      return `${String(inicio.getHours()).padStart(2, '0')}:${String(inicio.getMinutes()).padStart(2, '0')}` === slotKey(slot.inicio)
+      return `${String(inicio.getHours()).padStart(2, '0')}:${String(inicio.getMinutes()).padStart(2, '0')}` === `${slot.inicio}`
     })
   }
 
@@ -45,8 +47,9 @@ function CanchaDetail() {
       await api.put(`/api/Turno/ConfirmarTurno/${turno.idTurno}`)
       const actualizada = await api.get(`/api/Cancha/BuscarCanchaPorId/${id}`)
       setCancha(actualizada)
+      mostrarToast('Turno reservado correctamente', 'exito')
     } catch (err) {
-      alert(err.response?.data || err.message || 'Error al reservar el turno')
+      mostrarToast(err.response?.data || err.message || 'Error al reservar el turno', 'error')
     } finally {
       setReservando(null)
     }
@@ -84,6 +87,18 @@ function CanchaDetail() {
   return (
     <div>
       <Navbar />
+
+      {/* Toast */}
+      {toast && (
+        <div className={`fixed top-24 right-6 z-50 animate-slide-in-right px-5 py-3 rounded-xl shadow-lg text-sm font-medium max-w-sm ${
+          toast.tipo === 'exito'
+            ? 'bg-green-700 text-white'
+            : 'bg-red-600 text-white'
+        }`}>
+          {toast.mensaje}
+        </div>
+      )}
+
       <div className="max-w-5xl mx-auto px-6 py-10">
 
         {/* Sección superior: Imagen + Info */}
@@ -122,6 +137,7 @@ function CanchaDetail() {
               const turno = getTurnoForSlot(slot)
               const ocupado = turno && turno.estado === 'Confirmado'
               const disponible = turno && turno.estado === 'Pendiente'
+              const expirado = turno && turno.estado === 'Expirado'
               const reservandoEste = reservando === turno?.idTurno
 
               return (
@@ -132,7 +148,9 @@ function CanchaDetail() {
                       ? 'bg-gray-100 border-gray-200 text-gray-400'
                       : disponible
                         ? 'bg-green-50 border-green-200 text-green-800 hover:shadow-md hover:border-green-400'
-                        : 'bg-white border-dashed border-gray-300 text-gray-400'
+                        : expirado
+                          ? 'bg-orange-50 border-orange-200 text-orange-400'
+                          : 'bg-white border-dashed border-gray-300 text-gray-400'
                   }`}
                 >
                   <p className="font-mono text-sm font-semibold mb-1">
@@ -145,6 +163,10 @@ function CanchaDetail() {
 
                   {!turno && (
                     <span className="text-xs text-gray-400">No disponible</span>
+                  )}
+
+                  {expirado && (
+                    <span className="text-xs text-orange-400">Expirado</span>
                   )}
 
                   {disponible && (

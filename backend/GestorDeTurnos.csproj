@@ -16,8 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GestorDeTurnos.Application\GestorDeTurnos.Application.csproj" />
-    <ProjectReference Include="..\GestorDeTurnos.Infrastructure\GestorDeTurnos.Infrastructure.csproj" />
+    <ProjectReference Include="GestorDeTurnos.Application\GestorDeTurnos.Application.csproj" />
+    <ProjectReference Include="GestorDeTurnos.Infrastructure\GestorDeTurnos.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="GestorDeTurnos.Application\**" />
+    <Compile Remove="GestorDeTurnos.Domain\**" />
+    <Compile Remove="GestorDeTurnos.Infrastructure\**" />
   </ItemGroup>
 
 </Project>

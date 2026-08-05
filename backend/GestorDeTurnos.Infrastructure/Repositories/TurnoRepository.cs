@@ -28,5 +28,32 @@ namespace GestorDeTurnos.Infrastructure.Repositories
                 t.FechaHoraInicio < fin &&
                 t.FechaHoraFin > inicio);
         }
+
+        public async Task<IEnumerable<Turno>> GetPendientesVencidosAsync()
+        {
+            return await _dbSet
+                .Where(t => t.Estado == EstadoTurno.Pendiente && t.FechaHoraInicio <= DateTime.Now)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Turno>> GetRenovablesDeDiasAnterioresAsync()
+        {
+            var ayer = DateTime.Today.AddDays(-1);
+            return await _dbSet
+                .Where(t => (t.Estado == EstadoTurno.Expirado || t.Estado == EstadoTurno.Confirmado)
+                         && t.FechaHoraInicio.Date == ayer)
+                .ToListAsync();
+        }
+
+        public async Task<bool> ExisteTurnoParaHoyAsync(int idCancha, TimeSpan horaInicio, TimeSpan horaFin)
+        {
+            var hoy = DateTime.Today;
+            return await _dbSet.AnyAsync(t =>
+                t.IdCancha == idCancha &&
+                t.FechaHoraInicio.Date == hoy &&
+                t.FechaHoraInicio.TimeOfDay == horaInicio &&
+                t.FechaHoraFin.TimeOfDay == horaFin);
+        }
+
     }
 }

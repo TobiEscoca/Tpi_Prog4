@@ -10,5 +10,8 @@ namespace GestorDeTurnos.Application.Interfaces
         Task<IEnumerable<Turno>> GetByClienteAsync(int idCliente);
         Task<IEnumerable<Turno>> GetByCanchaAsync(int idCancha);
         Task<bool> ExisteSolapamientoAsync(int idCancha, DateTime inicio, DateTime fin);
+        Task<IEnumerable<Turno>> GetPendientesVencidosAsync();
+        Task<IEnumerable<Turno>> GetRenovablesDeDiasAnterioresAsync();
+        Task<bool> ExisteTurnoParaHoyAsync(int idCancha, TimeSpan horaInicio, TimeSpan horaFin);
     }
 }

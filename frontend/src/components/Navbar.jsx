@@ -1,7 +1,16 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 function Navbar() {
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
+  }
+
   return (
     <nav className="bg-white/90 backdrop-blur-md px-6 md:px-10 py-4 shadow-sm shadow-black/5 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
@@ -32,12 +41,23 @@ function Navbar() {
 
         {/* Acciones */}
         <div className="flex items-center gap-3">
-          <Link to="/register" className="button-authr">
-            Registrarse
-          </Link>
-          <Link to="/login" className="button-authl">
-            Iniciar sesión
-          </Link>
+          {user ? (
+            <>
+              <span className="text-sm text-gray-700 font-medium">{user.nombre}</span>
+              <button onClick={handleLogout} className="button-authl cursor-pointer">
+                Cerrar sesión
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/register" className="button-authr">
+                Registrarse
+              </Link>
+              <Link to="/login" className="button-authl">
+                Iniciar sesión
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

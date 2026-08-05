@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import CanchaCard from "../components/CardCancha";
+import CanchaCard from "./CardCancha";
 import { api } from "../services/api";
 
-const Home = () => {
+const CanchasSection = () => {
   const [canchas, setCanchas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,22 +23,22 @@ const Home = () => {
   }, []);
 
   if (loading) return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center py-20">
       <p className="text-gray-500 text-lg">Cargando canchas...</p>
     </div>
   );
 
   if (error) return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center py-20">
       <p className="text-red-500 text-lg">{error}</p>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 px-6 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+    <section className="bg-gray-100 px-6 py-16">
+      <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">
         🏟️ Canchas disponibles
-      </h1>
+      </h2>
 
       {canchas.length === 0 ? (
         <p className="text-center text-gray-500">No hay canchas disponibles.</p>
@@ -49,8 +49,8 @@ const Home = () => {
           ))}
         </div>
       )}
-    </div>
+    </section>
   );
 };
 
-export default Home;
+export default CanchasSection;

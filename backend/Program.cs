@@ -101,7 +101,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:5173") // puerto de Vite
+        policy.WithOrigins(
+            "http://localhost:5173",
+            "http://localhost:5174"
+        ) // puerto de Vite
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -125,22 +128,28 @@ app.UseAuthorization();
 app.MapControllers();
 
 // ==========================================
-// CONTROL DE BASE DE DATOS SEGÚN EL ENTORNO
+// BASE DE DATOS Y SEED
 // ==========================================
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-    if (app.Environment.IsDevelopment())
+    // Aplica cambios sin borrar datos en ningún entorno
+    db.Database.Migrate();
+
+    // Seed admin — solo si no existe ningún admin
+    if (!db.Usuarios.Any(u => u.Rol == GestorDeTurnos.Domain.Enums.RolUsuario.AdministradorGeneral))
     {
-        // En tu PC Local: Solo aplica cambios pendientes. NO te borra los datos.
-        db.Database.Migrate();
-    }
-    else
-    {
-        // En Azure: Fuerza el borrado del archivo fantasma que causa el choque de tablas
-        db.Database.EnsureDeleted();
-        db.Database.Migrate();
+        db.Usuarios.Add(new GestorDeTurnos.Domain.Entities.Usuario
+        {
+            Nombre = "Admin",
+            Email = "admin@gestordeturnos.com",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin1234!"),
+            Rol = GestorDeTurnos.Domain.Enums.RolUsuario.AdministradorGeneral,
+            Activo = true,
+            FechaRegistro = DateTime.UtcNow
+        });
+        db.SaveChanges();
     }
 }
 

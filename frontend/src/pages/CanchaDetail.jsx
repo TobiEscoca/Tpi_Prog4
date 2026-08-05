@@ -35,8 +35,10 @@ function CanchaDetail() {
 
   function getTurnoForSlot(slot) {
     if (!cancha?.turnos) return null
+    const hoy = new Date()
     return cancha.turnos.find((t) => {
       const inicio = new Date(t.fechaHoraInicio)
+      if (inicio.toDateString() !== hoy.toDateString()) return false
       return `${String(inicio.getHours()).padStart(2, '0')}:${String(inicio.getMinutes()).padStart(2, '0')}` === `${slot.inicio}`
     })
   }

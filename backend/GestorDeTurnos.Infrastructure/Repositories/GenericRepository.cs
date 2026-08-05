@@ -26,7 +26,9 @@ namespace GestorDeTurnos.Infrastructure.Repositories
             }
             else if (typeof(T) == typeof(Cancha))
             {
-                query = (IQueryable<T>)_context.Canchas.Include(c => c.Turnos);
+                query = (IQueryable<T>)_context.Canchas
+                    .Include(c => c.Complejo)
+                    .Include(c => c.Turnos);
             }
             else if (typeof(T) == typeof(Turno))
             {

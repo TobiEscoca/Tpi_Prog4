@@ -56,6 +56,7 @@ namespace GestorDeTurnos.Application.Mappings
         {
             IdCancha = c.IdCancha,
             IdComplejo = c.IdComplejo,
+            NombreComplejo = c.Complejo?.Nombre ?? string.Empty,
             Nombre = c.Nombre,
             PrecioHora = c.PrecioHora,
             UrlImagen = c.UrlImagen,

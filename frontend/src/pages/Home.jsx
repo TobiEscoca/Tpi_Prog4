@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
+import CanchasSection from '../components/CanchasSection'
 
 const features = [
   {
@@ -41,6 +42,8 @@ function Home() {
     <div>
       <Navbar />
       <Hero onSearch={(texto) => console.log('Buscando:', texto)} />
+
+      <CanchasSection />
 
       {/* Features */}
       <section className="py-20 px-6 bg-gray-100">

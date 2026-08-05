@@ -38,10 +38,9 @@ namespace GestorDeTurnos.Infrastructure.Repositories
 
         public async Task<IEnumerable<Turno>> GetRenovablesDeDiasAnterioresAsync()
         {
-            var ayer = DateTime.Today.AddDays(-1);
             return await _dbSet
                 .Where(t => (t.Estado == EstadoTurno.Expirado || t.Estado == EstadoTurno.Confirmado)
-                         && t.FechaHoraInicio.Date == ayer)
+                         && t.FechaHoraInicio.Date < DateTime.Today)
                 .ToListAsync();
         }
 

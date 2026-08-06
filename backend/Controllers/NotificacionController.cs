@@ -14,10 +14,12 @@ namespace GestorDeTurnos.Controllers
     public class NotificacionController : ControllerBase
     {
         private readonly NotificacionService _notificacionService;
+        private readonly TurnoService _turnoService;
 
-        public NotificacionController(NotificacionService notificacionService)
+        public NotificacionController(NotificacionService notificacionService, TurnoService turnoService)
         {
             _notificacionService = notificacionService;
+            _turnoService = turnoService;
         }
 
         [HttpGet]
@@ -43,10 +45,33 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpPost("CrearNotificacion")]
-        public async Task<IActionResult> Add([FromBody] Notificacion notificacion)
+        public async Task<IActionResult> Add([FromBody] CrearNotificacionRequest request)
         {
+            if (request.IdTurno <= 0)
+                return BadRequest("El id del turno es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(request.Mensaje))
+                return BadRequest("El mensaje es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(request.Destinatario))
+                return BadRequest("El destinatario es obligatorio.");
+
+            var turno = await _turnoService.GetByIdAsync(request.IdTurno);
+            if (turno == null)
+                return NotFound("No existe el turno indicado.");
+
+            var notificacion = new Notificacion
+            {
+                IdTurno = request.IdTurno,
+                Mensaje = request.Mensaje.Trim(),
+                Destinatario = request.Destinatario.Trim(),
+                Enviado = request.Enviado,
+                FechaEnvio = request.Enviado ? (request.FechaEnvio ?? DateTime.Now) : null,
+                Turno = turno
+            };
+
             await _notificacionService.AddAsync(notificacion);
-            return CreatedAtAction(nameof(GetById), new { id = notificacion.IdNotificacion }, notificacion);
+            return CreatedAtAction(nameof(GetById), new { id = notificacion.IdNotificacion }, notificacion.ToDto());
         }
 
         [HttpDelete("EliminarNotificacion/{id}")]

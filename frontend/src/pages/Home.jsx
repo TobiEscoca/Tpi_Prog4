@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import CanchasSection from '../components/CanchasSection'
+import { Footer } from '../components/Footer'
 
 const features = [
   {
@@ -75,6 +76,7 @@ function Home() {
           </div>
         </div>
       </section>
+       <Footer /> 
     </div>
   )
 }

@@ -16,11 +16,13 @@ namespace GestorDeTurnos.Controllers
     {
         private readonly ComplejoService _complejoService;
         private readonly UsuarioService _usuarioService;
+        private readonly EliminacionEnCascadaService _eliminacionService;
 
-        public ComplejoController(ComplejoService complejoService, UsuarioService usuarioService)
+        public ComplejoController(ComplejoService complejoService, UsuarioService usuarioService, EliminacionEnCascadaService eliminacionService)
         {
             _complejoService = complejoService;
             _usuarioService = usuarioService;
+            _eliminacionService = eliminacionService;
         }
 
         [HttpGet]
@@ -67,19 +69,23 @@ namespace GestorDeTurnos.Controllers
                 return BadRequest("La dirección del complejo es obligatoria.");
 
             var idUsuario = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var usuario = await _usuarioService.GetByIdAsync(idUsuario);
 
-            if (usuario == null)
-                return NotFound("No existe el usuario autenticado.");
+            var idDueno = idUsuario;
+            if (User.IsInRole("AdministradorGeneral") && request.IdDueno.HasValue)
+                idDueno = request.IdDueno.Value;
+
+            var dueno = await _usuarioService.GetByIdAsync(idDueno);
+            if (dueno == null)
+                return NotFound("No existe el usuario dueño indicado.");
 
             var complejo = new Complejo
             {
-                IdDueno = idUsuario,
+                IdDueno = idDueno,
                 Nombre = request.Nombre.Trim(),
                 Direccion = request.Direccion.Trim(),
                 Telefono = string.IsNullOrWhiteSpace(request.Telefono) ? null : request.Telefono.Trim(),
-                Email = usuario.Email,
-                Dueno = usuario,
+                Email = dueno.Email,
+                Dueno = dueno,
                 Activo = true,
             };
 
@@ -122,7 +128,7 @@ namespace GestorDeTurnos.Controllers
         [Authorize(Roles = "AdministradorGeneral, DuenoComplejo")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _complejoService.DeleteAsync(id);
+            await _eliminacionService.EliminarComplejoAsync(id);
             return Ok("Complejo eliminado correctamente.");
         }
     }

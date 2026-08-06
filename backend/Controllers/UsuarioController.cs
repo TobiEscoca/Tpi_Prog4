@@ -14,10 +14,12 @@ namespace GestorDeTurnos.Controllers
     public class UsuarioController : ControllerBase
     {
         private readonly UsuarioService _usuarioService;
+        private readonly EliminacionEnCascadaService _eliminacionService;
 
-        public UsuarioController(UsuarioService usuarioService)
+        public UsuarioController(UsuarioService usuarioService, EliminacionEnCascadaService eliminacionService)
         {
             _usuarioService = usuarioService;
+            _eliminacionService = eliminacionService;
         }
 
         [HttpGet("ObtenerUsuarios")]
@@ -88,7 +90,7 @@ namespace GestorDeTurnos.Controllers
         [HttpDelete("EliminarUsuario/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _usuarioService.DeleteAsync(id);
+            await _eliminacionService.EliminarUsuarioAsync(id);
             return NoContent();
         }
     }

@@ -15,11 +15,13 @@ namespace GestorDeTurnos.Controllers
     {
         private readonly CanchaService _canchaService;
         private readonly ComplejoService _complejoService;
+        private readonly EliminacionEnCascadaService _eliminacionService;
 
-        public CanchaController(CanchaService canchaService, ComplejoService complejoService)
+        public CanchaController(CanchaService canchaService, ComplejoService complejoService, EliminacionEnCascadaService eliminacionService)
         {
             _canchaService = canchaService;
             _complejoService = complejoService;
+            _eliminacionService = eliminacionService;
         }
 
         [HttpGet]
@@ -53,7 +55,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpPost("CrearCancha")]
-        [Authorize(Roles = "DuenoComplejo")]
+        [Authorize(Roles = "AdministradorGeneral, DuenoComplejo")]
         public async Task<IActionResult> Add([FromBody] CrearCanchaRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.Nombre))
@@ -65,14 +67,18 @@ namespace GestorDeTurnos.Controllers
             if (request.IdComplejo <= 0)
                 return BadRequest("El id del complejo es obligatorio.");
 
-            var idUsuario = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             var complejo = await _complejoService.GetByIdAsync(request.IdComplejo);
 
             if (complejo == null)
                 return NotFound("No existe el complejo indicado.");
 
-            if (complejo.IdDueno != idUsuario)
-                return Forbid("Solo puedes crear canchas para complejos que te pertenecen.");
+            var esAdmin = User.IsInRole("AdministradorGeneral");
+            if (!esAdmin)
+            {
+                var idUsuario = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+                if (complejo.IdDueno != idUsuario)
+                    return Forbid("Solo puedes crear canchas para complejos que te pertenecen.");
+            }
 
             var cancha = new Cancha
             {
@@ -91,7 +97,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpPut("ActualizarCancha/{id}")]
-        [Authorize(Roles = "DuenoComplejo")]
+        [Authorize(Roles = "AdministradorGeneral, DuenoComplejo")]
         public async Task<IActionResult> Update(int id, [FromBody] ActualizarCanchaRequest request)
         {
             if (request == null)
@@ -101,14 +107,18 @@ namespace GestorDeTurnos.Controllers
             if (cancha == null)
                 return NotFound("No existe la cancha indicada.");
 
-            var idUsuario = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var complejo = await _complejoService.GetByIdAsync(cancha.IdComplejo);
+            var esAdmin = User.IsInRole("AdministradorGeneral");
+            if (!esAdmin)
+            {
+                var idUsuario = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+                var complejo = await _complejoService.GetByIdAsync(cancha.IdComplejo);
 
-            if (complejo == null)
-                return NotFound("No existe el complejo asociado a la cancha.");
+                if (complejo == null)
+                    return NotFound("No existe el complejo asociado a la cancha.");
 
-            if (complejo.IdDueno != idUsuario)
-                return Forbid("Solo puedes editar canchas de tus complejos.");
+                if (complejo.IdDueno != idUsuario)
+                    return Forbid("Solo puedes editar canchas de tus complejos.");
+            }
 
             if (!request.HasChanges)
                 return BadRequest("Debes enviar al menos uno de estos campos: nombre, precioHora o activo.");
@@ -122,10 +132,10 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpDelete("EliminarCancha/{id}")]
-        [Authorize(Roles = "DuenoComplejo")]
+        [Authorize(Roles = "AdministradorGeneral, DuenoComplejo")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _canchaService.DeleteAsync(id);
+            await _eliminacionService.EliminarCanchaAsync(id);
             return Ok("Cancha eliminada correctamente.");
         }
     }

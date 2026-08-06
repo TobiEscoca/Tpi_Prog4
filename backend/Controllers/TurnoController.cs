@@ -15,10 +15,12 @@ namespace GestorDeTurnos.Controllers
     public class TurnoController : ControllerBase
     {
         private readonly TurnoService _turnoService;
+        private readonly EliminacionEnCascadaService _eliminacionService;
 
-        public TurnoController(TurnoService turnoService)
+        public TurnoController(TurnoService turnoService, EliminacionEnCascadaService eliminacionService)
         {
             _turnoService = turnoService;
+            _eliminacionService = eliminacionService;
         }
 
         private async Task<IActionResult> EjecutarSeguro(Func<Task<IActionResult>> accion)
@@ -77,7 +79,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpPost("CrearTurno")]
-        [Authorize(Roles = "AdministradorGeneral, DuenoComplejo")]
+        [Authorize(Roles = "DuenoComplejo")]
         public async Task<IActionResult> Add([FromBody] CrearTurnoRequest request)
         {
             if (request.IdCancha <= 0)
@@ -124,7 +126,7 @@ namespace GestorDeTurnos.Controllers
         [Authorize(Roles = "AdministradorGeneral, DuenoComplejo")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _turnoService.DeleteAsync(id);
+            await _eliminacionService.EliminarTurnoAsync(id);
             return Ok("Turno eliminado correctamente.");
         }
 
@@ -142,7 +144,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpPut("CancelarTurno/{id}")]
-        [Authorize(Roles = "Cliente, DuenoComplejo")]
+        [Authorize(Roles = "Cliente, DuenoComplejo, AdministradorGeneral")]
         public async Task<IActionResult> Cancelar(int id)
         {
             return await EjecutarSeguro(async () =>

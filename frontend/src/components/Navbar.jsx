@@ -43,7 +43,12 @@ function Navbar() {
         <div className="flex items-center gap-3">
           {user ? (
             <>
-              <span className="text-sm text-gray-700 font-medium">{user.nombre}</span>
+              <span className="text-sm box-decoration-clone bg-linear-to-r from-green-400 to-green-600 px-2 font-medium text-white"><strong>{user.nombre}</strong></span>
+              {user.rol === 'AdministradorGeneral' && (
+                <Link to="/dashboardadmin" className="navlink">
+                  Dashboard
+                </Link>
+              )}
               <button onClick={handleLogout} className="button-authl cursor-pointer">
                 Cerrar sesión
               </button>

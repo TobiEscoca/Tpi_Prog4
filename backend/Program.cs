@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
 // Base de datos
@@ -35,6 +37,7 @@ builder.Services.AddScoped<ComplejoService>();
 builder.Services.AddScoped<CanchaService>();
 builder.Services.AddScoped<TurnoService>();
 builder.Services.AddScoped<NotificacionService>();
+builder.Services.AddScoped<EliminacionEnCascadaService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 
 // Background service para expiración y renovación de turnos

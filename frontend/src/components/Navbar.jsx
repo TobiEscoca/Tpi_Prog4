@@ -6,6 +6,8 @@ function Navbar() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
 
+  const puedeGestionar = user && user.rol === 'DuenoComplejo'
+
   const handleLogout = () => {
     logout()
     navigate('/')
@@ -43,7 +45,12 @@ function Navbar() {
         <div className="flex items-center gap-3">
           {user ? (
             <>
-              <span className="text-sm text-gray-700 font-medium">{user.nombre}</span>
+              <span className="hidden sm:inline text-sm text-gray-700 font-medium">{user.nombre}</span>
+              {puedeGestionar && (
+                <Link to="/dashboard" className="button-authl">
+                  Mi gestión
+                </Link>
+              )}
               <button onClick={handleLogout} className="button-authl cursor-pointer">
                 Cerrar sesión
               </button>

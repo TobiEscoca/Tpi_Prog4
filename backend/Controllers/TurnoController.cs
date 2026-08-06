@@ -15,10 +15,14 @@ namespace GestorDeTurnos.Controllers
     public class TurnoController : ControllerBase
     {
         private readonly TurnoService _turnoService;
+        private readonly CanchaService _canchaService;
+        private readonly ComplejoService _complejoService;
 
-        public TurnoController(TurnoService turnoService)
+        public TurnoController(TurnoService turnoService, CanchaService canchaService, ComplejoService complejoService)
         {
             _turnoService = turnoService;
+            _canchaService = canchaService;
+            _complejoService = complejoService;
         }
 
         private async Task<IActionResult> EjecutarSeguro(Func<Task<IActionResult>> accion)
@@ -103,6 +107,18 @@ namespace GestorDeTurnos.Controllers
 
             if (horaFin - horaInicio > TimeSpan.FromHours(1))
                 return BadRequest("El turno no puede durar más de 1 hora.");
+
+            var cancha = await _canchaService.GetByIdAsync(request.IdCancha);
+            if (cancha == null)
+                return NotFound("No existe la cancha indicada.");
+
+            if (!User.IsInRole("AdministradorGeneral"))
+            {
+                var idUsuario = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+                var complejo = await _complejoService.GetByIdAsync(cancha.IdComplejo);
+                if (complejo == null || complejo.IdDueno != idUsuario)
+                    return Forbid("Solo puedes crear turnos en canchas de tus complejos.");
+            }
 
             var turno = new Turno
             {

@@ -48,6 +48,15 @@ namespace GestorDeTurnos.Controllers
             return Ok(complejos.Select(c => c.ToResumen()));
         }
 
+        [HttpGet("MisComplejos")]
+        [Authorize(Roles = "DuenoComplejo")]
+        public async Task<IActionResult> GetMisComplejos()
+        {
+            var idUsuario = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var misComplejos = await _complejoService.GetByDuenoAsync(idUsuario);
+            return Ok(misComplejos.Select(c => c.ToResumen()));
+        }
+
         [HttpGet("activos")]
         [Authorize(Roles = "AdministradorGeneral")]
         public async Task<IActionResult> GetActivos()

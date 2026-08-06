@@ -5,6 +5,8 @@ import Home from "./pages/Home";
 import CanchaDetail from "./pages/CanchaDetail";
 import { CanchaList } from "./pages/CanchaList";
 import DashboardAdmin from "./pages/DashboardAdmin";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -16,6 +18,14 @@ function App() {
         <Route path="/cancha/:id" element={<CanchaDetail />} />
         <Route path="/canchas" element={<CanchaList />} />
         <Route path="/dashboardadmin" element={<DashboardAdmin />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

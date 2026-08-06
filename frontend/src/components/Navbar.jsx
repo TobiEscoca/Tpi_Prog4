@@ -6,6 +6,8 @@ function Navbar() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
 
+  const puedeGestionar = user && user.rol === 'DuenoComplejo'
+
   const handleLogout = () => {
     logout()
     navigate('/')
@@ -44,6 +46,11 @@ function Navbar() {
           {user ? (
             <>
               <span className="text-sm box-decoration-clone bg-linear-to-r from-green-400 to-green-600 px-2 font-medium text-white"><strong>{user.nombre}</strong></span>
+              {puedeGestionar && (
+                <Link to="/dashboard" className="button-authl">
+                  Mi gestión
+                </Link>
+              )}
               {user.rol === 'AdministradorGeneral' && (
                 <Link to="/dashboardadmin" className="navlink">
                   Dashboard

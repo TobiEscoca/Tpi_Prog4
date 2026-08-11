@@ -56,6 +56,11 @@ function Navbar() {
                   Dashboard
                 </Link>
               )}
+              {user.rol === 'Cliente' && (
+                <Link to="/notificaciones" className="navlink">
+                  Notificaciones
+                </Link>
+              )}
               <button onClick={handleLogout} className="button-authl cursor-pointer">
                 Cerrar sesión
               </button>

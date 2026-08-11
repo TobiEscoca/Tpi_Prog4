@@ -31,13 +31,15 @@ namespace GestorDeTurnos.Application.Services
         public async Task DeleteAsync(int id) =>
             await _notificacionRepository.DeleteAsync(id);
 
-        // ✅ Nuevo: filtra notificaciones por cliente via sus turnos
-        public async Task<IEnumerable<Notificacion>> GetByClienteAsync(int idCliente)
+        // ✅ Nuevo: filtra notificaciones por cliente via sus turnos o por su email
+        public async Task<IEnumerable<Notificacion>> GetByClienteAsync(int idCliente, string emailCliente)
         {
             var turnos = await _turnoRepository.GetByClienteAsync(idCliente);
             var idTurnos = turnos.Select(t => t.IdTurno).ToHashSet();
             var todasLasNotificaciones = await _notificacionRepository.GetAllAsync();
-            return todasLasNotificaciones.Where(n => idTurnos.Contains(n.IdTurno));
+            return todasLasNotificaciones.Where(n =>
+                idTurnos.Contains(n.IdTurno) ||
+                n.Destinatario.Equals(emailCliente, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

@@ -4,6 +4,9 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import CanchaDetail from "./pages/CanchaDetail";
 import { CanchaList } from "./pages/CanchaList";
+import { ComplejoList } from "./pages/ComplejoList";
+import ComplejoDetail from "./pages/ComplejoDetail";
+import NotificacionesCliente from "./pages/NotificacionesCliente";
 import DashboardAdmin from "./pages/DashboardAdmin";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -17,6 +20,16 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/cancha/:id" element={<CanchaDetail />} />
         <Route path="/canchas" element={<CanchaList />} />
+        <Route path="/complejos" element={<ComplejoList />} />
+        <Route path="/complejos/:id" element={<ComplejoDetail />} />
+        <Route
+          path="/notificaciones"
+          element={
+            <ProtectedRoute roles={["Cliente"]}>
+              <NotificacionesCliente />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/dashboardadmin" element={<DashboardAdmin />} />
         <Route
           path="/dashboard"

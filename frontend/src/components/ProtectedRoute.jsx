@@ -1,16 +1,16 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-const ALLOWED_ROLES = ["DuenoComplejo"];
+const DEFAULT_ALLOWED_ROLES = ["DuenoComplejo"];
 
-function ProtectedRoute({ children }) {
+function ProtectedRoute({ children, roles = DEFAULT_ALLOWED_ROLES }) {
   const { user } = useAuth();
 
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!ALLOWED_ROLES.includes(user.rol)) {
+  if (!roles.includes(user.rol)) {
     return <Navigate to="/" replace />;
   }
 

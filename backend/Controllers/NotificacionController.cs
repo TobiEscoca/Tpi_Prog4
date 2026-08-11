@@ -10,7 +10,7 @@ namespace GestorDeTurnos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "AdministradorGeneral")]
+    [Authorize]
     public class NotificacionController : ControllerBase
     {
         private readonly NotificacionService _notificacionService;
@@ -23,6 +23,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "AdministradorGeneral")]
         public async Task<IActionResult> GetAll()
         {
             var notificaciones = await _notificacionService.GetAllAsync();
@@ -30,6 +31,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpGet("BuscarNotificacionPorId/{id}")]
+        [Authorize(Roles = "AdministradorGeneral")]
         public async Task<IActionResult> GetById(int id)
         {
             var notificacion = await _notificacionService.GetByIdAsync(id);
@@ -38,6 +40,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpGet("BuscarNotificacionesPorTurno/{idTurno}")]
+        [Authorize(Roles = "AdministradorGeneral")]
         public async Task<IActionResult> GetByTurno(int idTurno)
         {
             var notificaciones = await _notificacionService.GetByTurnoAsync(idTurno);
@@ -45,6 +48,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpPost("CrearNotificacion")]
+        [Authorize(Roles = "AdministradorGeneral")]
         public async Task<IActionResult> Add([FromBody] CrearNotificacionRequest request)
         {
             if (request.IdTurno <= 0)
@@ -87,7 +91,8 @@ namespace GestorDeTurnos.Controllers
         public async Task<IActionResult> GetMisNotificaciones()
         {
             var idCliente = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            var notificaciones = await _notificacionService.GetByClienteAsync(idCliente);
+            var emailCliente = User.FindFirstValue(ClaimTypes.Email)!;
+            var notificaciones = await _notificacionService.GetByClienteAsync(idCliente, emailCliente);
             return Ok(notificaciones.Select(n => n.ToDto()));
         }
     }

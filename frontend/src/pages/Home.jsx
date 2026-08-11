@@ -44,7 +44,7 @@ function Home() {
       <Navbar />
       <Hero onSearch={(texto) => console.log('Buscando:', texto)} />
 
-      <CanchasSection />
+      <CanchasSection verMas />
 
       {/* Features */}
       <section className="py-20 px-6 bg-gray-100">

@@ -52,7 +52,7 @@ function Navbar() {
                 </Link>
               )}
               {user.rol === 'AdministradorGeneral' && (
-                <Link to="/dashboardadmin" className="navlink">
+                <Link to="/dashboardadmin" className="button-authl">
                   Dashboard
                 </Link>
               )}

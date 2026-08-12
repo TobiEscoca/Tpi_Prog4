@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import CanchasSection from '../components/CanchasSection'
@@ -39,12 +39,17 @@ const features = [
 ]
 
 function Home() {
+  const [busqueda, setBusqueda] = useState('')
+
   return (
     <div>
       <Navbar />
-      <Hero onSearch={(texto) => console.log('Buscando:', texto)} />
+      <Hero
+        onSearch={(texto) => setBusqueda(texto)}
+        onChange={(texto) => setBusqueda(texto)}
+      />
 
-      <CanchasSection verMas />
+      <CanchasSection verMas busqueda={busqueda} />
 
       {/* Features */}
       <section className="py-20 px-6 bg-gray-100">

@@ -34,9 +34,10 @@ export default function NotificacionesCliente() {
     cargar()
   }, [])
 
-  const canchaDeTurno = (idTurno) => {
-    const t = turnos.find((x) => x.idTurno === idTurno)
-    return t ? t.nombreCancha : `Turno #${idTurno}`
+  const canchaDeNotificacion = (n) => {
+    if (n.nombreCancha) return n.nombreCancha
+    const t = turnos.find((x) => x.idTurno === n.idTurno)
+    return t ? t.nombreCancha : `Turno #${n.idTurno}`
   }
 
   return (
@@ -73,7 +74,7 @@ export default function NotificacionesCliente() {
                 {notificaciones.map((n) => (
                   <tr key={n.idNotificacion} className="border-b border-gray-50 hover:bg-gray-50/70 transition-colors">
                     <td className="px-5 py-3 text-gray-700 max-w-xs">{n.mensaje}</td>
-                    <td className="px-5 py-3 text-gray-500">{canchaDeTurno(n.idTurno)}</td>
+                    <td className="px-5 py-3 text-gray-500">{canchaDeNotificacion(n)}</td>
                     <td className="px-5 py-3 text-gray-500">{formatoFecha(n.fechaEnvio)}</td>
                     <td className="px-5 py-3">
                       <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${n.enviado ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>

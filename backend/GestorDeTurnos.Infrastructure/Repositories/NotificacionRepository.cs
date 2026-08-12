@@ -11,7 +11,11 @@ namespace GestorDeTurnos.Infrastructure.Repositories
 
         public async Task<IEnumerable<Notificacion>> GetByTurnoAsync(int idTurno)
         {
-            return await _dbSet.Where(n => n.IdTurno == idTurno).ToListAsync();
+            return await _dbSet
+                .Where(n => n.IdTurno == idTurno)
+                .Include(n => n.Turno)
+                .ThenInclude(t => t.Cancha)
+                .ToListAsync();
         }
     }
 }

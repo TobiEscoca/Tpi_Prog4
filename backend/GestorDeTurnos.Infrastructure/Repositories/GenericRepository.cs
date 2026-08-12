@@ -42,6 +42,12 @@ namespace GestorDeTurnos.Infrastructure.Repositories
                 .Include(u => u.Complejos)
                 .ThenInclude(c => c.Canchas);
             }
+            else if (typeof(T) == typeof(Notificacion))
+            {
+                query = (IQueryable<T>)_context.Notificaciones
+                    .Include(n => n.Turno)
+                    .ThenInclude(t => t.Cancha);
+            }
 
             return await query.ToListAsync();
         }

@@ -80,6 +80,7 @@ namespace GestorDeTurnos.Application.Mappings
             IdNotificacion = n.IdNotificacion,
             IdTurno = n.IdTurno,
             Mensaje = n.Mensaje,
+            NombreCancha = n.Turno?.Cancha?.Nombre ?? string.Empty,
             Destinatario = n.Destinatario,
             FechaEnvio = n.FechaEnvio,
             Enviado = n.Enviado

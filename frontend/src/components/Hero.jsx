@@ -1,7 +1,7 @@
 import React from 'react'
 import SearchBar from '../components/Searchbar'
 
-function Hero({ onSearch }) {
+function Hero({ onSearch, onChange }) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-green-600 via-green-500 to-emerald-600 py-28 px-6">
       {/* Elementos decorativos */}
@@ -22,7 +22,7 @@ function Hero({ onSearch }) {
         </p>
 
         <div className="animate-fade-in-up animation-delay-200">
-          <SearchBar onSearch={onSearch} />
+          <SearchBar onSearch={onSearch} onChange={onChange} />
         </div>
       </div>
     </section>

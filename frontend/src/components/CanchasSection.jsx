@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import CanchaCard from "./CardCancha";
 import { api } from "../services/api";
 
-const CanchasSection = ({ verMas = false }) => {
+const CanchasSection = ({ verMas = false, busqueda = '' }) => {
   const [canchas, setCanchas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,6 +23,14 @@ const CanchasSection = ({ verMas = false }) => {
     fetchCanchas();
   }, []);
 
+  const termino = busqueda.trim().toLowerCase();
+  const resultados = termino
+    ? canchas.filter((c) =>
+        (c.nombre ?? '').toLowerCase().includes(termino) ||
+        (c.nombreComplejo ?? '').toLowerCase().includes(termino)
+      )
+    : canchas;
+
   if (loading) return (
     <div className="flex justify-center items-center py-20">
       <p className="text-gray-500 text-lg">Cargando canchas...</p>
@@ -41,19 +49,21 @@ const CanchasSection = ({ verMas = false }) => {
         🏟️ Canchas disponibles
       </h2>
 
-      {canchas.length === 0 ? (
-        <p className="text-center text-gray-500">No hay canchas disponibles.</p>
+      {resultados.length === 0 ? (
+        <p className="text-center text-gray-500">
+          {termino ? `No se encontraron canchas para "${busqueda.trim()}".` : "No hay canchas disponibles."}
+        </p>
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {(verMas ? canchas.slice(0, visibles) : canchas).map((cancha) => (
+            {(verMas ? resultados.slice(0, visibles) : resultados).map((cancha) => (
               <CanchaCard key={cancha.idCancha} cancha={cancha} />
             ))}
           </div>
 
           {verMas && (
             <div className="flex justify-center mt-10 gap-3">
-              {visibles < canchas.length && (
+              {visibles < resultados.length && (
                 <button
                   onClick={() => setVisibles((v) => v + 3)}
                   className="text-sm font-medium text-white bg-green-700 rounded-full px-6 py-2.5 shadow-sm shadow-green-700/20 cursor-pointer hover:bg-green-800 hover:shadow-md hover:shadow-green-700/30 transition-colors"

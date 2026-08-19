@@ -104,14 +104,17 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins(
-            "http://localhost:5173",
-            "http://localhost:5174"
-        ) // puerto de Vite
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        var envOrigins = Environment.GetEnvironmentVariable("CORS_ORIGINS");
+        var origins = envOrigins != null
+            ? envOrigins.Split(',')
+            : new[] { "http://localhost:5173", "http://localhost:5174" };
+        policy.WithOrigins(origins)
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
+
+builder.WebHost.UseUrls($"http://+:{Environment.GetEnvironmentVariable("PORT") ?? "5000"}");
 
 var app = builder.Build();
 

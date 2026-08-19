@@ -48,7 +48,7 @@ namespace GestorDeTurnos.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterAdminRequest request)
         {
-            var expectedKey = _configuration["AdminSecretKey"];
+            var expectedKey = _configuration["Jwt:Key"];
 
             if (string.IsNullOrEmpty(expectedKey))
                 return StatusCode(500, "La clave de admin no está configurada en el servidor.");

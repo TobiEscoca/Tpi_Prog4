@@ -134,29 +134,12 @@ app.UseAuthorization();
 app.MapControllers();
 
 // ==========================================
-// BASE DE DATOS Y SEED
+// BASE DE DATOS
 // ==========================================
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-    // Aplica cambios sin borrar datos en ningún entorno
     db.Database.Migrate();
-
-    // Seed admin — solo si no existe ningún admin
-    if (!db.Usuarios.Any(u => u.Rol == GestorDeTurnos.Domain.Enums.RolUsuario.AdministradorGeneral))
-    {
-        db.Usuarios.Add(new GestorDeTurnos.Domain.Entities.Usuario
-        {
-            Nombre = "Admin",
-            Email = "admin@gestordeturnos.com",
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin1234!"),
-            Rol = GestorDeTurnos.Domain.Enums.RolUsuario.AdministradorGeneral,
-            Activo = true,
-            FechaRegistro = DateTime.UtcNow
-        });
-        db.SaveChanges();
-    }
 }
 
 app.Run();

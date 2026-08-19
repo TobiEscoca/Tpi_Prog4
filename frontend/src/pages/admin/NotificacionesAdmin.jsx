@@ -13,7 +13,7 @@ const formatoFecha = (f) => {
 export default function NotificacionesAdmin() {
   const [notificaciones, setNotificaciones] = useState([])
   const [turnos, setTurnos] = useState([])
-  const [idTurnoFiltro, setIdTurnoFiltro] = useState('todos')
+  const [canchaFiltro, setCanchaFiltro] = useState('todos')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [toast, setToast] = useState(null)
@@ -33,11 +33,7 @@ export default function NotificacionesAdmin() {
   const cargar = async () => {
     setLoading(true)
     try {
-      const endpoint =
-        idTurnoFiltro === 'todos'
-          ? '/api/Notificacion'
-          : `/api/Notificacion/BuscarNotificacionesPorTurno/${idTurnoFiltro}`
-      setNotificaciones(await api.get(endpoint))
+      setNotificaciones(await api.get('/api/Notificacion'))
       setError(null)
     } catch (err) {
       setError(err.response?.data ?? err.message)
@@ -52,11 +48,6 @@ export default function NotificacionesAdmin() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    cargar()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idTurnoFiltro])
-
   const mostrarToast = (mensaje, tipo = 'exito') => {
     setToast({ mensaje, tipo })
     setTimeout(() => setToast(null), 4000)
@@ -66,6 +57,17 @@ export default function NotificacionesAdmin() {
     const t = turnos.find((x) => x.idTurno === idTurno)
     return t ? t.nombreCancha : `Turno #${idTurno}`
   }
+
+  const canchasUnicas = turnos.reduce((acc, t) => {
+    if (!acc.find((c) => c.idCancha === t.idCancha)) {
+      acc.push({ idCancha: t.idCancha, nombre: t.nombreCancha })
+    }
+    return acc
+  }, [])
+
+  const notificacionesFiltradas = canchaFiltro === 'todos'
+    ? notificaciones
+    : notificaciones.filter((n) => n.nombreCancha === canchaFiltro)
 
   const handleGuardar = async (e) => {
     e.preventDefault()
@@ -115,12 +117,12 @@ export default function NotificacionesAdmin() {
         <div className="flex items-center gap-3">
           <select
             className="input-field md:w-64"
-            value={idTurnoFiltro}
-            onChange={(e) => setIdTurnoFiltro(e.target.value)}
+            value={canchaFiltro}
+            onChange={(e) => setCanchaFiltro(e.target.value)}
           >
             <option value="todos">Todas</option>
-            {turnos.map((t) => (
-              <option key={t.idTurno} value={t.idTurno}>{canchaDeTurno(t.idTurno)}</option>
+            {canchasUnicas.map((c) => (
+              <option key={c.idCancha} value={c.nombre}>{c.nombre}</option>
             ))}
           </select>
           <button
@@ -157,15 +159,15 @@ export default function NotificacionesAdmin() {
               </tr>
             </thead>
             <tbody>
-              {notificaciones.length === 0 ? (
+              {notificacionesFiltradas.length === 0 ? (
                 <tr>
                   <td colSpan="6" className="px-5 py-8 text-center text-gray-400">No hay notificaciones.</td>
                 </tr>
               ) : (
-                notificaciones.map((n) => (
+                notificacionesFiltradas.map((n) => (
                   <tr key={n.idNotificacion} className="border-b border-gray-50 hover:bg-gray-50/70 transition-colors">
                     <td className="px-5 py-3 text-gray-700 max-w-xs">{n.mensaje}</td>
-                    <td className="px-5 py-3 text-gray-500">{canchaDeTurno(n.idTurno)}</td>
+                    <td className="px-5 py-3 text-gray-500">{n.nombreCancha}</td>
                     <td className="px-5 py-3 text-gray-500">{n.destinatario}</td>
                     <td className="px-5 py-3 text-gray-500">{formatoFecha(n.fechaEnvio)}</td>
                     <td className="px-5 py-3">

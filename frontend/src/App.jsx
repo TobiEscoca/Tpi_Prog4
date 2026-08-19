@@ -9,6 +9,7 @@ import ComplejoDetail from "./pages/ComplejoDetail";
 import NotificacionesCliente from "./pages/NotificacionesCliente";
 import DashboardAdmin from "./pages/DashboardAdmin";
 import Dashboard from "./pages/Dashboard";
+import Nosotros from "./pages/Nosotros";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/canchas" element={<CanchaList />} />
         <Route path="/complejos" element={<ComplejoList />} />
         <Route path="/complejos/:id" element={<ComplejoDetail />} />
+        <Route path="/nosotros" element={<Nosotros />} />
         <Route
           path="/notificaciones"
           element={

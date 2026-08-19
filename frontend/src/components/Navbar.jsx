@@ -36,8 +36,8 @@ function Navbar() {
           <Link to="/canchas" className="navlink">
             Canchas
           </Link>
-          <Link to="/turnos" className="navlink">
-            Turnos
+          <Link to="/nosotros" className="navlink">
+            Nosotros
           </Link>
         </div>
 

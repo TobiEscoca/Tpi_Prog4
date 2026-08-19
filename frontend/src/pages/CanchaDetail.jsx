@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { api } from '../services/api'
 import Navbar from '../components/Navbar'
+import { useAuth } from '../context/AuthContext'
 
 const PLACEHOLDER_IMG = 'https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&h=500&fit=crop'
 
@@ -15,10 +16,12 @@ const SLOTS = Array.from({ length: 14 }, (_, i) => {
 
 function CanchaDetail() {
   const { id } = useParams()
+  const { user } = useAuth()
   const [cancha, setCancha] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [reservando, setReservando] = useState(null)
+  const [cancelando, setCancelando] = useState(null)
   const [toast, setToast] = useState(null)
 
   useEffect(() => {
@@ -54,6 +57,20 @@ function CanchaDetail() {
       mostrarToast(err.response?.data || err.message || 'Error al reservar el turno', 'error')
     } finally {
       setReservando(null)
+    }
+  }
+
+  async function handleCancelar(turno) {
+    setCancelando(turno.idTurno)
+    try {
+      await api.put(`/api/Turno/CancelarTurno/${turno.idTurno}`)
+      const actualizada = await api.get(`/api/Cancha/BuscarCanchaPorId/${id}`)
+      setCancha(actualizada)
+      mostrarToast('Turno cancelado correctamente', 'exito')
+    } catch (err) {
+      mostrarToast(err.response?.data || err.message || 'Error al cancelar el turno', 'error')
+    } finally {
+      setCancelando(null)
     }
   }
 
@@ -141,25 +158,46 @@ function CanchaDetail() {
               const disponible = turno && turno.estado === 'Pendiente'
               const expirado = turno && turno.estado === 'Expirado'
               const reservandoEste = reservando === turno?.idTurno
+              const cancelandoEste = cancelando === turno?.idTurno
+              const esMio = ocupado && user && turno.idCliente === user.id
 
               return (
                 <div
                   key={slot.inicio}
                   className={`rounded-xl p-4 text-center border transition-all duration-200 ${
-                    ocupado
-                      ? 'bg-gray-100 border-gray-200 text-gray-400'
-                      : disponible
-                        ? 'bg-green-50 border-green-200 text-green-800 hover:shadow-md hover:border-green-400'
-                        : expirado
-                          ? 'bg-orange-50 border-orange-200 text-orange-400'
-                          : 'bg-white border-dashed border-gray-300 text-gray-400'
+                    esMio
+                      ? 'bg-blue-50 border-blue-200 text-blue-800'
+                      : ocupado
+                        ? 'bg-gray-100 border-gray-200 text-gray-400'
+                        : disponible
+                          ? 'bg-green-50 border-green-200 text-green-800 hover:shadow-md hover:border-green-400'
+                          : expirado
+                            ? 'bg-orange-50 border-orange-200 text-orange-400'
+                            : 'bg-white border-dashed border-gray-300 text-gray-400'
                   }`}
                 >
                   <p className="font-mono text-sm font-semibold mb-1">
                     {slot.inicio} - {slot.fin}
                   </p>
 
-                  {ocupado && (
+                  {esMio && (
+                    <>
+                      <span className="text-xs text-blue-700 font-medium">Tu reserva</span>
+                      <button
+                        onClick={() => handleCancelar(turno)}
+                        disabled={cancelandoEste}
+                        className={`mt-2 block mx-auto text-xs font-medium px-3 py-1.5 rounded-full cursor-pointer transition-all duration-200 ${
+                          cancelandoEste
+                            ? 'bg-red-200 text-red-400 cursor-wait'
+                            : 'bg-red-600 text-white hover:bg-red-700 shadow-sm'
+                        }`}
+                      >
+                        {cancelandoEste ? 'Cancelando...' : 'Cancelar'}
+                      </button>
+                    </>
+                  )}
+
+                  {ocupado && !esMio && (
                     <span className="text-xs text-gray-400">Ocupado</span>
                   )}
 

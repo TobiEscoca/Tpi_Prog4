@@ -12,5 +12,6 @@
         // Navegación
         public Complejo Complejo { get; set; } = null!;
         public ICollection<Turno> Turnos { get; set; } = new List<Turno>();
+        public ICollection<TurnoPlantilla> Plantillas { get; set; } = new List<TurnoPlantilla>();
     }
 }

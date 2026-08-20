@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import ResumenSection from '../components/dashboard/ResumenSection'
 import ComplejosSection from '../components/dashboard/ComplejosSection'
 import CanchasSection from '../components/dashboard/CanchasSection'
-import TurnosSection from '../components/dashboard/TurnosSection'
+import PlantillasSection from '../components/dashboard/PlantillasSection'
 import { api } from '../services/api'
 
 const TABS = [
@@ -42,14 +42,12 @@ const TABS = [
     ),
   },
   {
-    id: 'turnos',
-    label: 'Turnos',
+    id: 'horarios',
+    label: 'Horarios',
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-        <line x1="16" y1="2" x2="16" y2="6" />
-        <line x1="8" y1="2" x2="8" y2="6" />
-        <line x1="3" y1="10" x2="21" y2="10" />
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
       </svg>
     ),
   },
@@ -87,14 +85,14 @@ function Dashboard() {
     setTimeout(() => setToast(null), 4000)
   }, [])
 
-  const irATurnos = useCallback((idCancha) => {
-    setCanchaSeleccionada(idCancha)
-    setTab('turnos')
-  }, [])
-
   const irACanchas = useCallback((idComplejo) => {
     setComplejoSeleccionado(idComplejo)
     setTab('canchas')
+  }, [])
+
+  const irAHorarios = useCallback((idCancha) => {
+    setCanchaSeleccionada(idCancha)
+    setTab('horarios')
   }, [])
 
   const cambiarComplejo = useCallback((idComplejo) => {
@@ -182,21 +180,19 @@ function Dashboard() {
             onCambiarComplejo={cambiarComplejo}
             version={version}
             notificarCambio={notificarCambio}
-            irATurnos={irATurnos}
+            irAHorarios={irAHorarios}
             mostrarToast={mostrarToast}
           />
         )}
 
-        {tab === 'turnos' && (
-          <TurnosSection
+        {tab === 'horarios' && (
+          <PlantillasSection
             complejos={complejos}
             cargandoComplejos={cargandoComplejos}
             complejoSeleccionado={complejoSeleccionado}
             canchaSeleccionada={canchaSeleccionada}
             onCambiarComplejo={cambiarComplejo}
             onCambiarCancha={cambiarCancha}
-            version={version}
-            notificarCambio={notificarCambio}
             mostrarToast={mostrarToast}
           />
         )}

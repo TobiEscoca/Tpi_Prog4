@@ -17,11 +17,26 @@ namespace GestorDeTurnos.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            do
+            while (!stoppingToken.IsCancellationRequested)
             {
-                await ProcesarCicloAsync(stoppingToken);
-                await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
-            } while (!stoppingToken.IsCancellationRequested);
+                try
+                {
+                    await ProcesarCicloAsync(stoppingToken);
+                }
+                catch (Exception ex) when (ex is not OperationCanceledException)
+                {
+                    Console.WriteLine($"[TurnoExpirationService] Error: {ex.Message}");
+                }
+
+                try
+                {
+                    await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    break;
+                }
+            }
         }
 
         private async Task ProcesarCicloAsync(CancellationToken stoppingToken)
@@ -30,8 +45,9 @@ namespace GestorDeTurnos.Services
             {
                 var turnoRepository = scope.ServiceProvider.GetRequiredService<ITurnoRepository>();
                 var canchaRepository = scope.ServiceProvider.GetRequiredService<ICanchaRepository>();
+                var plantillaRepository = scope.ServiceProvider.GetRequiredService<ITurnoPlantillaRepository>();
 
-                // 1. Expirar turnos Pendiente cuya hora ya pasó
+                // 1. Expirar turnos Pendientes cuya hora ya pasó
                 var vencidos = await turnoRepository.GetPendientesVencidosAsync();
                 foreach (var turno in vencidos)
                 {
@@ -39,34 +55,67 @@ namespace GestorDeTurnos.Services
                     await turnoRepository.UpdateAsync(turno);
                 }
 
-                // 2. Renovar turnos de días anteriores (Expirado o Confirmado) para hoy
-                var renovables = await turnoRepository.GetRenovablesDeDiasAnterioresAsync();
-                foreach (var turno in renovables)
+                // 2. Generar turnos desde plantillas para los próximos 7 días
+                var canchas = await canchaRepository.GetAllAsync();
+                var hoy = DateTime.Today;
+
+                foreach (var cancha in canchas)
                 {
-                    var existe = await turnoRepository.ExisteTurnoParaHoyAsync(
-                        turno.IdCancha,
-                        turno.FechaHoraInicio.TimeOfDay,
-                        turno.FechaHoraFin.TimeOfDay);
+                    if (!cancha.Activo) continue;
 
-                    if (existe)
-                        continue;
+                    var plantillas = await plantillaRepository.GetActivasPorCanchaAsync(cancha.IdCancha);
 
-                    var cancha = await canchaRepository.GetByIdAsync(turno.IdCancha);
-                    if (cancha == null || !cancha.Activo)
-                        continue;
-
-                    var duracion = turno.FechaHoraFin - turno.FechaHoraInicio;
-
-                    var nuevo = new Turno
+                    for (int d = 0; d < 7; d++)
                     {
-                        IdCancha = turno.IdCancha,
-                        FechaHoraInicio = DateTime.Today.Add(turno.FechaHoraInicio.TimeOfDay),
-                        FechaHoraFin = DateTime.Today.Add(turno.FechaHoraInicio.TimeOfDay).Add(duracion),
-                        Estado = EstadoTurno.Pendiente,
-                        IdCliente = null
-                    };
+                        var fecha = hoy.AddDays(d);
+                        var diaSemana = (int)fecha.DayOfWeek;
 
-                    await turnoRepository.AddAsync(nuevo);
+                        var plantillasDelDia = plantillas.Where(p => p.DiaSemana == diaSemana);
+
+                        foreach (var plantilla in plantillasDelDia)
+                        {
+                            var fechaInicio = fecha.Date + plantilla.HoraInicio;
+                            var fechaFin = fecha.Date + plantilla.HoraFin;
+
+                            var existe = await turnoRepository.ExisteSolapamientoAsync(
+                                cancha.IdCancha, fechaInicio, fechaFin);
+
+                            if (!existe)
+                            {
+                                var nuevo = new Turno
+                                {
+                                    IdCancha = cancha.IdCancha,
+                                    IdPlantilla = plantilla.IdPlantilla,
+                                    FechaHoraInicio = fechaInicio,
+                                    FechaHoraFin = fechaFin,
+                                    Estado = fechaInicio <= DateTime.Now
+                                        ? EstadoTurno.Expirado
+                                        : EstadoTurno.Pendiente,
+                                    IdCliente = null
+                                };
+                                await turnoRepository.AddAsync(nuevo);
+                            }
+                        }
+                    }
+                }
+
+                // 3. Cancelar turnos Confirmados cuya plantilla fue desactivada
+                var todosLosTurnos = await turnoRepository.GetAllAsync();
+                var turnosConfirmados = todosLosTurnos
+                    .Where(t => t.Estado == EstadoTurno.Confirmado && t.FechaHoraInicio.Date >= hoy);
+
+                foreach (var turno in turnosConfirmados)
+                {
+                    if (turno.IdPlantilla.HasValue)
+                    {
+                        var plantilla = await plantillaRepository.GetByIdAsync(turno.IdPlantilla.Value);
+                        if (plantilla != null && !plantilla.Activo)
+                        {
+                            turno.Estado = EstadoTurno.Cancelado;
+                            turno.IdCliente = null;
+                            await turnoRepository.UpdateAsync(turno);
+                        }
+                    }
                 }
             }
         }

@@ -30,6 +30,7 @@ builder.Services.AddScoped<IComplejoRepository, ComplejoRepository>();
 builder.Services.AddScoped<ICanchaRepository, CanchaRepository>();
 builder.Services.AddScoped<ITurnoRepository, TurnoRepository>();
 builder.Services.AddScoped<INotificacionRepository, NotificacionRepository>();
+builder.Services.AddScoped<ITurnoPlantillaRepository, TurnoPlantillaRepository>();
 
 // Servicios
 builder.Services.AddScoped<UsuarioService>();
@@ -38,6 +39,7 @@ builder.Services.AddScoped<CanchaService>();
 builder.Services.AddScoped<TurnoService>();
 builder.Services.AddScoped<NotificacionService>();
 builder.Services.AddScoped<EliminacionEnCascadaService>();
+builder.Services.AddScoped<TurnoPlantillaService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 
 // Background service para expiración y renovación de turnos

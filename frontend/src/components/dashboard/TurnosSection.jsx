@@ -9,6 +9,19 @@ const ESTADO_ESTILOS = {
   Expirado: 'bg-orange-100 text-orange-700',
 }
 
+function obtenerFechaISO(date) {
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const d = String(date.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
+
+function formatearFechaCorta(fecha) {
+  const d = new Date(fecha + 'T12:00:00')
+  const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+  return `${d.getDate()} ${meses[d.getMonth()]}`
+}
+
 function TurnosSection({
   complejos,
   cargandoComplejos,
@@ -27,6 +40,7 @@ function TurnosSection({
   const [modal, setModal] = useState(false)
   const [form, setForm] = useState({ horaInicio: '', horaFin: '' })
   const [guardando, setGuardando] = useState(false)
+  const [fechaSeleccionada, setFechaSeleccionada] = useState(() => obtenerFechaISO(new Date()))
 
   useEffect(() => {
     let activo = true
@@ -61,15 +75,10 @@ function TurnosSection({
     setLoading(true)
     setError(null)
 
-    api.get(`/api/Turno/BuscarTurnosPorCancha/${canchaSeleccionada}`)
+    api.get(`/api/Turno/BuscarTurnosPorCancha/${canchaSeleccionada}?fecha=${fechaSeleccionada}`)
       .then((data) => {
         if (!activo) return
-        const hoy = new Date()
-        const esDeHoy = (t) => new Date(t.fechaHoraInicio).toDateString() === hoy.toDateString()
-        const deHoy = data
-          .filter(esDeHoy)
-          .sort((a, b) => new Date(a.fechaHoraInicio) - new Date(b.fechaHoraInicio))
-        setTurnos(deHoy)
+        setTurnos(data)
       })
       .catch((err) => {
         if (activo) setError(err.response?.data || err.message || 'Error al cargar los turnos')
@@ -79,7 +88,7 @@ function TurnosSection({
       })
 
     return () => { activo = false }
-  }, [canchaSeleccionada, version])
+  }, [canchaSeleccionada, fechaSeleccionada, version])
 
   const cancha = canchas.find((c) => c.idCancha === canchaSeleccionada) || null
 
@@ -100,6 +109,7 @@ function TurnosSection({
         idCancha: canchaSeleccionada,
         horaInicio: form.horaInicio,
         horaFin: form.horaFin,
+        fecha: fechaSeleccionada,
       })
       mostrarToast('Turno creado correctamente')
       setModal(false)
@@ -133,19 +143,29 @@ function TurnosSection({
     }
   }
 
+  const diasSemana = []
+  for (let i = 0; i < 7; i++) {
+    const d = new Date()
+    d.setDate(d.getDate() + i)
+    diasSemana.push({
+      iso: obtenerFechaISO(d),
+      label: i === 0 ? 'Hoy' : `${['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'][d.getDay()]} ${d.getDate()}`,
+    })
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-lg font-bold text-gray-900">Turnos</h2>
-          <p className="text-sm text-gray-500">Administrá los turnos de hoy por cancha</p>
+          <p className="text-sm text-gray-500">Administrá los turnos por cancha y fecha</p>
         </div>
         <button onClick={abrirCrear} disabled={!canchaSeleccionada} className="button-authr disabled:opacity-40 disabled:cursor-not-allowed">
           Agregar turno
         </button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Complejo</label>
           <select
@@ -180,6 +200,23 @@ function TurnosSection({
         </div>
       </div>
 
+      {/* Selector de fecha */}
+      <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+        {diasSemana.map((d) => (
+          <button
+            key={d.iso}
+            onClick={() => setFechaSeleccionada(d.iso)}
+            className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
+              fechaSeleccionada === d.iso
+                ? 'bg-green-700 text-white shadow-sm'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            {d.label}
+          </button>
+        ))}
+      </div>
+
       {cargandoComplejos && <p className="text-gray-500 text-sm py-10 text-center">Cargando complejos...</p>}
 
       {!cargandoComplejos && !canchaSeleccionada && (
@@ -198,7 +235,7 @@ function TurnosSection({
 
       {canchaSeleccionada && !loading && !error && turnos.length === 0 && (
         <p className="text-gray-500 text-sm py-10 text-center">
-          No hay turnos para hoy en {cancha?.nombre ?? 'esta cancha'}. Agregá uno nuevo.
+          No hay turnos para el {formatearFechaCorta(fechaSeleccionada)} en {cancha?.nombre ?? 'esta cancha'}. Agregá uno nuevo.
         </p>
       )}
 
@@ -241,7 +278,8 @@ function TurnosSection({
         <Modal title="Agregar turno" onClose={() => setModal(false)}>
           <form onSubmit={handleCrear} className="space-y-4">
             <p className="text-sm text-gray-500">
-              Turno para hoy en <span className="font-semibold text-gray-800">{cancha?.nombre}</span>.
+              Turno para el <span className="font-semibold text-gray-800">{formatearFechaCorta(fechaSeleccionada)}</span> en{' '}
+              <span className="font-semibold text-gray-800">{cancha?.nombre}</span>.
             </p>
 
             <div className="grid grid-cols-2 gap-3">

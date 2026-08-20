@@ -11,7 +11,7 @@ function CanchasSection({
   onCambiarComplejo,
   version,
   notificarCambio,
-  irATurnos,
+  irAHorarios,
   mostrarToast,
 }) {
   const [canchas, setCanchas] = useState([])
@@ -21,6 +21,8 @@ function CanchasSection({
   const [form, setForm] = useState({ nombre: '', precioHora: '', urlImagen: '' })
   const [activo, setActivo] = useState(true)
   const [guardando, setGuardando] = useState(false)
+  const [horarios, setHorarios] = useState({})
+  const [diasSeleccionados, setDiasSeleccionados] = useState([])
 
   const complejo = complejos.find((c) => c.idComplejo === complejoSeleccionado) || null
 
@@ -54,6 +56,8 @@ function CanchasSection({
   const abrirCrear = () => {
     setForm({ nombre: '', precioHora: '', urlImagen: '' })
     setActivo(true)
+    setHorarios({})
+    setDiasSeleccionados([])
     setModal({ modo: 'crear' })
   }
 
@@ -72,11 +76,19 @@ function CanchasSection({
     setGuardando(true)
     try {
       if (modal.modo === 'crear') {
+        const horariosPayload = {}
+        for (const dia of diasSeleccionados) {
+          horariosPayload[dia] = {
+            apertura: horarios[dia]?.apertura || '07:00',
+            cierre: horarios[dia]?.cierre || '23:00',
+          }
+        }
         await api.post('/api/Cancha/CrearCancha', {
           idComplejo: complejoSeleccionado,
           nombre: form.nombre,
           precioHora: parseFloat(form.precioHora),
           urlImagen: form.urlImagen?.trim() || null,
+          horarios: Object.keys(horariosPayload).length > 0 ? horariosPayload : null,
         })
         mostrarToast('Cancha creada correctamente')
       } else {
@@ -182,8 +194,8 @@ function CanchasSection({
               <p className="text-xs text-gray-400">{complejo?.nombre ?? cancha.nombreComplejo}</p>
 
               <div className="mt-auto flex flex-wrap gap-2">
-                <button onClick={() => irATurnos(cancha.idCancha)} className="button-authl">
-                  Ver turnos
+                <button onClick={() => irAHorarios(cancha.idCancha)} className="button-authl">
+                  Horarios
                 </button>
                 <button onClick={() => abrirEditar(cancha)} className="button-authl">
                   Editar
@@ -239,6 +251,65 @@ function CanchasSection({
                 placeholder="https://..."
               />
             </div>
+
+            {modal.modo === 'crear' && (
+              <div className="border-t border-gray-100 pt-4">
+                <p className="text-sm font-medium text-gray-700 mb-2">Días de atención</p>
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {[
+                    { id: '1', label: 'Lun' },
+                    { id: '2', label: 'Mar' },
+                    { id: '3', label: 'Mié' },
+                    { id: '4', label: 'Jue' },
+                    { id: '5', label: 'Vie' },
+                    { id: '6', label: 'Sáb' },
+                    { id: '0', label: 'Dom' },
+                  ].map((d) => (
+                    <button
+                      key={d.id}
+                      type="button"
+                      onClick={() => {
+                        setDiasSeleccionados((prev) =>
+                          prev.includes(d.id) ? prev.filter((x) => x !== d.id) : [...prev, d.id]
+                        )
+                      }}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-full cursor-pointer transition-colors ${
+                        diasSeleccionados.includes(d.id)
+                          ? 'bg-green-500 text-white'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      }`}
+                    >
+                      {d.label}
+                    </button>
+                  ))}
+                </div>
+                {diasSeleccionados.length > 0 && (
+                  <div className="max-h-48 overflow-y-auto space-y-2 pr-1">
+                    {diasSeleccionados.map((dia) => {
+                      const labels = { '0': 'Dom', '1': 'Lun', '2': 'Mar', '3': 'Mié', '4': 'Jue', '5': 'Vie', '6': 'Sáb' }
+                      return (
+                        <div key={dia} className="flex items-center gap-2">
+                          <span className="text-xs font-medium text-gray-600 w-8 shrink-0">{labels[dia]}</span>
+                          <input
+                            type="time"
+                            value={horarios[dia]?.apertura || '07:00'}
+                            onChange={(e) => setHorarios((prev) => ({ ...prev, [dia]: { ...prev[dia], apertura: e.target.value } }))}
+                            className="input-field text-xs min-w-0 w-full"
+                          />
+                          <span className="text-gray-400 shrink-0">-</span>
+                          <input
+                            type="time"
+                            value={horarios[dia]?.cierre || '23:00'}
+                            onChange={(e) => setHorarios((prev) => ({ ...prev, [dia]: { ...prev[dia], cierre: e.target.value } }))}
+                            className="input-field text-xs min-w-0 w-full"
+                          />
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
 
             {modal.modo === 'editar' && (
               <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">

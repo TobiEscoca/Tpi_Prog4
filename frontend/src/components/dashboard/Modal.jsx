@@ -15,7 +15,7 @@ function Modal({ title, onClose, children }) {
       onClick={onClose}
     >
       <div
-        className="bg-white w-full max-w-md rounded-2xl shadow-xl animate-fade-in-up"
+        className="bg-white w-full max-w-lg rounded-2xl shadow-xl animate-fade-in-up"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
@@ -31,7 +31,7 @@ function Modal({ title, onClose, children }) {
             </svg>
           </button>
         </div>
-        <div className="px-6 py-5">{children}</div>
+        <div className="px-6 py-5 max-h-[75vh] overflow-y-auto">{children}</div>
       </div>
     </div>
   );

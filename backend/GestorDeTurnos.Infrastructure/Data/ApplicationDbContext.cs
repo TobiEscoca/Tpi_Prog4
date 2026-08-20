@@ -14,6 +14,7 @@ namespace GestorDeTurnos.Infrastructure.Data
         public DbSet<Cancha> Canchas { get; set; }
         public DbSet<Turno> Turnos { get; set; }
         public DbSet<Notificacion> Notificaciones { get; set; }
+        public DbSet<TurnoPlantilla> TurnoPlantillas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -71,6 +72,11 @@ namespace GestorDeTurnos.Infrastructure.Data
                       .WithMany(c => c.Turnos)
                       .HasForeignKey(t => t.IdCancha)
                       .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(t => t.Plantilla)
+                      .WithMany()
+                      .HasForeignKey(t => t.IdPlantilla)
+                      .IsRequired(false)
+                      .OnDelete(DeleteBehavior.SetNull);
             });
 
             // Notificacion
@@ -83,6 +89,17 @@ namespace GestorDeTurnos.Infrastructure.Data
                       .WithMany(t => t.Notificaciones)
                       .HasForeignKey(n => n.IdTurno)
                       .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // TurnoPlantilla
+            modelBuilder.Entity<TurnoPlantilla>(entity =>
+            {
+                entity.HasKey(p => p.IdPlantilla);
+                entity.HasOne(p => p.Cancha)
+                      .WithMany(c => c.Plantillas)
+                      .HasForeignKey(p => p.IdCancha)
+                      .OnDelete(DeleteBehavior.Cascade);
+                entity.HasIndex(p => new { p.IdCancha, p.DiaSemana, p.HoraInicio });
             });
         }
     }

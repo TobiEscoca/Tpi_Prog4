@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +28,21 @@ var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DATABASE_URL")))
-        options.UseNpgsql(connectionString);
+    {
+        var uri = new Uri(connectionString!);
+        var userInfo = uri.UserInfo.Split(':');
+        var npgsql = new NpgsqlConnectionStringBuilder
+        {
+            Host = uri.Host,
+            Port = uri.Port > 0 ? uri.Port : 5432,
+            Database = uri.AbsolutePath.TrimStart('/'),
+            Username = Uri.UnescapeDataString(userInfo[0]),
+            Password = Uri.UnescapeDataString(userInfo.Length > 1 ? userInfo[1] : ""),
+            SslMode = SslMode.Require,
+            TrustServerCertificate = true
+        };
+        options.UseNpgsql(npgsql.ConnectionString);
+    }
     else
         options.UseSqlite(connectionString);
 });

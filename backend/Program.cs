@@ -27,7 +27,12 @@ var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DATABASE_URL")))
-        options.UseNpgsql(connectionString);
+    {
+        var dbUrl = connectionString!;
+        if (!dbUrl.Contains("Trust Server Certificate"))
+            dbUrl += dbUrl.Contains('?') ? "&Trust Server Certificate=true" : "?Trust Server Certificate=true";
+        options.UseNpgsql(dbUrl);
+    }
     else
         options.UseSqlite(connectionString);
 });

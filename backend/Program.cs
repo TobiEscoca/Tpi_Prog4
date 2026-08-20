@@ -29,8 +29,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DATABASE_URL")))
     {
         var dbUrl = connectionString!;
-        if (!dbUrl.Contains("Trust Server Certificate"))
-            dbUrl += dbUrl.Contains('?') ? "&Trust Server Certificate=true" : "?Trust Server Certificate=true";
+        if (!dbUrl.Contains("sslmode"))
+            dbUrl += dbUrl.Contains('?') ? "&sslmode=require" : "?sslmode=require";
         options.UseNpgsql(dbUrl);
     }
     else

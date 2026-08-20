@@ -17,10 +17,18 @@ const formatoFecha = (f) => {
   return d.toLocaleDateString('es-AR') + ' ' + d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })
 }
 
+function obtenerFechaISO(date) {
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const d = String(date.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
+
 export default function TurnosAdmin() {
   const [usuarios, setUsuarios] = useState([])
   const [turnos, setTurnos] = useState([])
   const [idCliente, setIdCliente] = useState('todos')
+  const [fechaFiltro, setFechaFiltro] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [toast, setToast] = useState(null)
@@ -80,7 +88,7 @@ export default function TurnosAdmin() {
     try {
       await api.put(`/api/Turno/CancelarTurno/${aCancelar.idTurno}`)
       setACancelar(null)
-      mostrarToast('Turno cancelado correctamente')
+      mostrarToast('Reserva cancelada correctamente')
       await cargar()
     } catch (err) {
       setACancelar(null)
@@ -90,7 +98,14 @@ export default function TurnosAdmin() {
     }
   }
 
-  const filtrados = idCliente === 'todos' ? turnos : turnos.filter((t) => t.idCliente === Number(idCliente))
+  const filtrados = turnos.filter((t) => {
+    if (idCliente !== 'todos' && t.idCliente !== Number(idCliente)) return false
+    if (fechaFiltro) {
+      const fechaTurno = new Date(t.fechaHoraInicio)
+      if (obtenerFechaISO(fechaTurno) !== fechaFiltro) return false
+    }
+    return true
+  })
 
   return (
     <div>
@@ -101,7 +116,13 @@ export default function TurnosAdmin() {
           <h2 className="text-2xl font-bold text-gray-900">Turnos</h2>
           <p className="text-sm text-gray-500 mt-1">Mirá qué turno reservó cada usuario</p>
         </div>
-        <div className="md:w-72">
+        <div className="flex flex-col sm:flex-row gap-3">
+          <input
+            type="date"
+            value={fechaFiltro}
+            onChange={(e) => setFechaFiltro(e.target.value)}
+            className="input-field"
+          />
           <select
             className="input-field"
             value={idCliente}
@@ -126,6 +147,7 @@ export default function TurnosAdmin() {
               <tr className="text-left text-gray-500 border-b border-gray-100">
                 <th className="px-5 py-3 font-medium">Cancha</th>
                 <th className="px-5 py-3 font-medium">Cliente</th>
+                <th className="px-5 py-3 font-medium">Fecha</th>
                 <th className="px-5 py-3 font-medium">Inicio</th>
                 <th className="px-5 py-3 font-medium">Fin</th>
                 <th className="px-5 py-3 font-medium">Estado</th>
@@ -135,13 +157,14 @@ export default function TurnosAdmin() {
             <tbody>
               {filtrados.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="px-5 py-8 text-center text-gray-400">No hay turnos.</td>
+                  <td colSpan="7" className="px-5 py-8 text-center text-gray-400">No hay turnos.</td>
                 </tr>
               ) : (
                 filtrados.map((t) => (
                   <tr key={t.idTurno} className="border-b border-gray-50 hover:bg-gray-50/70 transition-colors">
                     <td className="px-5 py-3 font-medium text-gray-800">{t.nombreCancha}</td>
                     <td className="px-5 py-3 text-gray-500">{usuarioNombre(t.idCliente)}</td>
+                    <td className="px-5 py-3 text-gray-500">{new Date(t.fechaHoraInicio).toLocaleDateString('es-AR')}</td>
                     <td className="px-5 py-3 text-gray-500">{formatoFecha(t.fechaHoraInicio)}</td>
                     <td className="px-5 py-3 text-gray-500">{formatoFecha(t.fechaHoraFin)}</td>
                     <td className="px-5 py-3">

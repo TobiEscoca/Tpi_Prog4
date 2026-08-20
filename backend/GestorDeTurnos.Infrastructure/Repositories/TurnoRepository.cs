@@ -17,7 +17,17 @@ namespace GestorDeTurnos.Infrastructure.Repositories
 
         public async Task<IEnumerable<Turno>> GetByCanchaAsync(int idCancha)
         {
-            return await _dbSet.Where(t => t.IdCancha == idCancha).Include(t => t.Cancha).ToListAsync();
+            return await _dbSet.Where(t => t.IdCancha == idCancha).Include(t => t.Cancha).Include(t => t.Cliente).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Turno>> GetByCanchaYFechaAsync(int idCancha, DateTime fecha)
+        {
+            var dia = fecha.Date;
+            return await _dbSet.Where(t => t.IdCancha == idCancha && t.FechaHoraInicio.Date == dia)
+                .Include(t => t.Cancha)
+                .Include(t => t.Cliente)
+                .OrderBy(t => t.FechaHoraInicio)
+                .ToListAsync();
         }
 
         public async Task<bool> ExisteSolapamientoAsync(int idCancha, DateTime inicio, DateTime fin)

@@ -69,6 +69,7 @@ namespace GestorDeTurnos.Application.Mappings
             IdCancha = t.IdCancha,
             NombreCancha = t.Cancha?.Nombre ?? string.Empty,
             IdCliente = t.IdCliente,
+            NombreCliente = t.Cliente?.Nombre ?? string.Empty,
             FechaHoraInicio = t.FechaHoraInicio,
             FechaHoraFin = t.FechaHoraFin,
             Estado = t.Estado.ToString(),

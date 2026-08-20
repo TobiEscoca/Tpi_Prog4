@@ -80,10 +80,19 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpGet("BuscarTurnosPorCancha/{idCancha}")]
-        public async Task<IActionResult> GetByCancha(int idCancha)
+        public async Task<IActionResult> GetByCancha(int idCancha, [FromQuery] string? fecha)
         {
-            var turnos = await _turnoService.GetByCanchaAsync(idCancha);
-            return Ok(turnos.Select(t => t.ToDto()));
+            if (!string.IsNullOrWhiteSpace(fecha))
+            {
+                if (!DateTime.TryParseExact(fecha.Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var fechaParseada))
+                    return BadRequest("El formato de la fecha debe ser yyyy-MM-dd.");
+
+                var turnos = await _turnoService.GetByCanchaYFechaAsync(idCancha, fechaParseada);
+                return Ok(turnos.Select(t => t.ToDto()));
+            }
+
+            var todos = await _turnoService.GetByCanchaAsync(idCancha);
+            return Ok(todos.Select(t => t.ToDto()));
         }
 
         [HttpPost("CrearTurno")]
@@ -114,6 +123,22 @@ namespace GestorDeTurnos.Controllers
             if (horaFin - horaInicio > TimeSpan.FromHours(1))
                 return BadRequest("El turno no puede durar más de 1 hora.");
 
+            DateTime fechaSeleccionada;
+            if (string.IsNullOrWhiteSpace(request.Fecha))
+            {
+                fechaSeleccionada = DateTime.Today;
+            }
+            else if (!DateTime.TryParseExact(request.Fecha.Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out fechaSeleccionada))
+            {
+                return BadRequest("El formato de la fecha debe ser yyyy-MM-dd.");
+            }
+
+            if (fechaSeleccionada.Date < DateTime.Today)
+                return BadRequest("No se pueden crear turnos para una fecha anterior a hoy.");
+
+            if (fechaSeleccionada.Date > DateTime.Today.AddDays(30))
+                return BadRequest("No se pueden crear turnos con más de 30 días de anticipación.");
+
             var cancha = await _canchaService.GetByIdAsync(request.IdCancha);
             if (cancha == null)
                 return NotFound("No existe la cancha indicada.");
@@ -129,8 +154,8 @@ namespace GestorDeTurnos.Controllers
             var turno = new Turno
             {
                 IdCancha = request.IdCancha,
-                FechaHoraInicio = DateTime.Today.Add(horaInicio),
-                FechaHoraFin = DateTime.Today.Add(horaFin),
+                FechaHoraInicio = fechaSeleccionada.Date.Add(horaInicio),
+                FechaHoraFin = fechaSeleccionada.Date.Add(horaFin),
                 Estado = GestorDeTurnos.Domain.Enums.EstadoTurno.Pendiente,
                 IdCliente = null
             };

@@ -35,6 +35,9 @@ namespace GestorDeTurnos.Application.Services
         public async Task<IEnumerable<Turno>> GetByCanchaAsync(int idCancha) =>
             await _turnoRepository.GetByCanchaAsync(idCancha);
 
+        public async Task<IEnumerable<Turno>> GetByCanchaYFechaAsync(int idCancha, DateTime fecha) =>
+            await _turnoRepository.GetByCanchaYFechaAsync(idCancha, fecha);
+
         public async Task AddAsync(Turno turno)
         {
             if (turno.FechaHoraFin <= turno.FechaHoraInicio)

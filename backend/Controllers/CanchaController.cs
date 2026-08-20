@@ -16,15 +16,22 @@ namespace GestorDeTurnos.Controllers
         private readonly CanchaService _canchaService;
         private readonly ComplejoService _complejoService;
         private readonly EliminacionEnCascadaService _eliminacionService;
+        private readonly TurnoPlantillaService _plantillaService;
 
-        public CanchaController(CanchaService canchaService, ComplejoService complejoService, EliminacionEnCascadaService eliminacionService)
+        public CanchaController(
+            CanchaService canchaService,
+            ComplejoService complejoService,
+            EliminacionEnCascadaService eliminacionService,
+            TurnoPlantillaService plantillaService)
         {
             _canchaService = canchaService;
             _complejoService = complejoService;
             _eliminacionService = eliminacionService;
+            _plantillaService = plantillaService;
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var canchas = await _canchaService.GetAllAsync();
@@ -93,6 +100,26 @@ namespace GestorDeTurnos.Controllers
             complejo.Canchas.Add(cancha);
 
             await _canchaService.AddAsync(cancha);
+
+            if (request.Horarios != null && request.Horarios.Count > 0)
+            {
+                var horariosParseados = new Dictionary<int, (string apertura, string cierre)>();
+                foreach (var kvp in request.Horarios)
+                {
+                    if (int.TryParse(kvp.Key, out int dia) &&
+                        !string.IsNullOrWhiteSpace(kvp.Value.Apertura) &&
+                        !string.IsNullOrWhiteSpace(kvp.Value.Cierre))
+                    {
+                        horariosParseados[dia] = (kvp.Value.Apertura.Trim(), kvp.Value.Cierre.Trim());
+                    }
+                }
+
+                if (horariosParseados.Count > 0)
+                {
+                    await _plantillaService.CrearPlantillasInicialesAsync(cancha.IdCancha, horariosParseados);
+                }
+            }
+
             return CreatedAtAction(nameof(GetById), new { id = cancha.IdCancha }, cancha.ToResumen());
         }
 

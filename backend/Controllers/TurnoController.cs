@@ -80,6 +80,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpGet("BuscarTurnosPorCancha/{idCancha}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetByCancha(int idCancha, [FromQuery] string? fecha)
         {
             if (!string.IsNullOrWhiteSpace(fecha))

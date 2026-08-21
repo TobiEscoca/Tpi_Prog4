@@ -70,7 +70,9 @@ namespace GestorDeTurnos.Controllers
                 Mensaje = request.Mensaje.Trim(),
                 Destinatario = request.Destinatario.Trim(),
                 Enviado = request.Enviado,
-                FechaEnvio = request.Enviado ? (request.FechaEnvio ?? DateTime.Now) : null,
+                FechaEnvio = request.Enviado
+                    ? DateTime.SpecifyKind(request.FechaEnvio ?? DateTime.Now, DateTimeKind.Unspecified)
+                    : null,
                 Turno = turno
             };
 

@@ -29,6 +29,7 @@ namespace GestorDeTurnos.Infrastructure.Data
                 entity.Property(u => u.Nombre).IsRequired().HasMaxLength(100);
                 entity.Property(u => u.PasswordHash).IsRequired().HasMaxLength(256);
                 entity.Property(u => u.Rol).HasConversion<string>();
+                entity.Property(u => u.FechaRegistro).HasColumnType("timestamp without time zone");
             });
 
             // Complejo
@@ -63,6 +64,9 @@ namespace GestorDeTurnos.Infrastructure.Data
             {
                 entity.HasKey(t => t.IdTurno);
                 entity.Property(t => t.Estado).HasConversion<string>();
+                entity.Property(t => t.FechaHoraInicio).HasColumnType("timestamp without time zone");
+                entity.Property(t => t.FechaHoraFin).HasColumnType("timestamp without time zone");
+                entity.Property(t => t.FechaCreacion).HasColumnType("timestamp without time zone");
                 entity.HasOne(t => t.Cliente)
                       .WithMany(u => u.Turnos)
                       .HasForeignKey(t => t.IdCliente)
@@ -85,6 +89,7 @@ namespace GestorDeTurnos.Infrastructure.Data
                 entity.HasKey(n => n.IdNotificacion);
                 entity.Property(n => n.Mensaje).IsRequired().HasMaxLength(500);
                 entity.Property(n => n.Destinatario).IsRequired().HasMaxLength(150);
+                entity.Property(n => n.FechaEnvio).HasColumnType("timestamp without time zone");
                 entity.HasOne(n => n.Turno)
                       .WithMany(t => t.Notificaciones)
                       .HasForeignKey(n => n.IdTurno)

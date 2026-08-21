@@ -11,7 +11,7 @@ namespace GestorDeTurnos.Domain.Entities
         public DateTime FechaHoraInicio { get; set; }
         public DateTime FechaHoraFin { get; set; }
         public EstadoTurno Estado { get; set; } = EstadoTurno.Pendiente;
-        public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
+        public DateTime FechaCreacion { get; set; } = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
 
         // Navegación
         public Usuario? Cliente { get; set; }

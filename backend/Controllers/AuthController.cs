@@ -37,7 +37,7 @@ namespace GestorDeTurnos.Controllers
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 Rol = RolUsuario.Cliente,
                 Activo = true,
-                FechaRegistro = DateTime.UtcNow
+                FechaRegistro = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified)
             };
 
             await _usuarioRepository.AddAsync(usuario);
@@ -67,7 +67,7 @@ namespace GestorDeTurnos.Controllers
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 Rol = RolUsuario.AdministradorGeneral,
                 Activo = true,
-                FechaRegistro = DateTime.UtcNow
+                FechaRegistro = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified)
             };
 
             await _usuarioRepository.AddAsync(usuario);

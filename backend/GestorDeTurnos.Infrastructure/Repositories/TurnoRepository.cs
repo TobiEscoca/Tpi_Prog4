@@ -22,8 +22,9 @@ namespace GestorDeTurnos.Infrastructure.Repositories
 
         public async Task<IEnumerable<Turno>> GetByCanchaYFechaAsync(int idCancha, DateTime fecha)
         {
-            var dia = fecha.Date;
-            return await _dbSet.Where(t => t.IdCancha == idCancha && t.FechaHoraInicio.Date == dia)
+            var desde = fecha.Date;
+            var hasta = desde.AddDays(1);
+            return await _dbSet.Where(t => t.IdCancha == idCancha && t.FechaHoraInicio >= desde && t.FechaHoraInicio < hasta)
                 .Include(t => t.Cancha)
                 .Include(t => t.Cliente)
                 .OrderBy(t => t.FechaHoraInicio)

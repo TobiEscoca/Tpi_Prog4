@@ -10,7 +10,7 @@ namespace GestorDeTurnos.Domain.Entities
         public string PasswordHash { get; set; } = string.Empty;
         public RolUsuario Rol { get; set; }
         public bool Activo { get; set; } = true;
-        public DateTime FechaRegistro { get; set; } = DateTime.UtcNow;
+        public DateTime FechaRegistro { get; set; } = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
 
         // Navegación
         public ICollection<Complejo> Complejos { get; set; } = new List<Complejo>();

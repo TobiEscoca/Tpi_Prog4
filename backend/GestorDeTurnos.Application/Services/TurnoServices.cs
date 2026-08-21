@@ -104,7 +104,7 @@ namespace GestorDeTurnos.Application.Services
                               $"{turno.FechaHoraInicio:dd/MM/yyyy HH:mm} - {turno.FechaHoraFin:HH:mm} " +
                               $"ha sido reservado correctamente.",
                     Destinatario = cliente.Email,
-                    FechaEnvio = DateTime.Now,
+                    FechaEnvio = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Unspecified),
                     Enviado = true,
                     IdTurno = turno.IdTurno
                 };
@@ -138,7 +138,7 @@ namespace GestorDeTurnos.Application.Services
                               $"{turno.FechaHoraInicio:dd/MM/yyyy HH:mm} - {turno.FechaHoraFin:HH:mm} " +
                               $"ha sido cancelado.",
                     Destinatario = cliente.Email,
-                    FechaEnvio = DateTime.Now,
+                    FechaEnvio = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Unspecified),
                     Enviado = true,
                     IdTurno = turno.IdTurno
                 };

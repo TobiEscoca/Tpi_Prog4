@@ -153,6 +153,16 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = string.Empty;
 });
 
+// Manejo global de excepciones: asegura respuestas 500 con cuerpo y que pasen
+// por el middleware CORS (si va después, el navegador reporta falso bloqueo CORS).
+app.UseExceptionHandler(exceptionHandlerApp =>
+    exceptionHandlerApp.Run(async context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.ContentType = "text/plain; charset=utf-8";
+        await context.Response.WriteAsync("Error interno del servidor.");
+    }));
+
 app.UseCors("AllowReactApp");
 app.UseAuthentication();
 app.UseAuthorization();

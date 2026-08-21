@@ -10,6 +10,8 @@ import NotificacionesCliente from "./pages/NotificacionesCliente";
 import DashboardAdmin from "./pages/DashboardAdmin";
 import Dashboard from "./pages/Dashboard";
 import Nosotros from "./pages/Nosotros";
+import PoliticaDePrivacidad from "./pages/PoliticasDePrivacidad";
+import TerminosDeServicio from "./pages/TerminosDeServicio";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -41,6 +43,8 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/politica-de-privacidad" element={<PoliticaDePrivacidad />} />
+        <Route path="/terminos-de-servicio" element={<TerminosDeServicio />} />
       </Routes>
     </BrowserRouter>
   );

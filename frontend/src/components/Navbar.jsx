@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import logo from '../assets/logo.png'
 
 function Navbar() {
   const { user, logout } = useAuth()
@@ -18,14 +19,11 @@ function Navbar() {
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 text-base font-bold text-gray-900 tracking-tight group">
-          <span className="flex items-center justify-center w-8 h-8 rounded-xl bg-green-600 text-white shadow-md shadow-green-600/20 group-hover:shadow-lg group-hover:shadow-green-600/30 transition-shadow duration-300">
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-              <path d="M2 12h20" />
-            </svg>
+          <span className="flex items-center justify-center w-10 h-10 shadow-md shadow-green-600/20 group-hover:shadow-lg group-hover:shadow-green-600/30 transition-shadow duration-300">
+            <img src={logo} alt="Logo Nos Falta Uno" className="w-10 h-10 object-contain" />
           </span>
-          Gestor de Turnos
+          <div className="flex gap-0"><p className ="text-green-600">Nos</p><p>Falta</p><p className ="text-green-600">Uno</p></div>
+        
         </Link>
 
         {/* Links centrales */}

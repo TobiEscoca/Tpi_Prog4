@@ -26,7 +26,7 @@ namespace GestorDeTurnos.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var complejos = await _complejoService.GetAllAsync();

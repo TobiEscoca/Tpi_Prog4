@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
+import WeatherSection from '../components/WeatherSection'
 import CanchasSection from '../components/CanchasSection'
 import { Footer } from '../components/Footer'
 
@@ -48,6 +49,8 @@ function Home() {
         onSearch={(texto) => setBusqueda(texto)}
         onChange={(texto) => setBusqueda(texto)}
       />
+
+      <WeatherSection />
 
       <CanchasSection verMas busqueda={busqueda} />
 

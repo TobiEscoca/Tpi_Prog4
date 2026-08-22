@@ -7,7 +7,7 @@ export default function PoliticaDePrivacidad() {
     <div className="max-w-5xl mx-auto px-6 py-10">
       <h1 className="text-3xl font-bold mb-6">Política de privacidad</h1>
       <p className="mb-4">
-        En CanchaApp, nos comprometemos a proteger la privacidad de nuestros usuarios. Esta política de privacidad describe cómo recopilamos, usamos y protegemos la información personal que nos proporcionas al utilizar nuestra aplicación.
+        En NosFaltaUno, nos comprometemos a proteger la privacidad de nuestros usuarios. Esta política de privacidad describe cómo recopilamos, usamos y protegemos la información personal que nos proporcionas al utilizar nuestra aplicación.
       </p>
       <h2 className="text-2xl font-semibold mb-4">1. Información que recopilamos</h2>
       <p className="mb-4">
@@ -29,6 +29,9 @@ export default function PoliticaDePrivacidad() {
       <p className="mb-4">
         Si tienes alguna pregunta o inquietud sobre nuestra política de privacidad, no dudes en contactarnos a través de nuestro correo electrónico de soporte.
       </p>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => window.location.href = 'mailto:tobyswork8@gmail.com'}>
+        Contactar
+      </button>
     </div>
  </>
   )
